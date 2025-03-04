@@ -6,8 +6,12 @@
 
 ## Tim Project
 
-[@Abdhusyukra](https://github.com/Abdhusyukra) Muhammad 'Abdhu Syukra
+- [@Abdhusyukra](https://github.com/Abdhusyukra) Muhammad 'Abdhu Syukra
 
-[@sarahsbrna](https://github.com/sarahsbrna) Sarah Sabrina
+- [\*@sarahsbrna](https://github.com/sarahsbrna) Sarah Sabrina
 
-[@kayabadesu](https://github.com/kayabadesu) Faiz Altamis Akhyar
+- [@kayabadesu](https://github.com/kayabadesu) Faiz Altamis Akhyar
+
+## Social Media
+
+![instagram](https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png) Instagram : [@sixthforce.pbl](https://www.instagram.com/sixthforce.pbl/)
