@@ -8,7 +8,7 @@
 
 - [@Abdhusyukra](https://github.com/Abdhusyukra) Muhammad 'Abdhu Syukra
 
-- [\*@sarahsbrna](https://github.com/sarahsbrna) Sarah Sabrina
+- [@sarahsbrna](https://github.com/sarahsbrna) Sarah Sabrina
 
 - [@kayabadesu](https://github.com/kayabadesu) Faiz Altamis Akhyar
 
