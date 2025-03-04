@@ -14,4 +14,4 @@
 
 ## Social Media
 
-![instagram](https://github.com/CLorant/readme-social-icons/blob/main/medium/filled/instagram.svg) Instagram : [@sixthforce.pbl](https://www.instagram.com/sixthforce.pbl/)
+:[instagram](https://github.com/CLorant/readme-social-icons/blob/main/medium/filled/instagram.svg) Instagram : [@sixthforce.pbl](https://www.instagram.com/sixthforce.pbl/)
