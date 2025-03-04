@@ -14,4 +14,4 @@
 
 ## Social Media
 
-![instagram](https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png) Instagram : [@sixthforce.pbl](https://www.instagram.com/sixthforce.pbl/)
+![instagram](https://github.com/CLorant/readme-social-icons/raw/main/large/filled/instagram.svg) Instagram : [@sixthforce.pbl](https://www.instagram.com/sixthforce.pbl/)
