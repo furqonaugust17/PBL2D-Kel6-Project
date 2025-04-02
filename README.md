@@ -15,3 +15,50 @@
 ## Social Media
 
 ![instagram](https://github.com/CLorant/readme-social-icons/blob/main/medium/filled/instagram.svg) Instagram : [@sixthforce.pbl](https://www.instagram.com/sixthforce.pbl/)
+
+
+## Project
+1. Clone Project:
+```
+git clone https://github.com/furqonaugust17/PBL2D-Kel6-Project.git
+```
+
+2. Install Dependency
+
+```
+Composer Install
+```
+
+3. Install Dependency
+
+```
+Composer Install
+```
+
+4. Create .ENV
+
+```
+cp .env.example .env
+```
+
+5. Generate Application Key
+
+```
+php artisan key:generate
+```
+
+
+6. Run Migrations
+
+```
+php artisan migrate --seed
+```
+
+7. Run Application
+
+```
+php artisan serve
+```
+
+
+
