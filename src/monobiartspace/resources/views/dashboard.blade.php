@@ -327,10 +327,10 @@
                         </div>
                         <div class="card-body p-3 pb-0 sell-order">
                             <select class="form-control custom-image-select-2 image-select mt-3 mt-sm-0">
-                                <option data-thumbnail="images/svg/lit3.svg">Litecoin</option>
-                                <option data-thumbnail="images/svg/btc.svg">Ripple</option>
-                                <option data-thumbnail="images/svg/eth.svg">Ethereum</option>
-                                <option data-thumbnail="images/svg/btc.svg">Bitcoin</option>
+                                <option data-thumbnail="{{ asset('images/svg/lit3.svg') }}">Litecoin</option>
+                                <option data-thumbnail="{{ asset('images/svg/btc.svg') }}">Ripple</option>
+                                <option data-thumbnail="{{ asset('images/svg/eth.svg') }}">Ethereum</option>
+                                <option data-thumbnail="{{ asset('images/svg/btc.svg') }}">Bitcoin</option>
                             </select>
                             <div class="table-responsive">
                                 <table class="table text-center bg-info-hover tr-rounded order-tbl">
@@ -422,10 +422,10 @@
                         </div>
                         <div class="card-body p-3 pb-0">
                             <select class="form-control custom-image-select-2 image-select mt-3 mt-sm-0">
-                                <option data-thumbnail="images/svg/monero.svg">Monero</option>
-                                <option data-thumbnail="images/svg/eth.svg">Ethereum</option>
-                                <option data-thumbnail="images/svg/btc.svg">Bitcoin</option>
-                                <option data-thumbnail="images/svg/ltc.svg">Litecoin</option>
+                                <option data-thumbnail="{{ asset('images/svg/monero.svg') }}">Monero</option>
+                                <option data-thumbnail="{{ asset('images/svg/eth.svg') }}">Ethereum</option>
+                                <option data-thumbnail="{{ asset('images/svg/btc.svg') }}">Bitcoin</option>
+                                <option data-thumbnail="{{ asset('images/svg/ltc.svg') }}">Litecoin</option>
                             </select>
                             <div class="table-responsive">
                                 <table class="table text-center bg-warning-hover tr-rounded order-tbl">
@@ -495,9 +495,9 @@
                                 <p class="mb-0 fs-12">Lorem ipsum dolor sit amet, consectetur</p>
                             </div>
                             <select class="form-control custom-image-select image-select mt-3 mt-sm-0">
-                                <option data-thumbnail="images/svg/ltc.svg">Yearly (2021)</option>
-                                <option data-thumbnail="images/svg/eth.svg">Weekly (2021)</option>
-                                <option data-thumbnail="images/svg/btc.svg">Daily (2021)</option>
+                                <option data-thumbnail="{{ asset('images/svg/ltc.svg') }}">Yearly (2021)</option>
+                                <option data-thumbnail="{{ asset('images/svg/eth.svg') }}">Weekly (2021)</option>
+                                <option data-thumbnail="{{ asset('images/svg/btc.svg') }}">Daily (2021)</option>
                             </select>
                         </div>
                         <div class="card-body">
@@ -580,7 +580,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="card-bx stacked card">
-                        <img src="images/card/card1.jpg" alt="">
+                        <img src="{{ asset('images/card/card1.jpg') }}" alt="">
                         <div class="card-info">
                             <p class="mb-1 text-white fs-14">Main Balance</p>
                             <div class="d-flex justify-content-between">
@@ -613,7 +613,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="card-bx stacked card">
-                        <img src="images/card/card2.jpg" alt="">
+                        <img src="{{ asset('images/card/card2.jpg') }}" alt="">
                         <div class="card-info">
                             <p class="fs-14 mb-1 text-white">Main Balance</p>
                             <div class="d-flex justify-content-between">
@@ -641,7 +641,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="card-bx stacked card">
-                        <img src="images/card/card3.jpg" alt="">
+                        <img src="{{ asset('images/card/card3.jpg') }}" alt="">
                         <div class="card-info">
                             <p class="mb-1 text-white fs-14">Main Balance</p>
                             <div class="d-flex justify-content-between">
@@ -669,7 +669,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="card-bx stacked card">
-                        <img src="images/card/card4.jpg" alt="">
+                        <img src="{{ asset('images/card/card4.jpg') }}" alt="">
                         <div class="card-info">
                             <p class="mb-1 text-white fs-14">Main Balance</p>
                             <div class="d-flex justify-content-between">
@@ -1440,10 +1440,10 @@
                                 <p class="mb-0 fs-12">Lorem ipsum dolor sit amet, consectetur</p>
                             </div>
                             <select class="form-control custom-image-select image-select mt-3 mt-sm-0">
-                                <option data-thumbnail="images/svg/btc.svg">Ripple</option>
-                                <option data-thumbnail="images/svg/eth.svg">Ethereum</option>
-                                <option data-thumbnail="images/svg/btc.svg">Bitcoin</option>
-                                <option data-thumbnail="images/svg/ltc.svg">Litecoin</option>
+                                <option data-thumbnail="{{ asset('images/svg/btc.svg') }}">Ripple</option>
+                                <option data-thumbnail="{{ asset('images/svg/eth.svg') }}">Ethereum</option>
+                                <option data-thumbnail="{{ asset('images/svg/btc.svg') }}">Bitcoin</option>
+                                <option data-thumbnail="{{ asset('images/svg/ltc.svg') }}">Litecoin</option>
                             </select>
                         </div>
                         <div class="card-body">
@@ -1464,8 +1464,8 @@
                             <div class="testimonial-one px-4 owl-right-nav owl-carousel owl-loaded owl-drag">
                                 <div class="items">
                                     <div class="text-center">
-                                        <img class="mb-3 rounded" src="images/contacts/Untitled-1.jpg"
-                                            alt="">
+                                        <img class="mb-3 rounded"
+                                            src="{{ asset('images/contacts/Untitled-1.jpg') }}" alt="">
                                         <h5 class="mb-0"><a class="text-black"
                                                 href="javascript:void(0);">Samuel</a></h5>
                                         <span class="fs-12">@sam224</span>
@@ -1473,8 +1473,8 @@
                                 </div>
                                 <div class="items">
                                     <div class="text-center">
-                                        <img class="mb-3 rounded" src="images/contacts/Untitled-2.jpg"
-                                            alt="">
+                                        <img class="mb-3 rounded"
+                                            src="{{ asset('images/contacts/Untitled-2.jpg') }}" alt="">
                                         <h5 class="mb-0"><a class="text-black"
                                                 href="javascript:void(0);">Cindy</a></h5>
                                         <span class="fs-12">@cindyss</span>
@@ -1482,8 +1482,8 @@
                                 </div>
                                 <div class="items">
                                     <div class="text-center">
-                                        <img class="mb-3 rounded" src="images/contacts/Untitled-3.jpg"
-                                            alt="">
+                                        <img class="mb-3 rounded"
+                                            src="{{ asset('images/contacts/Untitled-3.jpg') }}" alt="">
                                         <h5 class="mb-0"><a class="text-black"
                                                 href="javascript:void(0);">David</a></h5>
                                         <span class="fs-12">@davidxc</span>
@@ -1491,8 +1491,8 @@
                                 </div>
                                 <div class="items">
                                     <div class="text-center">
-                                        <img class="mb-3 rounded" src="images/contacts/Untitled-4.jpg"
-                                            alt="">
+                                        <img class="mb-3 rounded"
+                                            src="{{ asset('images/contacts/Untitled-4.jpg') }}" alt="">
                                         <h5 class="mb-0"><a class="text-black"
                                                 href="javascript:void(0);">Martha</a></h5>
                                         <span class="fs-12">@marthaa</span>
@@ -1500,8 +1500,8 @@
                                 </div>
                                 <div class="items">
                                     <div class="text-center">
-                                        <img class="mb-3 rounded" src="images/contacts/Untitled-5.jpg"
-                                            alt="">
+                                        <img class="mb-3 rounded"
+                                            src="{{ asset('images/contacts/Untitled-5.jpg') }}" alt="">
                                         <h5 class="mb-0"><a class="text-black"
                                                 href="javascript:void(0);">Olivia</a></h5>
                                         <span class="fs-12">@oliv62</span>

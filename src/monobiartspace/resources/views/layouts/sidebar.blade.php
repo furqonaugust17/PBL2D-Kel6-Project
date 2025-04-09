@@ -2,7 +2,7 @@
     <div class="deznav-scroll">
         <div class="main-profile">
             <div class="image-bx">
-                <img src="images/Untitled-1.jpg" alt="">
+                <img src="{{ asset('images/Untitled-1.jpg') }}" alt="">
                 <a href="javascript:void(0);"><i class="fa fa-cog" aria-hidden="true"></i></a>
             </div>
             <h5 class="name"><span class="font-w400">Hello,</span> Marquez</h5>
@@ -23,7 +23,11 @@
                     <li><a href="portofolio.html">Portofolio</a></li>
                     <li><a href="market-capital.html">Market Capital</a></li>
                 </ul>
-
+            </li>
+            <li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">
+                    <i class="flaticon-041-folder"></i>
+                    <span class="nav-text" style="direction: ltr;">Manajemen Karyawan</span>
+                </a>
             </li>
         </ul>
     </div>
