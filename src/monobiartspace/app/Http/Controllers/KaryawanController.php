@@ -7,6 +7,7 @@ use App\Models\Karyawan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Yajra\DataTables\Facades\DataTables;
 
 class KaryawanController extends Controller
 {
@@ -15,8 +16,12 @@ class KaryawanController extends Controller
      */
     public function index()
     {
-        $karyawans = Karyawan::all();
-        return view('backend.karyawan.index', compact('karyawans'));
+        if (request()->ajax()) {
+            $karyawan = Karyawan::query();
+            return DataTables::of($karyawan)->make();
+        }
+
+        return view('backend.karyawan.index');
     }
 
     /**

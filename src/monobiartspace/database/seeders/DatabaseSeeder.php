@@ -16,11 +16,12 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'superadmin',
-            'email' => 'superadmin@gmail.com',
-            'password' => Hash::make('password'),
-            'email_verified_at' => now()
-        ]);
+        $this->call([KaryawanSeeder::class]);
+        // User::factory()->create([
+        //     'name' => 'superadmin',
+        //     'email' => 'superadmin@gmail.com',
+        //     'password' => Hash::make('password'),
+        //     'email_verified_at' => now()
+        // ]);
     }
 }
