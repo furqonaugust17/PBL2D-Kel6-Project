@@ -1,3 +1,8 @@
+@section('script')
+<script src="{{ asset('plugins/vendor/peity/jquery.peity.min.js') }}"></script>
+<script src="{{ asset('plugins/vendor/apexchart/apexchart.js') }}"></script>
+<script src="{{ asset('plugins/js/dashboard/dashboard-1.js') }}"></script>
+@endsection
 <x-app-layout>
     <x-slot:title>Dashboard</x-slot:title>
     <div class="form-head mb-sm-5 mb-3 d-flex flex-wrap align-items-center">

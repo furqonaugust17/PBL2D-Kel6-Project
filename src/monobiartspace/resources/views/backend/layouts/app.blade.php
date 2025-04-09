@@ -18,6 +18,7 @@
     <title>{{ $title }}</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.png">') }}" />
+    @yield('css')
     <link rel="stylesheet" href="{{ asset('plugins/vendor/chartist/css/chartist.min.css') }}">
     <link href="{{ asset('plugins/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/vendor/owl-carousel/owl.carousel.css') }}" rel="stylesheet">
@@ -728,11 +729,7 @@
     <script src="{{ asset('plugins/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('plugins/vendor/chart.js/Chart.bundle.min.js') }}"></script>
 
-    <script src="{{ asset('plugins/vendor/peity/jquery.peity.min.js') }}"></script>
-
-    <script src="{{ asset('plugins/vendor/apexchart/apexchart.js') }}"></script>
-
-    <script src="{{ asset('plugins/js/dashboard/dashboard-1.js') }}"></script>
+    @yield('script')
 
     <script src="{{ asset('plugins/vendor/owl-carousel/owl.carousel.js') }}"></script>
     <script src="{{ asset('plugins/js/custom.js') }}"></script>
