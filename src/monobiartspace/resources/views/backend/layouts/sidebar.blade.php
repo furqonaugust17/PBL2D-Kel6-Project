@@ -10,23 +10,14 @@
         </div>
         <ul class="metismenu" id="menu">
             <li class="nav-label first">Main Menu</li>
-            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+            <li><a class="ai-icon" href="{{ route('dashboard') }}">
                     <i class="flaticon-144-layout"></i>
                     <span class="nav-text">Dashboard</span>
                 </a>
-                <ul aria-expanded="false">
-                    <li><a href="index.html">Dashboard Light</a></li>
-                    <li><a href="index-2.html">Dashboard Dark</a></li>
-                    <li><a href="my-wallets.html">Wallet</a></li>
-                    <li><a href="tranasactions.html">Transactions</a></li>
-                    <li><a href="coin-details.html">Coin Details</a></li>
-                    <li><a href="portofolio.html">Portofolio</a></li>
-                    <li><a href="market-capital.html">Market Capital</a></li>
-                </ul>
             </li>
-            <li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">
+            <li><a href="{{ route('karyawan.index') }}" class="ai-icon">
                     <i class="fas fa-users"></i>
-                    <span class="nav-text" style="direction: ltr;">Manajemen Karyawan</span>
+                    <span class="nav-text">Manajemen Karyawan</span>
                 </a>
             </li>
         </ul>

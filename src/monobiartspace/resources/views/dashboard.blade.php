@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-slot:title>Dashboard</x-slot:title>
     <div class="form-head mb-sm-5 mb-3 d-flex flex-wrap align-items-center">
         <h2 class="font-w600 title mb-2 me-auto ">Dashboard</h2>
         <div class="weather-btn mb-2">

@@ -15,7 +15,7 @@
     <meta property="og:image" content="https://zenix.dexignzone.com/xhtml/social-image.png" />
     <meta name="format-detection" content="telephone=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ $title }}</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.png">') }}" />
     <link rel="stylesheet" href="{{ asset('plugins/vendor/chartist/css/chartist.min.css') }}">

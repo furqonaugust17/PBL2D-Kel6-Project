@@ -286,7 +286,7 @@
         </nav>
         <div class="sub-header">
             <div class="d-flex align-items-center flex-wrap me-auto">
-                <h5 class="dashboard_bar">Dashboard</h5>
+                <h5 class="dashboard_bar">{{ $title }}</h5>
             </div>
             <div class="d-flex align-items-center">
                 <a href="javascript:void(0);" class="btn btn-xs btn-primary light me-1">Today</a>
