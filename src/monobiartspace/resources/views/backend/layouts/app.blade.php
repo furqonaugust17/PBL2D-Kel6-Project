@@ -705,8 +705,8 @@
             Chat box End
         ***********************************-->
 
-        @include('layouts.header')
-        @include('layouts.sidebar')
+        @include('backend.layouts.header')
+        @include('backend.layouts.sidebar')
 
         <div class="content-body">
             <div class="container-fluid">

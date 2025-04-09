@@ -25,7 +25,7 @@
                 </ul>
             </li>
             <li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">
-                    <i class="flaticon-041-folder"></i>
+                    <i class="fas fa-users"></i>
                     <span class="nav-text" style="direction: ltr;">Manajemen Karyawan</span>
                 </a>
             </li>
