@@ -1,10 +1,12 @@
 @section('css')
     <link href="{{ asset('plugins/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/vendor/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet">
 @endsection
 
 @section('script')
     <script src="{{ asset('plugins/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('plugins/js/plugins-init/datatables.init.js') }}"></script>
+    <script src="{{ asset('plugins/vendor/sweetalert2/dist/sweetalert2.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#table-karyawan').DataTable({
@@ -36,16 +38,69 @@
                         data: 'alamat',
                     },
                     {
+                        data: 'id',
                         "render": function(data, type, row) {
+                            let uriEdit = "{{ route('karyawan.edit', ['karyawan' => ':id']) }}"
+                                .replace(
+                                    ':id', data);
+
                             return `<div class="d-flex">
-										<a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-										<a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+										<a href="${uriEdit}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                        <button type="button" class="btn btn-danger shadow btn-xs sharp" onclick="deleteData(${data})"><i class="fa fa-trash"></i></button>
 									</div>`
                         }
                     }
                 ]
             });
+
         });
+
+        function deleteData(id) {
+            // let token = $("meta[name='csrf-token']").attr("content");
+            Swal.fire({
+                title: "Anda Yakin?",
+                text: "Data akan terhapus pada sistem!!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Hapus",
+                cancelButtonText: "Batal",
+            }).then((result) => {
+                if (result.value) {
+                    let uriDelete = "{{ route('karyawan.destroy', ['karyawan' => ':id']) }}".replace(':id', id);
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: uriDelete,
+                        type: 'DELETE',
+                        success: function(data) {
+
+                            toastr.success(data.message, {
+                                closeButton: false,
+                                debug: false,
+                                newestOnTop: false,
+                                progressBar: true,
+                                positionClass: "toast-top-right",
+                                preventDuplicates: false,
+                                onclick: null,
+                                showDuration: 300,
+                                hideDuration: 1000,
+                                timeOut: 500,
+                                extendedTimeOut: 1000,
+                                showEasing: "swing",
+                                hideEasing: "linear",
+                                showMethod: "fadeIn",
+                                hideMethod: "fadeOut"
+                            })
+                            $('#table-karyawan').DataTable().ajax.reload()
+                        }
+                    })
+                }
+            });
+        }
     </script>
 @endsection
 

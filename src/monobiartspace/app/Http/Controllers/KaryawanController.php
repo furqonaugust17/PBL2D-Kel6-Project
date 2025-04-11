@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\KaryawanStoreRequest;
+use App\Http\Requests\KaryawanUpdateRequest;
 use App\Models\Karyawan;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -70,15 +71,36 @@ class KaryawanController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $karyawan = Karyawan::find($id);
+        return view('backend.karyawan.edit', compact('karyawan'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(KaryawanUpdateRequest $request, string $id)
     {
-        //
+        $request->validated();
+
+        $karyawan = Karyawan::find($id);
+
+        $karyawan->nama = $request->nama;
+        $karyawan->jk = $request->jk;
+        $karyawan->alamat = $request->alamat;
+        $karyawan->notelp = $request->notelp;
+        $karyawan->user->name = $request->username;
+
+        if ($karyawan->user->email == $request->email) {
+            $karyawan->user->email = $request->email;
+        }
+
+        if ($karyawan->user->password == $request->password) {
+            $karyawan->user->password = $request->password;
+        }
+
+        $karyawan->save();
+
+        return redirect()->route('karyawan.index')->with('success', 'Data Karyawan Berhasil Diupdate');
     }
 
     /**
@@ -86,6 +108,15 @@ class KaryawanController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $karyawan = Karyawan::find($id);
+        $user = User::find($karyawan->user_id);
+
+        $user->delete();
+        $karyawan->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Karyawan Berhasil Dihapus',
+        ]);
     }
 }
