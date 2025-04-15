@@ -15,11 +15,6 @@
                     <span class="nav-text">Dashboard</span>
                 </a>
             </li>
-            <li><a href="{{ route('karyawan.index') }}" class="ai-icon">
-                    <i class="fas fa-users"></i>
-                    <span class="nav-text">Manajemen Karyawan</span>
-                </a>
-            </li>
         </ul>
     </div>
 </div>
