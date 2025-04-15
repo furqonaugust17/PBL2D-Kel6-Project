@@ -82,23 +82,25 @@ class KaryawanController extends Controller
     {
         $request->validated();
 
-        $karyawan = Karyawan::find($id);
+        $karyawan = Karyawan::with('user')->find($id);
+        // $user = User::find($karyawan->user_id);
 
-        $karyawan->nama = $request->nama;
-        $karyawan->jk = $request->jk;
-        $karyawan->alamat = $request->alamat;
-        $karyawan->notelp = $request->notelp;
-        $karyawan->user->name = $request->username;
 
-        if ($karyawan->user->email == $request->email) {
-            $karyawan->user->email = $request->email;
-        }
+        // $karyawan->nama = $request->nama;
+        // $karyawan->jk = $request->jk;
+        // $karyawan->alamat = $request->alamat;
+        // $karyawan->notelp = $request->notelp;
+        // $karyawan->user->name = $request->username;
 
-        if ($karyawan->user->password == $request->password) {
-            $karyawan->user->password = $request->password;
-        }
+        // if ($karyawan->user->email == $request->email) {
+        //     $karyawan->user->email = $request->email;
+        // }
 
-        $karyawan->save();
+        // if ($karyawan->user->password == $request->password) {
+        //     $karyawan->user->password = $request->password;
+        // }
+
+        // $karyawan->save();
 
         return redirect()->route('karyawan.index')->with('success', 'Data Karyawan Berhasil Diupdate');
     }
