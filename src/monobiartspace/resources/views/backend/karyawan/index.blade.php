@@ -23,13 +23,16 @@
                         data: 'nama',
                     },
                     {
+                        data: 'user.name',
+                    },
+                    {
+                        data: 'user.email',
+                    },
+                    {
                         data: 'jk',
                         "render": function(data, type, row) {
                             return (row.jk == 'l') ? 'Laki-Laki' : 'Perempuan'
                         }
-                    },
-                    {
-                        data: 'user.email',
                     },
                     {
                         data: 'notelp',
@@ -118,8 +121,9 @@
                             <thead>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>Jenis Kelamin</th>
+                                    <th>Username</th>
                                     <th>Email</th>
+                                    <th>Jenis Kelamin</th>
                                     <th>No Telepon</th>
                                     <th>Alamat</th>
                                     <th>Action</th>
@@ -130,8 +134,9 @@
                             <tfoot>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>Jenis Kelamin</th>
+                                    <th>Username</th>
                                     <th>Email</th>
+                                    <th>Jenis Kelamin</th>
                                     <th>No Telepon</th>
                                     <th>Alamat</th>
                                     <th>Action</th>

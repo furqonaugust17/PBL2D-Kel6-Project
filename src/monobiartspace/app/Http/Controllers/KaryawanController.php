@@ -78,29 +78,26 @@ class KaryawanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(KaryawanUpdateRequest $request, string $id)
+    public function update(KaryawanUpdateRequest $request, Karyawan $karyawan)
     {
         $request->validated();
 
-        $karyawan = Karyawan::with('user')->find($id);
-        // $user = User::find($karyawan->user_id);
+        $karyawan->nama = $request->nama;
+        $karyawan->jk = $request->jk;
+        $karyawan->alamat = $request->alamat;
+        $karyawan->notelp = $request->notelp;
+        $karyawan->user->name = $request->username;
 
+        if ($karyawan->user->email != $request->email) {
+            $karyawan->user->update(['email' => $request->email]);
+        }
 
-        // $karyawan->nama = $request->nama;
-        // $karyawan->jk = $request->jk;
-        // $karyawan->alamat = $request->alamat;
-        // $karyawan->notelp = $request->notelp;
-        // $karyawan->user->name = $request->username;
+        if ($request->password != null) {
+            $karyawan->user->update(['password' => Hash::make($request->password)]);
+        }
 
-        // if ($karyawan->user->email == $request->email) {
-        //     $karyawan->user->email = $request->email;
-        // }
-
-        // if ($karyawan->user->password == $request->password) {
-        //     $karyawan->user->password = $request->password;
-        // }
-
-        // $karyawan->save();
+        $karyawan->save();
+        $karyawan->user->save();
 
         return redirect()->route('karyawan.index')->with('success', 'Data Karyawan Berhasil Diupdate');
     }
