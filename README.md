@@ -24,38 +24,26 @@ git clone https://github.com/furqonaugust17/PBL2D-Kel6-Project.git
 ```
 
 2. Install Dependency
-
 ```
 Composer Install
 ```
 
-3. Install Dependency
-
-```
-Composer Install
-```
-
-4. Create .ENV
-
+3. Create .ENV
 ```
 cp .env.example .env
 ```
 
-5. Generate Application Key
-
+4. Generate Application Key
 ```
 php artisan key:generate
 ```
 
-
-6. Run Migrations
-
+5. Run Migrations
 ```
 php artisan migrate --seed
 ```
 
-7. Run Application
-
+6. Run Application
 ```
 php artisan serve
 ```
