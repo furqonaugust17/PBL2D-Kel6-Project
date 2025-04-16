@@ -1,33 +1,31 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-100">
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="robots" content="" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="MonobiArtSpace" />
+    <meta property="og:title" content="MonobiArtSpace" />
+    <meta property="og:description" content="MonobiArtSpace" />
+    <meta name="format-detection" content="telephone=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ $title }}</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('plugins/images/favicon.png') }}">
+    <link href="{{ asset('plugins/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/css/style.css') }}" rel="stylesheet">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-    <!-- Scripts -->
 </head>
 
-<body class="font-sans text-gray-900 antialiased">
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-        <div>
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </div>
+<body class="vh-100">
+    {{ $slot }}
 
-        <div
-            class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
-            {{ $slot }}
-        </div>
-    </div>
+    <script src="{{ asset('plugins/vendor/global/global.min.js') }}"></script>
+    <script src="{{ asset('plugins/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('plugins/js/custom.js') }}"></script>
+    <script src="{{ asset('plugins/js/deznav-init.js') }}"></script>
 </body>
 
 </html>
