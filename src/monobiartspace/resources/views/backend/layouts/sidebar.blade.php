@@ -15,6 +15,11 @@
                     <span class="nav-text">Dashboard</span>
                 </a>
             </li>
+            <li><a class="ai-icon" href="{{ route('kelas.index') }}">
+                <i class="fas fa-chalkboard"></i>
+                <span class="nav-text">Kelas</span>
+            </a>
+            </li>
         </ul>
     </div>
 </div>
