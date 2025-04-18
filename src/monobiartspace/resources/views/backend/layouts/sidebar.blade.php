@@ -28,6 +28,10 @@
                     <i class="fas fa-screwdriver"></i>
                     <span class="nav-text">Manajemen Fasilitas</span>
                 </a>
+            <li><a class="ai-icon" href="{{ route('kelas.index') }}">
+                    <i class="fas fa-chalkboard"></i>
+                    <span class="nav-text">Kelas</span>
+                </a>
             </li>
         </ul>
     </div>
