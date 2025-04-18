@@ -14,6 +14,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title }}</title>
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('plugins/images/favicon.png') }}">
+    @yield('css')
     <link href="{{ asset('plugins/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/css/style.css') }}" rel="stylesheet">
 
@@ -26,6 +27,8 @@
     <script src="{{ asset('plugins/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('plugins/js/custom.js') }}"></script>
     <script src="{{ asset('plugins/js/deznav-init.js') }}"></script>
+    @yield('script')
+
 </body>
 
 </html>
