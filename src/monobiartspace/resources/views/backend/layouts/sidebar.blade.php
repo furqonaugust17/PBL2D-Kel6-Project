@@ -31,6 +31,9 @@
             <li><a class="ai-icon" href="{{ route('kelas.index') }}">
                     <i class="fas fa-chalkboard"></i>
                     <span class="nav-text">Kelas</span>
+            <li><a class="ai-icon" href="{{ route('diskon.index') }}">
+                    <i class="fas fa-percentage"></i>
+                    <span class="nav-text">diskon</span>
                 </a>
             </li>
         </ul>
