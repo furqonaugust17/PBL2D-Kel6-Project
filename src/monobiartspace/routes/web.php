@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\KaryawanController;
+use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RuangController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,7 +17,10 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
     })->name('dashboard');
 
     Route::resource('karyawan', KaryawanController::class);
+    Route::resource('ruang', RuangController::class);
+    Route::resource('fasilitas', FasilitasController::class);
 });
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
