@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DiskonController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,6 +13,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified']], func
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::resource('diskon', DiskonController::class);
 });
 
 Route::middleware('auth')->group(function () {
