@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ArtSpaceController;
+use App\Http\Controllers\KegiatanArtSpaceController;
+use App\Http\Controllers\KidController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\KelasController; // <--- Tambahkan ini
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -12,7 +14,8 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified']], func
         return view('dashboard');
     })->name('dashboard');
 
-    Route::resource('kelas', KelasController::class);
+    Route::resource('artspace', ArtSpaceController::class);
+    Route::resource('kids', KidController::class);
 });
 
 Route::middleware('auth')->group(function () {
