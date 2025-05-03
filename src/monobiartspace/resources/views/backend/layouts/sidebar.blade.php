@@ -15,10 +15,21 @@
                     <span class="nav-text">Dashboard</span>
                 </a>
             </li>
-            <li><a class="ai-icon" href="{{ route('kelas.index') }}">
-                <i class="fas fa-chalkboard"></i>
-                <span class="nav-text">Kelas</span>
-            </a>
+            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                    <i class="fas fa-chalkboard"></i>
+                    <span class="nav-text">Monobi Art Space</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="{{ route('artspace.index') }}">Kelas</a></li>
+                </ul>
+            </li>
+            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                    <i class="fas fa-chalkboard"></i>
+                    <span class="nav-text">Monobi Kids</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="{{ route('kids.index') }}">Kelas</a></li>
+                </ul>
             </li>
         </ul>
     </div>
