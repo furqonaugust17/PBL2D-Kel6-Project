@@ -21,6 +21,7 @@
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="{{ route('artspace.index') }}">Kelas</a></li>
+                    <li><a href="{{ route('kegiatan-artspace.index') }}">Kegiatan</a></li>
                 </ul>
             </li>
             <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
@@ -29,6 +30,8 @@
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="{{ route('kids.index') }}">Kelas</a></li>
+                    <li><a href="{{ route('kids-kategori.index') }}">Kategori</a></li>
+                    <li><a href="{{ route('kids-tema.index') }}">Tema</a></li>
                 </ul>
             </li>
         </ul>
