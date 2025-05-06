@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\JadwalArtSpaceController;
+use App\Http\Controllers\JadwalKidController;
+use App\Http\Controllers\KidController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,6 +15,11 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified']], func
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::resource('kids', KidController::class);
+
+    Route::resource('artspace-jadwal', JadwalArtSpaceController::class)->parameters(['artspace-jadwal' => 'jadwalArtSpace']);
+    Route::resource('kids-jadwal', JadwalKidController::class)->parameters(['kids-jadwal' => 'jadwalKid']);
 });
 
 Route::middleware('auth')->group(function () {
