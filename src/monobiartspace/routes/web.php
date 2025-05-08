@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InventarisController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -12,6 +13,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified']], func
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::resource('inventaris', InventarisController::class)->parameters(['inventaris' => 'inventaris']);
 });
 
 Route::middleware('auth')->group(function () {
@@ -21,3 +23,5 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+
