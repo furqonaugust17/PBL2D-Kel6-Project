@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,6 +13,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified']], func
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::resource('partner', PartnerController::class);
 });
 
 Route::middleware('auth')->group(function () {
@@ -21,3 +23,6 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+
+

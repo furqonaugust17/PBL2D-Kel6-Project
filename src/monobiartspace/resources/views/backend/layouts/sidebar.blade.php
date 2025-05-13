@@ -15,6 +15,9 @@
                     <span class="nav-text">Dashboard</span>
                 </a>
             </li>
+            <li><a class="ai-icon" href="{{ route('partner.index') }}">
+                <i class="flaticon-144-layout"></i>
+                <span class="nav-text">Partner</span>
         </ul>
     </div>
 </div>
