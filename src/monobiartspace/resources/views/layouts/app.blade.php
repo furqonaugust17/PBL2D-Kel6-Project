@@ -27,6 +27,7 @@
 
 
     <link href="{{ asset('landing-page/assets/css/main.css') }}" rel="stylesheet">
+    @yield('css')
 </head>
 
 <body class="index-page">
@@ -54,6 +55,7 @@
 
     <!-- Main JS File -->
     <script src="{{ asset('landing-page/assets/js/main.js') }}"></script>
+    @yield('script')
 
 </body>
 

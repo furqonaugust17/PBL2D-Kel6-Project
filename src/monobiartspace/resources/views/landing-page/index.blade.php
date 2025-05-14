@@ -1,3 +1,22 @@
+{{-- @section('css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+@endsection --}}
+@section('script')
+    {{-- <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script> --}}
+    <script type="text/javascript">
+        const swiper = new Swiper('.swiper-artspace', {
+            direction: 'horizontal',
+            slidesPerView: 4,
+            spaceBetween: 20,
+
+            // Navigation arrows
+            navigation: {
+                nextEl: '.bi-arrow-right.artspace',
+                prevEl: '.bi-arrow-left.artspace',
+            },
+        });
+    </script>
+@endsection
 <x-app>
     <!-- Hero Section -->
     <section id="hero" class="hero section dark-background">
@@ -46,7 +65,38 @@
 
     </section><!-- /Hero Section -->
 
-    <!-- About Section -->
+    <section id="class-list" class="section">
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Kelas</h2>
+            <div><span>Monobi Art Space</span></div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="swiper-artspace">
+                    <div class="row justify-content-end">
+                        <span class="w-auto"><i class="bi bi-arrow-left artspace"></i></span>
+                        <span class="w-auto"><i class="bi bi-arrow-right artspace"></i></span>
+                    </div>
+                    <div class="swiper-wrapper">
+                        @foreach ($artspaces as $artspace)
+                            <div class="swiper-slide">
+                                <div class="card h-100">
+                                    <img src="https://dummyimage.com/500x500/000/fff" class="card-img-top"
+                                        alt="...">
+                                    <div class="card-body">
+                                        <h4>{{ $artspace->nama }}</h4>
+                                        <a href="{{ route('product.index', $artspace->id) }}">Detail</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- <!-- About Section -->
     <section id="about" class="about section">
         <div class="container" data-aos="fade-up" data-aos-delay="100">
             <div class="row align-items-xl-center gy-5">
@@ -99,7 +149,7 @@
                 </div>
             </div>
         </div>
-    </section><!-- /About Section -->
+    </section><!-- /About Section --> --}}
 
 
     <!-- Details Section -->
