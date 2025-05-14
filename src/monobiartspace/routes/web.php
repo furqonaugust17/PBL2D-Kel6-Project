@@ -14,10 +14,10 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified']], func
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-});
 
-Route::resource('ruang', RuangController::class);
-Route::resource('fasilitas', FasilitasController::class);
+    Route::resource('ruang', RuangController::class);
+    Route::resource('fasilitas', FasilitasController::class);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
