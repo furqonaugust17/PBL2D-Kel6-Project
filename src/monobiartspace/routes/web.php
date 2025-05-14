@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [MainController::class, 'index']);
 
 
-Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified']], function () {
+Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdmin']], function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
