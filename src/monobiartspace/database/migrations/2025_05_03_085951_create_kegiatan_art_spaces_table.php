@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pendaftarans', function (Blueprint $table) {
+        Schema::create('kegiatan_art_spaces', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['artspace', 'kids']);
-            $table->foreignId('user_id')->references('id')->on('users');
-            $table->string('deskripsi')->nullable();
-            $table->string('total_price')->nullable();
-            $table->date('tanggal_reservasi');
-            $table->unsignedBigInteger('schedule_id');
+            $table->string('nama', 100);
+            $table->text('harga');
+            $table->unsignedBigInteger('artspace_id');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('artspace_id')->references('id')->on('art_spaces');
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pendaftarans');
+        Schema::dropIfExists('kegiatan_art_spaces');
     }
 };

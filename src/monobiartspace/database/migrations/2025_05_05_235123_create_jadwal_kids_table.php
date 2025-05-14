@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pendaftarans', function (Blueprint $table) {
+        Schema::create('jadwal_kids', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['artspace', 'kids']);
-            $table->foreignId('user_id')->references('id')->on('users');
-            $table->string('deskripsi')->nullable();
-            $table->string('total_price')->nullable();
-            $table->date('tanggal_reservasi');
-            $table->unsignedBigInteger('schedule_id');
+            $table->string('hari', 20);
+            $table->time('mulai');
+            $table->time('akhir');
+            $table->unsignedBigInteger('kid_id');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('kid_id')->references('id')->on('kids');
         });
     }
 
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pendaftarans');
+        Schema::dropIfExists('jadwal_kids');
     }
 };
