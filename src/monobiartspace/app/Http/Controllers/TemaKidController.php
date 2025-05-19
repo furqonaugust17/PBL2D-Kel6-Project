@@ -112,4 +112,10 @@ class TemaKidController extends Controller
             'message' => 'Tema Berhasil Dihapus',
         ]);
     }
+
+    public function getData(String $id)
+    {
+        $data = TemaKid::where('kid_id', $id)->get();
+        return response()->json($data);
+    }
 }

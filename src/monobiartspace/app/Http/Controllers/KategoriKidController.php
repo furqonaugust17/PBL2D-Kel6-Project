@@ -83,4 +83,10 @@ class KategoriKidController extends Controller
             'message' => 'Kategori Berhasil Dihapus',
         ]);
     }
+
+    public function getData(String $id)
+    {
+        $data = KategoriKid::where('kid_id', $id)->get();
+        return response()->json($data);
+    }
 }
