@@ -28,7 +28,6 @@ class PendaftaranController extends Controller
         // $kegiatanArtSpace = KegiatanArtSpace::all();
         // $jadwalArtSpace = JadwalArtSpace::all();
         // return view('frontend.booking.artspace', compact('kegiatanArtSpace', 'jadwalArtSpace'));
-        // dd(Auth::user()->customer->id);
         DB::beginTransaction();
         try {
             $session = JadwalArtSpace::findOrFail($request->sesi);
