@@ -18,8 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('kegiatan');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('pendaftaran_id')->references('id')->on('pendaftarans');
-            $table->foreign('kegiatan')->references('id')->on('kegiatan_art_spaces');
+            $table->foreign('pendaftaran_id')->references('id')->on('pendaftarans')->onDelete('CASCADE');
+            $table->foreign('kegiatan')->references('id')->on('kegiatan_art_spaces')->onDelete('CASCADE');
         });
     }
 

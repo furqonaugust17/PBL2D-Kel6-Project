@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pendaftarans', function (Blueprint $table) {
             $table->id();
             $table->enum('type', ['artspace', 'kids']);
-            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('customer_id')->references('id')->on('customers')->onDelete('CASCADE');
             $table->string('deskripsi')->nullable();
             $table->string('total_price')->nullable();
             $table->date('tanggal_reservasi');

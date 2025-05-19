@@ -11,7 +11,7 @@ class Pendaftaran extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['type', 'user_id', 'total_price', 'tanggal_reservasi', 'schedule_id'];
+    protected $fillable = ['type', 'customer_id', 'total_price', 'tanggal_reservasi', 'schedule_id'];
     protected $with = ['detailPendaftaran'];
 
     public function detailPendaftaran(): HasMany
