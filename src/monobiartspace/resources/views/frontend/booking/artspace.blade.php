@@ -26,7 +26,7 @@
                 });
 
                 $.ajax({
-                    url: "{{ url()->current() }}",
+                    url: "{{ route('booking.artspace.store') }}",
                     type: 'POST',
                     data: {
                         tanggal,
