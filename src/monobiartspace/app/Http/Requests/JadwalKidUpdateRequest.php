@@ -23,7 +23,7 @@ class JadwalKidUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kid_id' => ['required', 'exists:kids,id', Rule::unique('jadwal_kids')->where(function ($query) {
+            'kategori_id' => ['required', 'exists:kids,id', Rule::unique('jadwal_kids')->where(function ($query) {
                 return $query->where('hari', $this->input('hari'))
                     ->where('mulai', $this->input('mulai'))
                     ->where('akhir', $this->input('akhir'));
@@ -37,9 +37,9 @@ class JadwalKidUpdateRequest extends FormRequest
     public function messages()
     {
         return  [
-            'kid_id.required' => 'Kelas wajib dipilih.',
-            'kid_id.exists'   => 'Kelas yang dipilih tidak valid.',
-            'kid_id.unique'   => 'Jadwal dengan hari dan jam pada kelas ini telah terdaftar',
+            'kategori_id.required' => 'Kategori wajib dipilih.',
+            'kategori_id.exists'   => 'Kategori yang dipilih tidak valid.',
+            'kategori_id.unique'   => 'Jadwal dengan hari dan jam pada kategori ini telah terdaftar',
 
             'hari.required'   => 'Hari wajib diisi.',
             'hari.string'     => 'Hari harus berupa teks.',

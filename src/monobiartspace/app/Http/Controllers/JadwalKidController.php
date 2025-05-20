@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\JadwalKidStoreRequest;
 use App\Http\Requests\JadwalKidUpdateRequest;
 use App\Models\JadwalKid;
+use App\Models\KategoriKid;
 use App\Models\Kid;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -31,7 +32,7 @@ class JadwalKidController extends Controller
             return DataTables::of($jadwal)->addColumn('hari', function ($row) {
                 return ucfirst($row->hari);
             })->filterColumn('hari', function ($query, $keyword) {
-                $query->whereRaw("TIME_FORMAT(mulai, '%H:%i') LIKE ?", ["%{$keyword}%"]);
+                $query->whereRaw("hari LIKE ?", ["%{$keyword}%"]);
             })->addColumn('mulai', function ($row) {
                 return \Carbon\Carbon::parse($row->mulai)->translatedFormat('H:i');
             })->filterColumn('mulai', function ($query, $keyword) {
@@ -50,9 +51,9 @@ class JadwalKidController extends Controller
      */
     public function create()
     {
-        $kids = Kid::all();
+        $kategories = KategoriKid::all();
         $days = $this->hariOptions;
-        return view('backend.kids.jadwal.create', compact('kids', 'days'));
+        return view('backend.kids.jadwal.create', compact('kategories', 'days'));
     }
 
     /**
@@ -80,9 +81,9 @@ class JadwalKidController extends Controller
      */
     public function edit(JadwalKid $jadwalKid)
     {
-        $kids = Kid::all();
+        $kategories = KategoriKid::all();
         $days = $this->hariOptions;
-        return view('backend.kids.jadwal.edit', compact('jadwalKid', 'kids', 'days'));
+        return view('backend.kids.jadwal.edit', compact('jadwalKid', 'kategories', 'days'));
     }
 
     /**

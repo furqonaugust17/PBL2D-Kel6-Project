@@ -8,19 +8,20 @@
                         <form action="{{ route('kids-jadwal.store') }}" method="POST">
                             @csrf
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label" style="direction: ltr;">Kelas</label>
+                                <label class="col-sm-3 col-form-label" style="direction: ltr;">Kategori</label>
                                 <div class="col-sm-9">
-                                    <select name="kid_id" id=""
-                                        class="form-control  @error('kid_id')
+                                    <select name="kategori_id" id=""
+                                        class="form-control  @error('kategori_id')
                                         is-invalid
                                     @enderror">
-                                        @foreach ($kids as $kid)
-                                            <option value="{{ $kid->id }}"
-                                                {{ old('kid_id') == $kid->id ? 'selected' : '' }}>{{ $kid->nama }}
+                                        @foreach ($kategories as $kategoris)
+                                            <option value="{{ $kategoris->id }}"
+                                                {{ old('kategori_id') == $kategoris->id ? 'selected' : '' }}>
+                                                {{ $kategoris->nama }}
                                             </option>
                                         @endforeach
                                     </select>
-                                    @error('kid_id')
+                                    @error('kategori_id')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>

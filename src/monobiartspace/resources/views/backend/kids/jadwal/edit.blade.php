@@ -9,20 +9,20 @@
                             @method('PUT')
                             @csrf
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label" style="direction: ltr;">Kelas</label>
+                                <label class="col-sm-3 col-form-label" style="direction: ltr;">Kategori</label>
                                 <div class="col-sm-9">
-                                    <select name="kid_id" id=""
-                                        class="form-control  @error('kid_id')
+                                    <select name="kategori_id" id=""
+                                        class="form-control  @error('kategori_id')
                                         is-invalid
                                     @enderror">
-                                        @foreach ($kids as $kid)
-                                            <option value="{{ $kid->id }}"
-                                                {{ $jadwalKid->kid_id == $kid->id ? 'selected' : '' }}>
-                                                {{ $kid->nama }}
+                                        @foreach ($kategories as $kategori)
+                                            <option value="{{ $kategori->id }}"
+                                                {{ $jadwalKid->kategori_id == $kategori->id ? 'selected' : '' }}>
+                                                {{ $kategori->nama }}
                                             </option>
                                         @endforeach
                                     </select>
-                                    @error('kid_id')
+                                    @error('kategori_id')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>

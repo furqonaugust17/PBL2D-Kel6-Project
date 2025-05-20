@@ -27,7 +27,7 @@
                         searchable: false
                     },
                     {
-                        data: 'kid.nama',
+                        data: 'kategori.nama',
                     },
                     {
                         data: 'hari',
