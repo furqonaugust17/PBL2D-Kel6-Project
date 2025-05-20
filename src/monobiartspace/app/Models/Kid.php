@@ -11,9 +11,4 @@ class Kid extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = ['nama'];
-
-    public function jadwalKid(): HasMany
-    {
-        return $this->hasMany(JadwalKid::class);
-    }
 }
