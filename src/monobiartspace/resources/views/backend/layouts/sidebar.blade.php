@@ -16,10 +16,31 @@
                 </a>
             </li>
             <li><a class="ai-icon" href="{{ route('inventaris.index') }}">
-                <i class="fas fa-box"></i>
-                <span class="nav-text">Inventaris</span>
-            </a>
-        </li>
+                    <i class="fas fa-box"></i>
+                    <span class="nav-text">Inventaris</span>
+                </a>
+            </li>
+            <li><a href="{{ route('karyawan.index') }}" class="ai-icon">
+                    <i class="fas fa-users"></i>
+                    <span class="nav-text">Manajemen Karyawan</span>
+                </a>
+            <li><a class="ai-icon" href="{{ route('ruang.index') }}">
+                    <i class="fas fa-warehouse"></i>
+                    <span class="nav-text">Manajemen Ruang</span>
+                </a>
+            </li>
+            <li><a class="ai-icon" href="{{ route('fasilitas.index') }}">
+                    <i class="fas fa-screwdriver"></i>
+                    <span class="nav-text">Manajemen Fasilitas</span>
+                </a>
+            <li><a class="ai-icon" href="{{ route('kelas.index') }}">
+                    <i class="fas fa-chalkboard"></i>
+                    <span class="nav-text">Kelas</span>
+            <li><a class="ai-icon" href="{{ route('diskon.index') }}">
+                    <i class="fas fa-percentage"></i>
+                    <span class="nav-text">diskon</span>
+                </a>
+            </li>
         </ul>
     </div>
 </div>
