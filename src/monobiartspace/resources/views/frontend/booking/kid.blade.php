@@ -3,12 +3,27 @@
         $(document).ready(function() {
             $('#form').on('submit', function(e) {
                 e.preventDefault();
+                let nama_lengkap = $('input[name="nama-lengkap"]').val();
+                let nama_panggilan = $('input[name="nama-panggilan"]').val();
+                let usia_saat_ini = $('input[name="usia-saat-ini"]').val();
+                let tanggal_lahir = $('input[name="tgl-lahir"]').val();
+                let kelas = $('select[name="kelas_id"]').val();
+                let kategori = $('select[name="kategori_id"]').val();
+                let jadwal = $('select[name="jadwal_id"]').val();
                 let tema = [];
                 $("input:checkbox[name=tema]:checked").each(function() {
                     tema.push($(this).val());
                 });
-                console.log(tema);
-
+                console.log({
+                    nama_lengkap,
+                    nama_panggilan,
+                    usia_saat_ini,
+                    tanggal_lahir,
+                    kelas,
+                    kategori,
+                    jadwal,
+                    tema
+                });
             })
 
             $('select[name="kelas_id"]').on('change', function() {
@@ -29,6 +44,9 @@
                                 <option value="" selected disabled>= kategori belum tersedia =</option>
                                 `);
                         } else {
+                            $('select[name="kategori_id"]').append(`
+                                <option value="" selected disabled>== Pilih Kategori ==</option>
+                                `);
                             $.each(result, function(key, val) {
                                 $('select[name="kategori_id"]').append(`
                                 <option value="${val.id}">${val.nama}</option>
@@ -48,7 +66,7 @@
                         $.each(result[0].detail_tema, function(key, val) {
                             $('.tema-data ul').append(`
                             <li>
-                                <input type="checkbox" id="${key}" name="tema" value="${val.id}" />
+                                <input type="checkbox" id="${key}" name="tema" value="${val.id}" ${(key + 1) < mingguKeBerapa() ? 'disabled' : ''} />
                                 <label for="${key}">${val.nama} (Week ${val.week})</label>
                             </li>
                             `);
@@ -56,6 +74,42 @@
                     }
                 });
             });
+
+            $('select[name="kategori_id"]').on('change', function() {
+                let uriJadwal = "{{ route('jadwal.getdata', ['id' => ':id']) }}"
+                    .replace(':id', $(this).val());
+                $.ajax({
+                    url: uriJadwal,
+                    type: "GET",
+                    success: function(result) {
+                        console.log(result);
+                        $('select[name="jadwal_id"]').empty();
+                        if (result.length == 0) {
+                            $('select[name="jadwal_id"]').append(`
+                                <option value="" selected disabled>= jadwal belum tersedia =</option>
+                                `);
+                        } else {
+                            $('select[name="jadwal_id"]').append(`
+                                <option value="" selected disabled>== Pilih jadwal ==</option>
+                                `);
+                            $.each(result, function(key, val) {
+                                $('select[name="jadwal_id"]').append(`
+                                <option value="${val.id}">${val.hari} (${val.mulai.substring(0,5)} - ${val.akhir.substring(0,5)})</option>
+                                `);
+                            })
+                        }
+                    }
+                });
+            })
+
+            function mingguKeBerapa() {
+                const date = new Date();
+                const tanggal = date.getDate();
+                const hariPertama = new Date(date.getFullYear(), date.getMonth(), 1)
+                    .getDay();
+                return Math.ceil((tanggal + hariPertama) / 7);
+            }
+
         });
     </script>
 @endsection
@@ -91,6 +145,12 @@
                 <label for="">Pilih Kategori</label>
                 <select name="kategori_id" id="">
                     <option value="" selected disabled>== Pilih Kategori ==</option>
+                </select>
+            </div>
+            <div class="">
+                <label for="">Pilih Jadwal</label>
+                <select name="jadwal_id" id="">
+                    <option value="" selected disabled>== Pilih Jadwal ==</option>
                 </select>
             </div>
             <div class="">
