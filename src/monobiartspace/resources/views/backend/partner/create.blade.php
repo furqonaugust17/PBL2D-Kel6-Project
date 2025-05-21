@@ -24,7 +24,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Nama Partner</label>
-                                <input type="text" class="form-control" name="nama" required>
+                                <input type="text" class="form-control" name="name" required>
                             </div>
                         </div>
                         <div class="col-md-6">

@@ -20,25 +20,16 @@
                     serverSide: true,
                     ajax: "{{ url()->current() }}",
                     columns: [{
-                            data: 'nama',
-                        },
-                        {
-                            data: 'user.name',
-                        },
-                        {
-                            data: 'user.email',
-                        },
-                        {
-                            data: 'jk',
-                            "render": function(data, type, row) {
-                                return (row.jk == 'l') ? 'Laki-Laki' : 'Perempuan'
-                            }
+                            data: 'name',
                         },
                         {
                             data: 'notelp',
                         },
                         {
-                            data: 'alamat',
+                            data: 'image',
+                        },
+                        {
+                            data: 'deskripsi',
                         },
                         {
                             data: 'id',
@@ -46,7 +37,6 @@
                                 let uriEdit = "{{ route('partner.edit', ['partner' => ':id']) }}"
                                     .replace(
                                         ':id', data);
-
 
                                 return `<div class="d-flex">
                                             <a href="${uriEdit}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
@@ -56,17 +46,13 @@
                         }
                     ]
                 });
-
-
             });
 
-
             function deleteData(id) {
-                // let token = $("meta[name='csrf-token']").attr("content");
                 Swal.fire({
                     title: "Anda Yakin?",
                     text: "Data akan terhapus pada sistem!!",
-                    type: "warning",
+                    icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
                     confirmButtonText: "Hapus",
@@ -83,8 +69,6 @@
                             url: uriDelete,
                             type: 'DELETE',
                             success: function(data) {
-
-
                                 toastr.success(data.message, {
                                     closeButton: false,
                                     debug: false,
@@ -111,12 +95,11 @@
         </script>
     @endsection
 
-
     <x-app-layout>
         <x-slot:title>Partner</x-slot:title>
         <div class="row">
             <div class="col-4">
-                <a href="{{ route('backend.partner.create') }}" class="btn btn-sm btn-primary">Tambah Data Partner</a>
+                <a href="{{ route('partner.create') }}" class="btn btn-sm btn-primary">Tambah Data Partner</a>
             </div>
             <div class="col-12 m-t35">
                 <div class="card">
@@ -129,6 +112,7 @@
                                         <th>NoHp</th>
                                         <th>Image</th>
                                         <th>Deskripsi</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -139,6 +123,7 @@
                                         <th>NoHp</th>
                                         <th>Image</th>
                                         <th>Deskripsi</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </tfoot>
                             </table>

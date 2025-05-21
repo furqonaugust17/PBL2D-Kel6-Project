@@ -18,6 +18,8 @@
             <li><a class="ai-icon" href="{{ route('partner.index') }}">
                 <i class="flaticon-144-layout"></i>
                 <span class="nav-text">Partner</span>
+                </a>
+            </li> 
         </ul>
     </div>
 </div>

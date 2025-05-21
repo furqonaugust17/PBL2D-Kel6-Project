@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('partners', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('nohp');
+            $table->string('phone');
             $table->string('image');
-            $table->string('deskripsi');
+            $table->text('description');
             $table->timestamps();
         });
     }

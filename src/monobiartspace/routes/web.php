@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    Mail::to('sixthforcepbl@gmail.com')->send(new \App\Mail\HelloMail());
+    return 'Email telah dikirim!';
 });
 
 

@@ -1,4 +1,3 @@
-
 @extends('backend.layouts.app')
 @section('title', 'Edit Partner')
 @section('content')
@@ -34,7 +33,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="name">Name</label>
-                                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Enter name" value="{{ old('name', $partner->name) }}">
+                                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Enter name" value="{{ old('name', $partner->name) }}" required>
                                     @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -45,7 +44,7 @@
                                     <label for="image">Image</label>
                                     <div class="input-group">
                                         <div class="custom-file">
-                                            <input type="file" name="image" class="custom-file-input @error('image') is-invalid @enderror" id="image">
+                                            <input type="file" name="image" class="custom-file-input @error('image') is-invalid @enderror" id="image" accept="image/*">
                                             <label class="custom-file-label" for="image">Choose file</label>
                                         </div>
                                     </div>
@@ -56,7 +55,7 @@
                                     @enderror
                                     @if($partner->image)
                                     <div class="mt-2">
-                                        <img src="{{ asset('storage/'.$partner->image) }}" alt="Partner Image" style="max-width: 200px">
+                                        <img src="{{ asset('storage/'.$partner->image) }}" alt="Partner Image" class="img-thumbnail" style="max-width: 200px">
                                     </div>
                                     @endif
                                 </div>

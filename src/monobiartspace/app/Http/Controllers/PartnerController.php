@@ -24,7 +24,7 @@ class PartnerController extends Controller
     public function create()
     {
         //
-
+        return view('backend.partner.create');
     }
 
     /**
@@ -39,6 +39,16 @@ class PartnerController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
             'deskripsi' => 'required|string|max:255',
         ]);
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->move(public_path('images'), $imageName);
+        Partner::create([
+            'name' => $request->name,
+            'phone' => $request->nohp,
+            'image' => $imageName,
+            'description' => $request->deskripsi,
+        ]);
+        
+        return redirect()->route('partner.index')->with('success', 'Partner berhasil ditambahkan');
     }
 
     /**
@@ -55,7 +65,7 @@ class PartnerController extends Controller
     public function edit(Partner $partner)
     {
         //
-        return view('partner');
+        return view('backend.partner.edit', compact('partner'));
     }
 
     /**
@@ -70,6 +80,20 @@ class PartnerController extends Controller
             'image' => 'required',
             'deskripsi' => 'required',
         ]);
+
+        if ($request->hasFile('image')) {
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $partner->image = $imageName;
+        }
+
+        $partner->update([
+            'name' => $request->name,
+            'phone' => $request->nohp,
+            'description' => $request->deskripsi,
+        ]);
+
+        return redirect()->route('partner.index')->with('success', 'Partner berhasil diupdate');
     }
 
     /**
@@ -78,5 +102,7 @@ class PartnerController extends Controller
     public function destroy(Partner $partner)
     {
         //
+        $partner->delete();
+        return redirect()->route('partner.index')->with('success', 'Partner berhasil dihapus');
     }
 }
