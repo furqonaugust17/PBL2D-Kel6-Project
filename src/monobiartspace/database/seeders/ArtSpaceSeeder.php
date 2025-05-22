@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\ArtSpace;
+use App\Models\JadwalArtSpace;
+use App\Models\KegiatanArtSpace;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
