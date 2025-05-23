@@ -109,8 +109,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     },
     lang: {
       // Language variables for button
-      next: 'Next',
-      previous: 'Previous'
+      next: 'lanjut',
+      previous: 'kembali'
     },
     disabledSteps: [],
     // Array Steps disabled
@@ -266,9 +266,21 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         }); // Next button event
 
         this.main.find('.sw-btn-next').on("click", function (e) {
-          e.preventDefault();
+          const currentStep = $('#data_diri :input:visible');
+          if (currentStep.length) {
+            let isValid = true;
+            currentStep.each(function () {
+              if (!this.checkValidity()) {
+                isValid = false;
+                this.reportValidity();
+                return false;
+              }
+            });
 
-          _this._showNext();
+            if (isValid) {
+              _this._showNext();
+            }
+          }
         }); // Previous button event
 
         this.main.find('.sw-btn-prev').on("click", function (e) {
@@ -795,10 +807,13 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           switch (this._getStepPosition(idx)) {
             case 'first':
               this.main.find('.sw-btn-prev').addClass("disabled");
+              this.main.find('.sw-btn-next').html('berikut');
+              this.main.find('.sw-btn-next').attr('type', 'button');
               break;
 
             case 'last':
-              this.main.find('.sw-btn-next').addClass("disabled");
+              this.main.find('.sw-btn-next').html('Daftar');
+              this.main.find('.sw-btn-next').attr('type', 'submit');
               break;
 
             default:
