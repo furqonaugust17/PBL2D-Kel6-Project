@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Karyawan;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,6 +14,7 @@ class KaryawanSeeder extends Seeder
      */
     public function run(): void
     {
-        Karyawan::factory(100)->create();
+        User::factory(20)->create();
+        Karyawan::factory(20)->recycle([User::all()])->create();
     }
 }
