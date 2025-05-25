@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use stdClass;
 
 class PendaftaranController extends Controller
 {
@@ -225,12 +224,7 @@ class PendaftaranController extends Controller
                 'item_details'  => $detailItem
             );
 
-            // $payment = \Midtrans\Snap::createTransaction($params);
-
-            $payment = (object) [
-                'token' => '2074977f-e90b-44eb-b854-786daf1c30d2',
-                'redirect_url' => 'https://app.sandbox.midtrans.com/snap/v4/redirection/2074977f-e90b-44eb-b854-786daf1c30d2'
-            ];
+            $payment = \Midtrans\Snap::createTransaction($params);
 
             PembayaranBooking::create([
                 'order_id'  => $order_id,
