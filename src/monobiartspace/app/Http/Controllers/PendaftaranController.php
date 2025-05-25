@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PendaftaranKids;
+use App\Models\Children;
 use App\Models\DetailPendaftaran;
+use App\Models\DetailPendaftaranKid;
+use App\Models\DetailPendaftaranTema;
+use App\Models\DetailTemaKid;
 use App\Models\JadwalArtSpace;
+use App\Models\KategoriKid;
 use App\Models\KegiatanArtSpace;
 use App\Models\Kid;
 use App\Models\PembayaranBooking;
@@ -11,10 +17,20 @@ use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use stdClass;
 
 class PendaftaranController extends Controller
 {
+    public function __construct()
+    {
+        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+        \Midtrans\Config::$isProduction = env('MIDTRANS_IS_PRODUCTION');
+        \Midtrans\Config::$isSanitized = env('MIDTRANS_IS_SANITIZED');
+        \Midtrans\Config::$is3ds = env('MIDTRANS_IS_3DS');
+    }
+
     public function artSpace()
     {
         $kegiatanArtSpace = KegiatanArtSpace::all();
@@ -53,18 +69,6 @@ class PendaftaranController extends Controller
                 'tanggal_reservasi' => $request->tanggal
             ]);
 
-
-
-
-            // Redirect atau return Midtrans Snap Token
-            // Set your Merchant Server Key
-            \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-            // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-            \Midtrans\Config::$isProduction = env('MIDTRANS_IS_PRODUCTION');
-            // Set sanitization on (default)
-            \Midtrans\Config::$isSanitized = env('MIDTRANS_IS_SANITIZED');
-            // Set 3DS transaction for credit card to true
-            \Midtrans\Config::$is3ds = env('MIDTRANS_IS_3DS');
 
             $kegiatans = KegiatanArtSpace::all()->keyBy('id');
             $participants = collect($request->participants);
@@ -137,5 +141,175 @@ class PendaftaranController extends Controller
     {
         $kids = Kid::all();
         return view('frontend.booking.kid', compact('kids'));
+    }
+
+    public function storekids(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $userData = Auth::user();
+            $customerData = $userData->customer;
+
+            $currentParticipantCount = DetailPendaftaranKid::where('jadwal_id', $request->jadwal)->get()->count();
+
+            $maxCapacity = 10;
+
+            if ($currentParticipantCount > $maxCapacity) {
+                return response()->json(['message' => 'Sesi sudah penuh!'], 400);
+            }
+
+            $calculate = $this->calculateTransaction($request)->getData();
+            $children = Children::where('nama_lengkap', $request->nama_lengkap)->where('tgl_lahir', $request->tanggal_lahir)->where('parent_id', $customerData->id)->first();
+            if (!$children) {
+                $children = Children::create([
+                    'parent_id' => $customerData->id,
+                    'nama_lengkap'  => $request->nama_lengkap,
+                    'panggilan'  => $request->nama_panggilan,
+                    'tgl_lahir' => $request->tanggal_lahir,
+                ]);
+            }
+
+            $total_price = $calculate->total_bayar;
+            $hargaAwal = $calculate->harga;
+            $diskon = $calculate->diskon;
+
+            $booking = Pendaftaran::create([
+                'type'  => 'kids',
+                'customer_id'   => $customerData->id,
+                'total_price'   => $total_price
+            ]);
+
+            $detailBooking = DetailPendaftaranKid::create([
+                'pendaftaran_id'    => $booking->id,
+                'children_id'   => $children->id,
+                'jadwal_id' => $request->jadwal,
+            ]);
+
+            foreach ($request->tema as $index => $tema) {
+                DetailPendaftaranTema::create([
+                    'detail_pendaftaran_id' => $detailBooking->id,
+                    'tema_id'   => $tema,
+                ]);
+            }
+
+            $temaModel = DetailTemaKid::all()->keyBy('id');
+            $temas = collect($request->tema);
+            $detailItem = $temas->map(function ($tema_id) use ($temaModel) {
+                $tema = $temaModel[$tema_id] ?? null;
+                return [
+                    'id' => 'tema_' . $tema_id,
+                    'name' => $tema->nama ?? 'Unknown',
+                    'quantity' => 1,
+                    'price' => 80000
+                ];
+            })->values()->toArray();
+
+            array_push($detailItem, [
+                'id' => 'D01',
+                'name' => 'Diskon',
+                'quantity' => 1,
+                'price' => -$diskon
+            ]);
+
+            $order_id = 'booking-kids-' . $customerData->id .  '-' . now()->format('YmdHis') . '-' . Str::random(4);
+            $params = array(
+                'transaction_details' => array(
+                    'order_id' => $order_id,
+                    'gross_amount' => $total_price,
+                ),
+                'customer_details' => array(
+                    'first_name' => $customerData->nama_lengkap,
+                    'email' => $userData->email,
+                    'phone' => $customerData->notelp,
+                ),
+                'item_details'  => $detailItem
+            );
+
+            // $payment = \Midtrans\Snap::createTransaction($params);
+
+            $payment = (object) [
+                'token' => '2074977f-e90b-44eb-b854-786daf1c30d2',
+                'redirect_url' => 'https://app.sandbox.midtrans.com/snap/v4/redirection/2074977f-e90b-44eb-b854-786daf1c30d2'
+            ];
+
+            PembayaranBooking::create([
+                'order_id'  => $order_id,
+                'pendaftaran_id'    => $booking->id,
+                'amount'    => $total_price,
+                'snap_token'    => $payment->token,
+                'snap_url'      => $payment->redirect_url
+            ]);
+
+            DB::commit();
+            $mailData = [
+                'nama_orang_tua' => $customerData->nama_lengkap,
+                'nama_lengkap' => $children->nama_lengkap,
+                'nama_panggilan'    => $children->panggilan,
+                'kelas' => Kid::find($request->kelas)->nama,
+                'kategori'  => KategoriKid::find($request->kategori)->nama,
+                'tema'  => $temas->map(function ($tema_id) use ($temaModel) {
+                    $tema = $temaModel[$tema_id] ?? null;
+                    return $tema->nama . " (Week " . $tema['week'] . " )" ?? 'Unknown';
+                })->values()->toArray(),
+                'no_telepon'   => $customerData->notelp,
+                'status_pembayaran' => 'Pending',
+                'snap_url'  => $payment->redirect_url,
+                'harga_awal' => $hargaAwal,
+                'diskon' => $diskon,
+                'total_pembayaran' => $total_price
+            ];
+
+            Mail::to($userData->email)->send(new PendaftaranKids($mailData));
+            return response()->json([
+                'message' => 'Booking berhasil dibuat.',
+                'snapToken' => $payment->token
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'message' => 'Gagal membuat booking: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function calculateTransaction(Request $request)
+    {
+        $hargaSatuan = 80000;
+        $diskon = 0;
+        $jumlahTema = count($request->tema);
+        if ($jumlahTema == 3) {
+            $diskon = 10000;
+        } elseif ($jumlahTema == 4) {
+            $diskon = 20000;
+        }
+        $temaModel = DetailTemaKid::all()->keyBy('id');
+        $temas = collect($request->tema);
+        $detailTema = $temas->map(function ($tema_id) use ($temaModel) {
+            $tema = $temaModel[$tema_id] ?? null;
+            return [
+                'id'    => $tema_id,
+                'nama' => $tema->nama ?? 'Unknown',
+            ];
+        })->values()->toArray();
+        return response()->json(['harga' => ($jumlahTema * $hargaSatuan), 'diskon' => $diskon, 'total_bayar' => (($jumlahTema * $hargaSatuan) - $diskon), 'tema' => $detailTema]);
+    }
+
+    public function sendMail()
+    {
+        $data = [
+            'nama_orang_tua' => 'Furqon August Seventeenth',
+            'nama_lengkap' => 'Furqon August Seventeenth',
+            'nama_panggilan'    => 'Furqon',
+            'kelas' => 'KiddyNest',
+            'kategori'  => 'Kindergarten',
+            'tema'  => [
+                'Flowers in Bloom',
+                "The Best Bird's Nest"
+            ],
+            'no_telepon'   => '+6283180231',
+            'status_pembayaran' => 'Pending',
+            'snap_url'  => 'https://billing.web.id'
+        ];
+        Mail::to('furqonaugustseventeenth@gmail.com')->send(new PendaftaranKids($data));
     }
 }
