@@ -11,7 +11,7 @@ class JadwalKid extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = ['hari', 'mulai', 'akhir', 'kategori_id'];
-    protected $with = ['kategori'];
+    // protected $with = ['kategori'];
 
     public function kategori(): BelongsTo
     {

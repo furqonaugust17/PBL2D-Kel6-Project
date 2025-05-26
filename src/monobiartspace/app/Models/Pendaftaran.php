@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Pendaftaran extends Model
@@ -12,10 +14,20 @@ class Pendaftaran extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = ['type', 'customer_id', 'total_price', 'tanggal_reservasi', 'schedule_id'];
-    protected $with = ['detailPendaftaran'];
+    // protected $with = ['detailPendaftaran', 'detailPendaftaranKid'];
 
     public function detailPendaftaran(): HasMany
     {
         return $this->hasMany(DetailPendaftaran::class, 'pendaftaran_id');
+    }
+
+    public function detailPendaftaranKid(): HasOne
+    {
+        return $this->hasOne(DetailPendaftaranKid::class, 'pendaftaran_id');
+    }
+
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
     }
 }

@@ -11,7 +11,7 @@ class KategoriKid extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = ['nama', 'deskripsi', 'kid_id'];
-    protected $with = ['kid'];
+    // protected $with = ['kid'];
 
     public function kid(): BelongsTo
     {

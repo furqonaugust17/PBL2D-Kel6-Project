@@ -12,7 +12,7 @@ class TemaKid extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = ['nama', 'waktu', 'kid_id'];
-    protected $with = ['kid', 'detailTema'];
+    // protected $with = ['kid', 'detailTema'];
 
     public function kid(): BelongsTo
     {

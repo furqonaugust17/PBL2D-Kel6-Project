@@ -11,7 +11,7 @@ class KegiatanArtSpace extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = ['nama', 'harga', 'artspace_id'];
-    protected $with = ['artspace'];
+    // protected $with = ['artspace'];
 
     public function artspace(): BelongsTo
     {
