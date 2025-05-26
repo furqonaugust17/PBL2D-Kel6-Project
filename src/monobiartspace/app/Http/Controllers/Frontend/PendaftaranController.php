@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Frontend;
 
+use App\Http\Controllers\Controller;
+use App\Mail\PendaftaranArtSpace;
 use App\Mail\PendaftaranKids;
 use App\Models\Children;
 use App\Models\DetailPendaftaran;
@@ -14,6 +16,7 @@ use App\Models\KegiatanArtSpace;
 use App\Models\Kid;
 use App\Models\PembayaranBooking;
 use App\Models\Pendaftaran;
+use App\Services\PembayaranService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -45,6 +48,8 @@ class PendaftaranController extends Controller
         // return view('frontend.booking.artspace', compact('kegiatanArtSpace', 'jadwalArtSpace'));
         DB::beginTransaction();
         try {
+            $userData = Auth::user();
+            $customerData = $userData->customer;
             $session = JadwalArtSpace::findOrFail($request->sesi);
 
             // Hitung total peserta yang sudah booking untuk sesi tersebut
@@ -63,7 +68,7 @@ class PendaftaranController extends Controller
 
             $booking = Pendaftaran::create([
                 'type'  => 'artspace',
-                'customer_id'   => Auth::user()->customer->id,
+                'customer_id'   => $customerData->id,
                 'schedule_id' => $request->sesi,
                 'tanggal_reservasi' => $request->tanggal
             ]);
@@ -98,35 +103,39 @@ class PendaftaranController extends Controller
 
             $booking->update(['total_price' => $total_price]);
 
-            $order_id = 'booking-artspace-' . Auth::user()->customer->id .  '-' . now()->format('YmdHis') . '-' . Str::random(4);
+            $order_id = 'booking-artspace-' . $customerData->id .  '-' . now()->format('YmdHis') . '-' . Str::random(4);
             $params = array(
                 'transaction_details' => array(
                     'order_id' => $order_id,
                     'gross_amount' => $total_price,
                 ),
                 'customer_details' => array(
-                    'first_name' => Auth::user()->customer->nama_lengkap,
-                    'email' => Auth::user()->email,
-                    'phone' => Auth::user()->customer->notelp,
+                    'first_name' => $customerData->nama_lengkap,
+                    'email' => $userData->email,
+                    'phone' => $customerData->notelp,
                 ),
                 'item_details' => $detailItem
             );
 
-            $snapToken = \Midtrans\Snap::getSnapToken($params);
+            $payment = \Midtrans\Snap::createTransaction($params);
 
             PembayaranBooking::create([
                 'order_id'  => $order_id,
                 'pendaftaran_id'    => $booking->id,
                 'amount'    => $total_price,
-                'snap_token'    => $snapToken
+                'snap_token'    => $payment->token,
+                'snap_url'  => $payment->redirect_url
             ]);
 
             DB::commit();
 
+            $mailData = PembayaranService::makeMailDataArtSpace($order_id);
+
+            Mail::to($userData->email)->send(new PendaftaranArtSpace($mailData));
 
             return response()->json([
                 'message' => 'Booking berhasil dibuat.',
-                'snapToken' => $snapToken
+                'snapToken' => $payment->token
             ]);
         } catch (\Exception $e) {
             DB::rollback();
@@ -134,6 +143,24 @@ class PendaftaranController extends Controller
                 'message' => 'Gagal membuat booking: ' . $e->getMessage(),
             ], 500);
         }
+    }
+
+    public function calculateArtSpaceTransaction(Request $request)
+    {
+        $kegiatans = KegiatanArtSpace::all()->keyBy('id');
+        $participants = collect($request->participants);
+        $total_bayar = 0;
+        $detailItem = $participants->groupBy('activity_id')->map(function ($group, $activity_id) use ($kegiatans, &$total_bayar) {
+            $kegiatan = $kegiatans[$activity_id] ?? null;
+            $total_bayar += $kegiatan->harga;
+            return [
+                'id' => 'activity_' . $activity_id,
+                'name' => $kegiatan->nama ?? 'Unknown',
+                'quantity' => intval($group->count()),
+                'price' => intval($kegiatan->harga ?? 0)
+            ];
+        })->values()->toArray();
+        return response()->json(['data' => $detailItem, 'total_bayar' => $total_bayar]);
     }
 
     public function kids()
@@ -157,7 +184,7 @@ class PendaftaranController extends Controller
                 return response()->json(['message' => 'Sesi sudah penuh!'], 400);
             }
 
-            $calculate = $this->calculateTransaction($request)->getData();
+            $calculate = $this->calculateKidTransaction($request)->getData();
             $children = Children::where('nama_lengkap', $request->nama_lengkap)->where('tgl_lahir', $request->tanggal_lahir)->where('parent_id', $customerData->id)->first();
             if (!$children) {
                 $children = Children::create([
@@ -235,23 +262,8 @@ class PendaftaranController extends Controller
             ]);
 
             DB::commit();
-            $mailData = [
-                'nama_orang_tua' => $customerData->nama_lengkap,
-                'nama_lengkap' => $children->nama_lengkap,
-                'nama_panggilan'    => $children->panggilan,
-                'kelas' => Kid::find($request->kelas)->nama,
-                'kategori'  => KategoriKid::find($request->kategori)->nama,
-                'tema'  => $temas->map(function ($tema_id) use ($temaModel) {
-                    $tema = $temaModel[$tema_id] ?? null;
-                    return $tema->nama . " (Week " . $tema['week'] . " )" ?? 'Unknown';
-                })->values()->toArray(),
-                'no_telepon'   => $customerData->notelp,
-                'status_pembayaran' => 'Pending',
-                'snap_url'  => $payment->redirect_url,
-                'harga_awal' => $hargaAwal,
-                'diskon' => $diskon,
-                'total_pembayaran' => $total_price
-            ];
+
+            $mailData = PembayaranService::makeMailDataKids($order_id);
 
             Mail::to($userData->email)->send(new PendaftaranKids($mailData));
             return response()->json([
@@ -266,7 +278,7 @@ class PendaftaranController extends Controller
         }
     }
 
-    public function calculateTransaction(Request $request)
+    public function calculateKidTransaction(Request $request)
     {
         $hargaSatuan = 80000;
         $diskon = 0;
@@ -286,24 +298,5 @@ class PendaftaranController extends Controller
             ];
         })->values()->toArray();
         return response()->json(['harga' => ($jumlahTema * $hargaSatuan), 'diskon' => $diskon, 'total_bayar' => (($jumlahTema * $hargaSatuan) - $diskon), 'tema' => $detailTema]);
-    }
-
-    public function sendMail()
-    {
-        $data = [
-            'nama_orang_tua' => 'Furqon August Seventeenth',
-            'nama_lengkap' => 'Furqon August Seventeenth',
-            'nama_panggilan'    => 'Furqon',
-            'kelas' => 'KiddyNest',
-            'kategori'  => 'Kindergarten',
-            'tema'  => [
-                'Flowers in Bloom',
-                "The Best Bird's Nest"
-            ],
-            'no_telepon'   => '+6283180231',
-            'status_pembayaran' => 'Pending',
-            'snap_url'  => 'https://billing.web.id'
-        ];
-        Mail::to('furqonaugustseventeenth@gmail.com')->send(new PendaftaranKids($data));
     }
 }
