@@ -1,6 +1,7 @@
 @section('script')
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
         data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#form').on('submit', function(e) {
@@ -26,7 +27,7 @@
                 });
 
                 $.ajax({
-                    url: "{{ route('booking.artspace.store') }}",
+                    url: "{{ route('booking.artspace.calculate') }}",
                     type: 'POST',
                     data: {
                         tanggal,
@@ -35,10 +36,83 @@
                     },
                     success: function(data) {
                         console.log(data);
-                        window.snap.pay(`${data.snapToken}`);
-                        // window.snap.pay(`${data.snapToken}`, {
-                        //     embedId: 'snap-container'
-                        // });
+                        // window.snap.pay(`${data.snapToken}`);
+                        Swal.fire({
+                            title: "Konfirmasi Pendaftaran",
+                            width: 750,
+                            showCancelButton: true,
+                            confirmButtonText: "Daftar",
+                            denyButtonText: `Kembali`,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            html: `
+                            <table class="text-start w-100">
+                        <tr>
+                            <td>Tanggal Booking</td>
+                            <td>:</td>
+                            <td id="tgl-booking">${tanggal}</td>
+                        </tr>
+                        <tr>
+                            <td>Sesi</td>
+                            <td>:</td>
+                            <td id="sesi">${$(
+                                `select[name="sesi"] option[value="${sesi}"]`).html()}</td>
+                        </tr>
+                        <tr class="align-top">
+                            <td>Kegiatan</td>
+                            <td>:</td>
+                            <td id="kegiatan">
+                                 <ul class="m-0" style="list-style-type: '- '; padding-left: 1.2em;">${ participants.map((value, index) => `
+                                    <li>${value.name} (${data.data[index].name} ${data.data[index].price} )</li>
+                                    `).join('')}
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Total Pembayaran</td>
+                            <td>:</td>
+                            <td><b>${data.total_bayar}</b></td>
+                        </tr>
+                    </table>
+                            `,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: "{{ route('booking.artspace.store') }}",
+                                    type: "POST",
+                                    data: {
+                                        tanggal,
+                                        sesi,
+                                        participants
+                                    },
+                                    beforeSend: function() {
+                                        Swal.fire({
+                                            title: 'Memproses...',
+                                            text: 'Mohon tunggu sebentar',
+                                            allowOutsideClick: false,
+                                            didOpen: () => {
+                                                Swal
+                                                    .showLoading();
+                                            }
+                                        });
+                                    },
+                                    success: function(data) {
+                                        Swal.close();
+                                        window.snap.pay(
+                                            `${data.snapToken}`);
+                                    },
+                                    error: function(xhr, status, error) {
+                                        Swal.close();
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "Oops...",
+                                            text: xhr.responseJSON
+                                                .message,
+                                        });
+                                    },
+                                })
+                            }
+                        })
                     }
                 })
                 console.log({
@@ -58,16 +132,21 @@
             const html = `
         <div class="participant">
             <label>Nama Peserta:</label>
-            <input type="text" name="participants[][name]">
+            <input type="text" name="participants[][name]" required>
             <label>Pilih Kegiatan:</label>
             <select name="participants[][activity_id]">
                 @foreach ($kegiatanArtSpace as $kegiatan)
                     <option value="{{ $kegiatan->id }}">{{ $kegiatan->nama }} - Rp {{ $kegiatan->harga }}</option>
                 @endforeach
             </select>
+            <button type="button" onclick="removeParticipant(this)">- Hapus Peserta</button>
         </div>`;
             container.insertAdjacentHTML('beforeend', html);
             counterParticipant++;
+        }
+
+        function removeParticipant(elemet) {
+            $(elemet).closest('div.participant').remove();
         }
     </script>
 @endsection
@@ -91,7 +170,7 @@
             <div id="participants">
                 <div class="participant">
                     <label>Nama Peserta:</label>
-                    <input type="text" name="participants[][name]">
+                    <input type="text" name="participants[][name]" required>
                     <label>Pilih Kegiatan:</label>
                     <select name="participants[][activity_id]">
                         @foreach ($kegiatanArtSpace as $kegiatan)
