@@ -63,8 +63,8 @@
                             <td>:</td>
                             <td id="kegiatan">
                                  <ul class="m-0" style="list-style-type: '- '; padding-left: 1.2em;">${ participants.map((value, index) => `
-                                    <li>${value.name} (${data.data[index].name} ${data.data[index].price} )</li>
-                                    `).join('')}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <li>${value.name} (${data.data[index].name} ${data.data[index].price} )</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    `).join('')}
                                 </ul>
                             </td>
                         </tr>
@@ -130,59 +130,162 @@
         function addParticipant() {
             const container = document.getElementById('participants');
             const html = `
-        <div class="participant">
-            <label>Nama Peserta:</label>
-            <input type="text" name="participants[][name]" required>
-            <label>Pilih Kegiatan:</label>
-            <select name="participants[][activity_id]">
-                @foreach ($kegiatanArtSpace as $kegiatan)
-                    <option value="{{ $kegiatan->id }}">{{ $kegiatan->nama }} - Rp {{ $kegiatan->harga }}</option>
-                @endforeach
-            </select>
-            <button type="button" onclick="removeParticipant(this)">- Hapus Peserta</button>
-        </div>`;
+        <tr class="participant">
+            <td>
+                <div class="row">
+                    <label class="col-sm-4 col-form-label">Nama Peserta</label>
+                    <div class="col-sm-8" style="padding-left: 1.4rem !important;">
+                        <input type="text" class="form-control" name="participants[][name]"
+                            required>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="row">
+                    <label class="col-sm-4 col-form-label text-end">Kegiatan</label>
+                    <div class="col-sm-8">
+                        <select name="participants[][activity_id]" class="form-control">
+                            @foreach ($kegiatanArtSpace as $kegiatan)
+                                <option value="{{ $kegiatan->id }}">{{ $kegiatan->nama }} - Rp
+                                    {{ $kegiatan->harga }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </td>
+            <td>
+                    <button type="button" class="btn btn-danger w-100" onclick="removeParticipant(this)"><i
+                        class="bi bi-trash"></i></button>
+            </td>
+        </tr>
+        
+        `;
             container.insertAdjacentHTML('beforeend', html);
             counterParticipant++;
         }
 
         function removeParticipant(elemet) {
-            $(elemet).closest('div.participant').remove();
+            $(elemet).closest('tr.participant').remove();
         }
     </script>
 @endsection
 <x-app>
-    <section class="mt-4">
-        <form action="{{ route('booking.artspace.store') }}" method="POST" id="form">
-            @csrf
-            <div class="booking-date">
-                <label>Tanggal Akan Datang:</label>
-                <input type="date" name="tanggal" id="">
-            </div>
-            <div class="session">
-                <label>Sesi:</label>
-                <select name="sesi">
-                    @foreach ($jadwalArtSpace as $jadwal)
-                        <option value="{{ $jadwal->id }}">{{ $jadwal->sesi }} {{ $jadwal->mulai }} -
-                            {{ $jadwal->akhir }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div id="participants">
-                <div class="participant">
-                    <label>Nama Peserta:</label>
-                    <input type="text" name="participants[][name]" required>
-                    <label>Pilih Kegiatan:</label>
-                    <select name="participants[][activity_id]">
-                        @foreach ($kegiatanArtSpace as $kegiatan)
-                            <option value="{{ $kegiatan->id }}">{{ $kegiatan->nama }} - Rp {{ $kegiatan->harga }}
-                            </option>
-                        @endforeach
-                    </select>
+    <div class="page-title light-background">
+        <div class="container">
+            <h1>Booking ArtSpace</h1>
+        </div>
+    </div>
+    <section class="section">
+        <div class="container">
+            <form action="{{ route('booking.artspace.store') }}" method="POST" id="form">
+                @csrf
+                {{-- <div class="mb-3 row booking-date">
+                    <label for="booking-date" class="col-sm-2 col-form-label">Tanggal Akan Datang</label>
+                    <div class="col-sm-10">
+                        <input type="date" class="form-control" name="tanggal" id="booking-date">
+                    </div>
                 </div>
-            </div>
-            <button type="button" onclick="addParticipant()">+ Tambah Peserta</button>
-            <button type="submit">Daftar</button>
-        </form>
-        <div id="snap-container"></div>
+                <div class="mb-3 row session">
+                    <label for="session" class="col-sm-2 col-form-label">Sesi</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" name="sesi" id="session">
+                            @foreach ($jadwalArtSpace as $jadwal)
+                                <option value="{{ $jadwal->id }}">{{ $jadwal->sesi }} {{ $jadwal->mulai }} -
+                                    {{ $jadwal->akhir }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div> --}}
+                {{-- <div id="participants"> --}}
+                <table class="w-100">
+                    <thead>
+                        <tr>
+                            <td colspan="2">
+                                <div class="row">
+                                    <label for="booking-date" class="col-sm-2 col-form-label">Tanggal Akan
+                                        Datang</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="sesi" id="session">
+                                            @foreach ($jadwalArtSpace as $jadwal)
+                                                <option value="{{ $jadwal->id }}">{{ $jadwal->sesi }}
+                                                    {{ $jadwal->mulai }} -
+                                                    {{ $jadwal->akhir }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="row">
+                                    <label for="session" class="col-sm-2 col-form-label">Sesi</label>
+                                    <div class="col-sm-10">
+                                        <input type="date" class="form-control" name="tanggal" id="booking-date">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody id="participants">
+                        <tr class="participant">
+                            <td>
+                                <div class="row">
+                                    <label class="col-sm-4 col-form-label">Nama Peserta</label>
+                                    <div class="col-sm-8" style="padding-left: 1.4rem !important;">
+                                        <input type="text" class="form-control" name="participants[][name]" required>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="row">
+                                    <label class="col-sm-4 col-form-label text-end">Kegiatan</label>
+                                    <div class="col-sm-8">
+                                        <select name="participants[][activity_id]" class="form-control">
+                                            @foreach ($kegiatanArtSpace as $kegiatan)
+                                                <option value="{{ $kegiatan->id }}">{{ $kegiatan->nama }} - Rp
+                                                    {{ $kegiatan->harga }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3">
+                                <button type="button" class="btn btn-secondary w-100" onclick="addParticipant()">+
+                                    Tambah
+                                    Peserta</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                {{-- <div class="d-flex justify-content-end"> --}}
+                                <button type="submit" class="btn btn-primary w-100">Daftar</button>
+                                {{-- </div> --}}
+                            </td>
+                        </tr>
+                    </tfoot>
+                    {{-- <div class="participant">
+                            <label>Nama Peserta</label>
+                            <input type="text" class="form-control" name="participants[][name]" required>
+                            <label>Pilih Kegiatan</label>
+                            <select name="participants[][activity_id]" class="form-control">
+                                @foreach ($kegiatanArtSpace as $kegiatan)
+                                    <option value="{{ $kegiatan->id }}">{{ $kegiatan->nama }} - Rp
+                                        {{ $kegiatan->harga }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div> --}}
+                </table>
+                {{-- </div> --}}
+            </form>
+            <div id="snap-container"></div>
+        </div>
     </section>
 </x-app>
