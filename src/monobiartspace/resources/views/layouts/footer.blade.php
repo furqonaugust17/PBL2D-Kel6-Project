@@ -1,4 +1,4 @@
-<footer id="footer" class="footer dark-background">
+<footer id="footer" class="footer">
 
     <div class="container footer-top">
         <div class="row gy-4">
@@ -14,8 +14,9 @@
                 </div>
                 <div class="social-links d-flex mt-4">
                     <a href="https://www.instagram.com/monobiartspace/"><i class="bi bi-instagram"></i></a>
-                    <a href="https://api.whatsapp.com/message/NET2VNNU3DNAD1?autoload=1&app_absent=0"><i
-                            class="bi bi-whatsapp"></i></a>
+                    <a href="https://api.whatsapp.com/message/NET2VNNU3DNAD1?autoload=1&app_absent=0">
+                        <i class="bi bi-whatsapp"></i>
+                    </a>
                 </div>
             </div>
         </div>
