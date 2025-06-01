@@ -20,7 +20,7 @@ jobs:
             cd /var/www/monobiartspace
             git pull origin ${{ github.ref_name }}
             cd src/monobiartspace
-            composer install --no-interaction --prefer-dist --optimize-autoloader
+            COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist --optimize-autoloader
             rm .env
             cp .env.example .env
             echo "DB_CONNECTION=mysql" >> .env
