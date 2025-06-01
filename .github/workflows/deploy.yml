@@ -21,14 +21,6 @@ jobs:
             git pull origin ${{ github.ref_name }}
             cd src/monobiartspace
             COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist --optimize-autoloader
-            rm .env
-            cp .env.example .env
-            echo "DB_CONNECTION=mysql" >> .env
-            echo "DB_HOST=127.0.0.1" >> .env
-            echo "DB_PORT=3306" >> .env
-            echo "DB_DATABASE=monobiartspace" >> .env
-            echo "DB_USERNAME=${{ secrets.USER }}" >> .env
-            echo "DB_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
             php artisan key:generate
             php artisan migrate:fresh
             php artisan config:clear
