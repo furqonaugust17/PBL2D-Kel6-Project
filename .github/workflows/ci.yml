@@ -59,11 +59,11 @@ jobs:
       - name: Generate application key
         run: php artisan key:generate
 
-      - name: Run RoleAndPermissionSeeder
-        run: php artisan db:seed --class=RolesAndPermissionsSeeder
-
       - name: Run migrations
         run: php artisan migrate --force
+
+      - name: Run RoleAndPermissionSeeder
+        run: php artisan db:seed --class=RolesAndPermissionsSeeder
 
       - name: Run code linting
         run: vendor/bin/pint
