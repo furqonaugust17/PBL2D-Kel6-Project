@@ -17,7 +17,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            cd /var/www/project-laravel
+            cd /var/www/monobiartspace
             git pull origin ${{ github.ref_name }}
             composer install --no-interaction --prefer-dist --optimize-autoloader
             php artisan migrate --force
