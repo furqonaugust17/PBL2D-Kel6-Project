@@ -60,7 +60,7 @@ jobs:
         run: php artisan key:generate
 
       - name: Run RoleAndPermissionSeeder
-        run: php artisan db:seed --class=RoleAndPermissionsSeeder
+        run: php artisan db:seed --class=RolesAndPermissionsSeeder
 
       - name: Run migrations
         run: php artisan migrate --force
