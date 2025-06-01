@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RuangController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landing-page.index');
 });
 
 Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdmin']], function () {
