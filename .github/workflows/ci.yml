@@ -28,7 +28,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: src/project-laravel
+        working-directory: src/monobiartspace
 
     steps:
       - name: Checkout code
