@@ -3,19 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Partner;
+use App\Services\ImagesService;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class PartnerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    protected $imagesService;
+
+    public function __construct(ImagesService $imagesService)
+    {
+        $this->imagesService = $imagesService;
+    }
     public function index()
     {
-        //
-        return view('backend.partner.index', [
-            'partners' => Partner::all()
-        ]);
+        if (request()->ajax()) {
+            $partner = Partner::query();
+            return DataTables::of($partner)->make();
+        }
+        
+        return view('backend.partner.index');
     }
 
     /**
@@ -35,15 +45,14 @@ class PartnerController extends Controller
         //
         $request->validate([
             'name' => 'required|string|max:255',
-            'nohp' => 'required|string|max:15',
+            'notelp' => 'required|string|max:15',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
             'deskripsi' => 'required|string|max:255',
         ]);
-        $imageName = time().'.'.$request->image->extension();
-        $request->image->move(public_path('images'), $imageName);
+       $imageName= $this->imagesService->uploadImages($request->file('image'), 'partner');
         Partner::create([
             'name' => $request->name,
-            'phone' => $request->nohp,
+            'phone' => $request->notelp,
             'image' => $imageName,
             'description' => $request->deskripsi,
         ]);

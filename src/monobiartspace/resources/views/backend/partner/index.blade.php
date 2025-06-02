@@ -23,13 +23,19 @@
                             data: 'name',
                         },
                         {
-                            data: 'notelp',
+                            data: 'phone',
                         },
                         {
                             data: 'image',
+                                                        "render": function(data, type, row) {
+                                let uriImage = "{{ asset('storage/:gambar') }}"
+                                    .replace(
+                                        ':gambar', data);
+                                return `<img src="${uriImage}" alt="partner">`
+                            }
                         },
                         {
-                            data: 'deskripsi',
+                            data: 'description',
                         },
                         {
                             data: 'id',
