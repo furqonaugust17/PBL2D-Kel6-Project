@@ -8,7 +8,7 @@
                 <div class="col-lg-6">
                     <div class="hero-content" data-aos="fade-up" data-aos-delay="200">
                         <h1 class="mb-4">
-                            Temukan <br>
+                            Cari <br>
                             Kesenanganmu <br>
                             Di <span class="accent-text">Monobi</span>
                         </h1>
