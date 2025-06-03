@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RuangController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -12,6 +14,15 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified']], func
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+
+    Route::middleware(['ExceptSupervisor'])->group(function() {
+        Route::resource('ruang', RuangController::class)->except(['index']);
+        Route::resource('fasilitas', FasilitasController::class)->except(['index']);
+    });
+
+        Route::resource('ruang', RuangController::class)->only(['index']);
+        Route::resource('fasilitas', FasilitasController::class)->only(['index']);
 });
 
 Route::middleware('auth')->group(function () {
