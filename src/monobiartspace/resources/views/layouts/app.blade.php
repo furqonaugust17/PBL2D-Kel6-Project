@@ -7,6 +7,7 @@
     <title>Index - iLanding Bootstrap Template</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicons -->
     <link href="{{ asset('landing-page/assets/img/favicon.png') }}" rel="icon">
@@ -28,6 +29,7 @@
 
     <!-- Main CSS File -->
     <link href="{{ asset('landing-page/assets/css/main.css') }}" rel="stylesheet">
+    @yield('css')
 
 </head>
 
