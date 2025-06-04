@@ -13,8 +13,18 @@ class Pendaftaran extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['type', 'customer_id', 'total_price', 'tanggal_reservasi', 'schedule_id'];
+    protected $fillable = ['type', 'customer_id', 'nominal', 'diskon', 'tanggal_reservasi', 'sesi', 'status'];
     // protected $with = ['detailPendaftaran', 'detailPendaftaranKid'];
+
+    public function pembayaran(): HasOne
+    {
+        return $this->hasOne(PembayaranBooking::class);
+    }
+
+    public function sesis(): BelongsTo
+    {
+        return $this->belongsTo(JadwalArtSpace::class, 'sesi');
+    }
 
     public function detailPendaftaran(): HasMany
     {
