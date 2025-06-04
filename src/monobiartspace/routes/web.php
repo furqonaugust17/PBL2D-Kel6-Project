@@ -16,8 +16,6 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
 });
 
 Route::get('product/{artSpace}', [productController::class, 'index'])->name('product.index');
-Route::get('email', [PendaftaranController::class, 'sendMail']);
-Route::get('data', [PaymentController::class, 'testing']);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('booking/artspace', [PendaftaranController::class, 'artSpace'])->name('booking.artspace');
@@ -27,6 +25,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('booking/kids', [PendaftaranController::class, 'kids'])->name('booking.kids');
     Route::post('booking/kids', [PendaftaranController::class, 'storeKids'])->name('booking.kids.store');
     Route::post('booking/kids/calculate', [PendaftaranController::class, 'calculateKidTransaction'])->name('booking.kids.calculate');
+
+    Route::get('booking', [PendaftaranController::class, 'index'])->name('booking');
+    Route::get('booking/detail/{id}', [PendaftaranController::class, 'show'])->name('booking.show');
+    Route::post('booking/cancel/{id}', [PendaftaranController::class, 'cancel'])->name('booking.cancel');
 });
 
 Route::middleware('auth')->group(function () {
