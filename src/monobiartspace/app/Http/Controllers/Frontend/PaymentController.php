@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\PendaftaranArtSpace;
 use App\Mail\PendaftaranKids;
 use App\Models\PembayaranBooking;
+use App\Models\Pendaftaran;
 use App\Services\PembayaranService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -29,18 +30,21 @@ class PaymentController extends Controller
         $order_id = $notif->order_id;
         $fraud = $notif->fraud_status;
 
-
-        $payment = PembayaranBooking::where('order_id', $order_id);
+        $order_id = $request->order_id;
+        $payment = PembayaranBooking::with('pendaftaran')->where('order_id', $order_id)->first();
+        $pendaftaran = $payment->pendaftaran;
+        $pendaftaran->status = 'menunggu kedatangan';
+        $pendaftaran->save();
         $payment->update([
             'status' => $transaction,
             'payment_method' => $type
         ]);
 
         if (str_contains($order_id, 'kids')) {
-            $mailData = PembayaranService::makeMailDataKids($order_id);
+            $mailData = PembayaranService::getDataPembayaranKids($order_id);
             Mail::to($mailData['email'])->send(new PendaftaranKids($mailData));
         } else {
-            $mailData = PembayaranService::makeMailDataArtSpace($order_id);
+            $mailData = PembayaranService::getDataPembayaranArtSpace($order_id);
             Mail::to($mailData['email'])->send(new PendaftaranArtSpace($mailData));
         }
 
