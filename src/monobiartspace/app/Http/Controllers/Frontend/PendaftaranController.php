@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use stdClass;
+use Yajra\DataTables\Facades\DataTables;
 
 class PendaftaranController extends Controller
 {
@@ -31,6 +33,43 @@ class PendaftaranController extends Controller
         \Midtrans\Config::$isProduction = env('MIDTRANS_IS_PRODUCTION');
         \Midtrans\Config::$isSanitized = env('MIDTRANS_IS_SANITIZED');
         \Midtrans\Config::$is3ds = env('MIDTRANS_IS_3DS');
+    }
+
+    public function index()
+    {
+        if (request()->ajax()) {
+            $pendaftaran = Pendaftaran::with('pembayaran');
+            return DataTables::of($pendaftaran)->addColumn('amount', function ($row) {
+                return "Rp " . number_format($row->amount, 0, ',', '.');
+            })->addColumn('tanggal_reservasi', function ($row) {
+                return $row->tanggal_reservasi != null ? \Carbon\Carbon::parse($row->tanggal_reservasi)->translatedFormat('j F Y') : '-';
+            })->filterColumn('amount', function ($query, $keyword) {
+                $query->whereRaw("amount LIKE ?", ["%{$keyword}%"]);
+            })->filterColumn('tanggal_reservasi', function ($query, $keyword) {
+                $query->whereRaw("DATE_FORMAT(tanggal_reservasi, '%j %M %Y') LIKE ?", ["%{$keyword}%"]);
+            })->make();
+        }
+
+        return view('frontend.booking.index');
+    }
+
+    public function show(String $id)
+    {
+        $pendaftaran = Pendaftaran::with(['pembayaran'])->find($id);
+        if ($pendaftaran->type == 'artspace') {
+            $data = (object) PembayaranService::getDataPembayaranArtSpace($pendaftaran->pembayaran->order_id);
+            return view('frontend.booking.detailartspace', compact('data'));
+        } else {
+            $data = (object) PembayaranService::getDataPembayaranKids($pendaftaran->pembayaran->order_id);
+            return view('frontend.booking.detailkids', compact('data'));
+        }
+    }
+
+    public function cancel(String $id)
+    {
+        $pendaftaran = Pendaftaran::findOrFail($id);
+        $pendaftaran->update(['status' => 'ajukan batal']);
+        return response()->json(['success' => true, 'message' => 'Pembatalan Diajukan']);
     }
 
     public function artSpace()
@@ -53,7 +92,7 @@ class PendaftaranController extends Controller
             $session = JadwalArtSpace::findOrFail($request->sesi);
 
             // Hitung total peserta yang sudah booking untuk sesi tersebut
-            $currentParticipantCount = Pendaftaran::where('schedule_id', $request->sesi)->where('tanggal_reservasi', $request->tanggal)->withCount('detailPendaftaran')->get()->sum(function ($booking) {
+            $currentParticipantCount = Pendaftaran::where('sesi', $request->sesi)->where('tanggal_reservasi', $request->tanggal)->withCount('detailPendaftaran')->get()->sum(function ($booking) {
                 return $booking->detailPendaftaran->count();
             });
 
@@ -69,8 +108,8 @@ class PendaftaranController extends Controller
             $booking = Pendaftaran::create([
                 'type'  => 'artspace',
                 'customer_id'   => $customerData->id,
-                'schedule_id' => $request->sesi,
-                'tanggal_reservasi' => $request->tanggal
+                'sesi' => $request->sesi,
+                'tanggal_reservasi' => $request->tanggal,
             ]);
 
 
@@ -101,7 +140,7 @@ class PendaftaranController extends Controller
                 ]);
             }
 
-            $booking->update(['total_price' => $total_price]);
+            $booking->update(['nominal' => $total_price]);
 
             $order_id = 'booking-artspace-' . $customerData->id .  '-' . now()->format('YmdHis') . '-' . Str::random(4);
             $params = array(
@@ -129,7 +168,7 @@ class PendaftaranController extends Controller
 
             DB::commit();
 
-            $mailData = PembayaranService::makeMailDataArtSpace($order_id);
+            $mailData = PembayaranService::getDataPembayaranArtSpace($order_id);
 
             Mail::to($userData->email)->send(new PendaftaranArtSpace($mailData));
 
@@ -202,7 +241,8 @@ class PendaftaranController extends Controller
             $booking = Pendaftaran::create([
                 'type'  => 'kids',
                 'customer_id'   => $customerData->id,
-                'total_price'   => $total_price
+                'nominal'   => $hargaAwal,
+                'diskon'    => $diskon
             ]);
 
             $detailBooking = DetailPendaftaranKid::create([
@@ -263,7 +303,7 @@ class PendaftaranController extends Controller
 
             DB::commit();
 
-            $mailData = PembayaranService::makeMailDataKids($order_id);
+            $mailData = PembayaranService::getDataPembayaranKids($order_id);
 
             Mail::to($userData->email)->send(new PendaftaranKids($mailData));
             return response()->json([
