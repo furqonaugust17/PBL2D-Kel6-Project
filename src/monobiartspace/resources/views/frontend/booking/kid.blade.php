@@ -93,10 +93,10 @@
                             <td id="tema">
                                 <ul class="m-0" style="list-style-type: '- '; padding-left: 1.2em;">${ data.tema.map(value => `
                                                 <li>
-                                                    <div>
-                                                        <input type="hidden" name="tema[]" value="${value.id}" />
-                                                        <span>${value.nama}</span>
-                                                    </div>
+                                                     <div>
+                                                         <input type="hidden" name="tema[]" value="${value.id}" />
+                                                          <span>${value.nama}</span>
+                                                      </div>
                                                 </li>
                                                 `).join('')}
                                 </ul>
@@ -168,6 +168,7 @@
             })
 
             $('select[name="kelas_id"]').on('change', function() {
+                showLoader();
                 let uriKategori = "{{ route('kategori.getdata', ['id' => ':id']) }}"
                     .replace(':id', $(this).val());
 
@@ -177,21 +178,20 @@
                     url: uriKategori,
                     type: "GET",
                     success: function(result) {
+                        hideLoader();
                         $('select[name="kategori_id"]').empty();
                         if (result.length == 0) {
                             $('select[name="kategori_id"]').append(`
                                 <option value="" selected disabled>= kategori belum tersedia =</option>
                                 `);
                         } else {
-                            $('select[name="kategori_id"]').append(`
-                                <option value="" selected disabled>== Pilih Kategori ==</option>
-                                `);
                             $.each(result, function(key, val) {
                                 $('select[name="kategori_id"]').append(`
                                 <option value="${val.id}">${val.nama}</option>
                                 `);
                             })
                         }
+                        $('select[name="kategori_id"]').val(result[0].id).trigger('change');
                     }
                 });
                 $.ajax({
@@ -207,30 +207,30 @@
                             $('.tema-data ul').append(`
                             <li>
                                 <input type="checkbox" id="${key}" name="tema" value="${val.id}" ${(key + 1) < mingguKeBerapa() ? 'disabled' : ''}   />
-                                <label for="${key}">${val.nama} (Week ${val.week})</label>
+                                <label for="${key}">${val.nama} (Week ${val.week})
                             </li>
                             `);
                         })
                     }
                 });
+
             });
 
             $('select[name="kategori_id"]').on('change', function() {
+                showLoader();
                 let uriJadwal = "{{ route('jadwal.getdata', ['id' => ':id']) }}"
                     .replace(':id', $(this).val());
                 $.ajax({
                     url: uriJadwal,
                     type: "GET",
                     success: function(result) {
+                        hideLoader();
                         $('select[name="jadwal_id"]').empty();
                         if (result.length == 0) {
                             $('select[name="jadwal_id"]').append(`
                                 <option value="" selected disabled>= jadwal belum tersedia =</option>
                                 `);
                         } else {
-                            $('select[name="jadwal_id"]').append(`
-                                <option value="" selected disabled>== Pilih jadwal ==</option>
-                                `);
                             $.each(result, function(key, val) {
                                 $('select[name="jadwal_id"]').append(`
                                 <option value="${val.id}">${val.hari} (${val.mulai.substring(0,5)} - ${val.akhir.substring(0,5)})</option>
@@ -240,6 +240,16 @@
                     }
                 });
             })
+
+            function showLoader() {
+                $('.loading-wrapper').show();
+                $('#formContent').addClass('blur');
+            }
+
+            function hideLoader() {
+                $('.loading-wrapper').hide();
+                $('#formContent').removeClass('blur');
+            }
 
             function mingguKeBerapa() {
                 const date = new Date();
@@ -253,51 +263,94 @@
     </script>
 @endsection
 <x-app>
-    <section class="mt-4">
-        <form action="" id="form">
-            <div class="">
-                <label for="">Nama Lengkap Anak</label>
-                <input type="text" name="nama-lengkap" required>
-            </div>
-            <div class="">
-                <label for="">Nama Panggilan Anak</label>
-                <input type="text" name="nama-panggilan" required>
-            </div>
-            <div class="">
-                <label for="">Usia Anak Saat Ini</label>
-                <input type="number" name="usia-saat-ini" required>
-            </div>
-            <div class="">
-                <label for="">Tanggal Lahir anak</label>
-                <input type="date" name="tgl-lahir" id="" required>
-            </div>
-            <div class="">
-                <label for="">Pilih Kelas</label>
-                <select name="kelas_id" id="" required>
-                    <option value="" selected disabled>== Pilih Kelas ==</option>
-                    @foreach ($kids as $kelas)
-                        <option value="{{ $kelas->id }}">{{ $kelas->nama }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="">
-                <label for="">Pilih Kategori</label>
-                <select name="kategori_id" id="" required>
-                    <option value="" selected disabled>== Pilih Kategori ==</option>
-                </select>
-            </div>
-            <div class="">
-                <label for="">Pilih Jadwal</label>
-                <select name="jadwal_id" id="" required>
-                    <option value="" selected disabled>== Pilih Jadwal ==</option>
-                </select>
-            </div>
-            <div class="">
-                <label for="">Tema</label>
-                <div class="tema-data">
+    <div class="page-title light-background">
+        <div class="container">
+            <h1>Booking Monobi Kids</h1>
+        </div>
+    </div>
+    <section class="section">
+        <div class="container">
+            <form action="" id="form" class="position-relative">
+                <div class="loading-wrapper" style="display: none;">
+                    <div
+                        class="loading-item z-3 w-100 h-100 position-absolute d-flex justify-content-center align-items-center flex-column">
+                        <i class="spinner-border"></i>
+                        <span class="sr-only">Loading...</span>
+                    </div>
                 </div>
-            </div>
-            <button type="submit">Daftar</button>
-        </form>
+                <table class="w-100 z-1" id="formContent">
+                    <tbody>
+                        <tr>
+                            <td>Nama Lengkap Anak</td>
+                            <td>
+                                <input class="form-control" type="text" name="nama-lengkap" id="nama-lengkap"
+                                    required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nama Panggilan Anak</td>
+                            <td>
+                                <input class="form-control" type="text" name="nama-panggilan" id="nama-panggilan"
+                                    required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Usia Anak Saat Ini</td>
+                            <td>
+                                <input class="form-control" type="number" name="usia-saat-ini" id="usia-saat-ini"
+                                    required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tanggal Lahir anak</td>
+                            <td>
+                                <input class="form-control" type="date" name="tgl-lahir" id="tgl-lahir"
+                                    onclick="this.showPicker()" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pilih Kelas</td>
+                            <td>
+                                <select class="form-control" name="kelas_id" id="kelas" required>
+                                    <option value="" selected disabled>== Pilih Kelas ==</option>
+                                    @foreach ($kids as $kelas)
+                                        <option value="{{ $kelas->id }}">{{ $kelas->nama }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pilih Kategori</td>
+                            <td>
+                                <select class="form-control" name="kategori_id" id="kategori" required>
+                                    <option value="" selected disabled>Silahkan Pilih Kelas Terlebih Dahulu
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pilih Jadwal</td>
+                            <td>
+                                <select class="form-control" name="jadwal_id" id="jadwal" required>
+                                    <option value="" selected disabled>Silahkan Pilih Kelas Terlebih Dahulu
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top;">Tema</td>
+                            <td>
+                                <div class="tema-data">
+                                    <p>Silahkan Pilih Kelas Terlebih Dahulu</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="button-wrapper w-100 d-flex justify-content-end">
+                    <button class="btn btn-primary float-right" type="submit">Daftar</button>
+                </div>
+            </form>
+        </div>
     </section>
 </x-app>

@@ -63,8 +63,8 @@
                             <td>:</td>
                             <td id="kegiatan">
                                  <ul class="m-0" style="list-style-type: '- '; padding-left: 1.2em;">${ participants.map((value, index) => `
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <li>${value.name} (${data.data[index].name} ${data.data[index].price} )</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    `).join('')}
+                                    <li>${value.name} (${data.data[index].name} ${data.data[index].price} )</li>
+                                    `).join('')}
                                 </ul>
                             </td>
                         </tr>
@@ -180,24 +180,6 @@
         <div class="container">
             <form action="{{ route('booking.artspace.store') }}" method="POST" id="form">
                 @csrf
-                {{-- <div class="mb-3 row booking-date">
-                    <label for="booking-date" class="col-sm-2 col-form-label">Tanggal Akan Datang</label>
-                    <div class="col-sm-10">
-                        <input type="date" class="form-control" name="tanggal" id="booking-date">
-                    </div>
-                </div>
-                <div class="mb-3 row session">
-                    <label for="session" class="col-sm-2 col-form-label">Sesi</label>
-                    <div class="col-sm-10">
-                        <select class="form-control" name="sesi" id="session">
-                            @foreach ($jadwalArtSpace as $jadwal)
-                                <option value="{{ $jadwal->id }}">{{ $jadwal->sesi }} {{ $jadwal->mulai }} -
-                                    {{ $jadwal->akhir }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div> --}}
-                {{-- <div id="participants"> --}}
                 <table class="w-100">
                     <thead>
                         <tr>
@@ -206,13 +188,8 @@
                                     <label for="booking-date" class="col-sm-2 col-form-label">Tanggal Akan
                                         Datang</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control" name="sesi" id="session">
-                                            @foreach ($jadwalArtSpace as $jadwal)
-                                                <option value="{{ $jadwal->id }}">{{ $jadwal->sesi }}
-                                                    {{ $jadwal->mulai }} -
-                                                    {{ $jadwal->akhir }}</option>
-                                            @endforeach
-                                        </select>
+                                        <input type="date" class="form-control" name="tanggal" id="booking-date"
+                                            onclick="this.showPicker()">
                                     </div>
                                 </div>
                             </td>
@@ -222,7 +199,13 @@
                                 <div class="row">
                                     <label for="session" class="col-sm-2 col-form-label">Sesi</label>
                                     <div class="col-sm-10">
-                                        <input type="date" class="form-control" name="tanggal" id="booking-date">
+                                        <select class="form-control" name="sesi" id="session">
+                                            @foreach ($jadwalArtSpace as $jadwal)
+                                                <option value="{{ $jadwal->id }}">{{ $jadwal->sesi }}
+                                                    {{ $jadwal->mulai }} -
+                                                    {{ $jadwal->akhir }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </td>
@@ -264,26 +247,11 @@
                         </tr>
                         <tr>
                             <td colspan="3">
-                                {{-- <div class="d-flex justify-content-end"> --}}
                                 <button type="submit" class="btn btn-primary w-100">Daftar</button>
-                                {{-- </div> --}}
                             </td>
                         </tr>
                     </tfoot>
-                    {{-- <div class="participant">
-                            <label>Nama Peserta</label>
-                            <input type="text" class="form-control" name="participants[][name]" required>
-                            <label>Pilih Kegiatan</label>
-                            <select name="participants[][activity_id]" class="form-control">
-                                @foreach ($kegiatanArtSpace as $kegiatan)
-                                    <option value="{{ $kegiatan->id }}">{{ $kegiatan->nama }} - Rp
-                                        {{ $kegiatan->harga }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div> --}}
                 </table>
-                {{-- </div> --}}
             </form>
             <div id="snap-container"></div>
         </div>
