@@ -1,18 +1,27 @@
 @section('script')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
         function cancelRequest() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            let uri = `{{ route('booking.cancel', ['id' => ':id']) }}`.replace(':id', '{{ $data->id_pendaftaran }}')
-            $.ajax({
-                url: uri,
-                type: 'POST',
-                success: function(result) {
-                    console.log(result);
-
+            Swal.fire({
+                title: "Anda Yakin?",
+                icon: "warning",
+                text: "dana tidak bisa dikembalikan jika sudah h-2 kedatangan. apakah anda yakin?",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    let uri = `{{ route('booking.cancel', ['id' => ':id']) }}`.replace(':id',
+                        '{{ $data->id_pendaftaran }}')
+                    $.ajax({
+                        url: uri,
+                        type: 'POST',
+                        success: function(result) {
+                            console.log(result);
+                        }
+                    })
                 }
             })
         }
