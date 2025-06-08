@@ -1,9 +1,8 @@
 <?php
 
+use App\Http\Controllers\Frontend\KelasController;
 use App\Http\Controllers\Frontend\MainController;
-use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\PendaftaranController;
-use App\Http\Controllers\productController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +14,8 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
     })->name('dashboard');
 });
 
-Route::get('product/{artSpace}', [productController::class, 'index'])->name('product.index');
+Route::get('class', [KelasController::class, 'index'])->name('class.index');
+Route::get('class/detail/{tipe}/{id}', [KelasController::class, 'detail'])->name('class.detail');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('booking/artspace', [PendaftaranController::class, 'artSpace'])->name('booking.artspace');
