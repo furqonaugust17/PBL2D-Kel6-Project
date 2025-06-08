@@ -12,6 +12,15 @@
 --------------------------------------------------------------*/
 /* Fonts */
 
+.text-justify {
+  text-align: justify;
+}
+
+.swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+}
+
 #formContent.blur {
   filter: blur(3px);
   pointer-events: none;
