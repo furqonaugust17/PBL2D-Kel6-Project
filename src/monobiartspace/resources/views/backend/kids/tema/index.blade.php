@@ -34,6 +34,9 @@
                         data: 'nama',
                     },
                     {
+                        data: 'is_active',
+                    },
+                    {
                         data: 'bulan_nama',
                     },
                     {
@@ -152,6 +155,7 @@
                                     <th>No</th>
                                     <th>Kelas</th>
                                     <th>Tema</th>
+                                    <th>Aktif</th>
                                     <th>Bulan</th>
                                     <th>Kegiatan</th>
                                     <th>Action</th>
@@ -164,6 +168,7 @@
                                     <th>No</th>
                                     <th>Kelas</th>
                                     <th>Tema</th>
+                                    <th>Aktif</th>
                                     <th>Bulan</th>
                                     <th>Kegiatan</th>
                                     <th>Action</th>
