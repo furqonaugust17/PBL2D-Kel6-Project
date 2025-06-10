@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('artspace_id');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('artspace_id')->references('id')->on('art_spaces');
+            $table->foreign('artspace_id')->references('id')->on('art_spaces')->onDelete('CASCADE');
         });
     }
 
