@@ -23,8 +23,11 @@ class KegiatanArtSpaceStoreRequest extends FormRequest
     {
         return [
             'nama' => 'required|string|max:100',
+            'deskripsi' => 'required|string',
             'artspace_id'  => 'required',
             'harga' => 'required|numeric|min:0',
+            'foto' => 'required|array|max:5',
+            'foto.*' => 'image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 
@@ -35,11 +38,22 @@ class KegiatanArtSpaceStoreRequest extends FormRequest
             'nama.string' => 'Nama kegiatan harus berupa teks.',
             'nama.max' => 'Nama kegiatan maksimal :max karakter.',
 
+            'deskripsi.required' => 'Deskripsi wajib diisi.',
+            'deskripsi.string' => 'Deskripsi harus berupa teks.',
+
             'artspace_id.required' => 'Kelas harus dipilih.',
 
             'harga.required' => 'Harga kegiatan wajib diisi.',
             'harga.numeric' => 'Harga harus berupa angka.',
             'harga.min' => 'Harga tidak boleh negatif.',
+
+            'foto.required' => 'Mohon unggah minimal satu gambar.',
+            'foto.array'    => 'Format file tidak valid.',
+            'foto.max'      => 'Maksimal hanya boleh mengunggah :max gambar.',
+
+            'foto.*.image'  => 'Setiap file harus berupa gambar.',
+            'foto.*.mimes'  => 'Gambar harus berformat jpg, jpeg, atau png.',
+            'foto.*.max'    => 'Ukuran setiap gambar maksimal 2MB.',
         ];
     }
 }
