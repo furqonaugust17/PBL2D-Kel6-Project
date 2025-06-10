@@ -7,10 +7,17 @@ use App\Http\Requests\TemaKidUpdateRequest;
 use App\Models\DetailTemaKid;
 use App\Models\Kid;
 use App\Models\TemaKid;
+use App\Services\ImageUploadService;
 use Yajra\DataTables\Facades\DataTables;
 
 class TemaKidController extends Controller
 {
+    protected $imageUploadService;
+    public function __construct(ImageUploadService $imageUploadService)
+    {
+        $this->imageUploadService = $imageUploadService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -22,6 +29,11 @@ class TemaKidController extends Controller
                 return \Carbon\Carbon::parse($row->waktu)->translatedFormat('F Y');
             })->filterColumn('bulan_nama', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(waktu, '%M %Y') LIKE ?", ["%{$keyword}%"]);
+            })->addColumn('is_active', function ($row) {
+                return $row->is_active == 1 ? 'aktif' : 'tidak aktif';
+            })->filterColumn('is_active', function ($query, $keyword) {
+                $value = strtolower($keyword) === 'aktif' ? 1 : 0;
+                $query->where('is_active', $value);
             })->make(true);
         }
         return view('backend.kids.tema.index');
@@ -45,6 +57,7 @@ class TemaKidController extends Controller
 
         $tema = TemaKid::create([
             'nama' => $data['nama'],
+            'deskripsi' => $data['deskripsi'],
             'waktu' => date('Y-m-d', strtotime($data['waktu'])),
             'kid_id'    => $data['kid_id']
         ]);
@@ -56,16 +69,10 @@ class TemaKidController extends Controller
                 'tema_kid_id' => $tema->id
             ]);
         }
+        $paths = $this->imageUploadService->uploadMany($request->file('foto'), 'uploads/tema');
+        $tema->images()->createMany($paths);
 
         return redirect()->route('kids-tema.index')->with('success', 'Tema Berhasil Ditambahkan');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(TemaKid $kidsTema)
-    {
-        //
     }
 
     /**
@@ -85,17 +92,29 @@ class TemaKidController extends Controller
     public function update(TemaKidUpdateRequest $request, TemaKid $kidsTema)
     {
         $data = $request->validated();
+        $data['is_active'] = $request->has('is_active');
 
         $kidsTema->update([
             'nama'  => $data['nama'],
+            'deskripsi' => $data['deskripsi'],
             'waktu' => date('Y-m-d', strtotime($data['waktu'])),
-            'kid_id'    => $data['kid_id']
+            'kid_id'    => $data['kid_id'],
+            'is_active' => $data['is_active']
         ]);
 
         foreach ($kidsTema->detailTema as $index => $detailTema) {
             $detailTema->nama = $data['week'][$index];
             $detailTema->save();
         }
+
+        if ($request->hasFile('foto')) {
+            $this->imageUploadService->deleteImages($kidsTema->images);
+
+            $paths = $this->imageUploadService->uploadMany($request->file('foto'), 'uploads/tema');
+
+            $kidsTema->images()->createMany($paths);
+        }
+
 
         return redirect()->route('kids-tema.index')->with('success', 'Tema Berhasil Diupdate');
     }
@@ -105,6 +124,7 @@ class TemaKidController extends Controller
      */
     public function destroy(TemaKid $kidsTema)
     {
+        $this->imageUploadService->deleteImages($kidsTema->images);
         $kidsTema->detailTema()->delete();
         $kidsTema->delete();
         return response()->json([
