@@ -6,6 +6,7 @@ use App\Http\Requests\KegiatanArtSpaceStoreRequest;
 use App\Http\Requests\KegiatanArtSpaceUpdateRequest;
 use App\Models\ArtSpace;
 use App\Models\KegiatanArtSpace;
+use App\Services\ImageUploadService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -14,6 +15,13 @@ class KegiatanArtSpaceController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    protected $imageUploadService;
+    public function __construct(ImageUploadService $imageUploadService)
+    {
+        $this->imageUploadService = $imageUploadService;
+    }
+
     public function index()
     {
         if (request()->ajax()) {
@@ -38,7 +46,9 @@ class KegiatanArtSpaceController extends Controller
     public function store(KegiatanArtSpaceStoreRequest $request)
     {
         $data = $request->validated();
-        KegiatanArtSpace::create($data);
+        $kegiatan = KegiatanArtSpace::create($data);
+        $paths = $this->imageUploadService->uploadMany($request->file('foto'), 'uploads/kegiatan');
+        $kegiatan->images()->createMany($paths);
         return redirect()->route('kegiatan-artspace.index')->with('success', 'Kegiatan Berhasil Ditambahkan');
     }
 
@@ -59,6 +69,14 @@ class KegiatanArtSpaceController extends Controller
         $data = $request->validated();
         $kegiatanArtSpace->update($data);
 
+        if ($request->hasFile('foto')) {
+            $this->imageUploadService->deleteImages($kegiatanArtSpace->images);
+
+            $paths = $this->imageUploadService->uploadMany($request->file('foto'), 'uploads/kegiatan');
+
+            $kegiatanArtSpace->images()->createMany($paths);
+        }
+
         return redirect()->route('kegiatan-artspace.index')->with('success', 'Kegiatan Berhasil Diupdate');
     }
 
@@ -67,6 +85,7 @@ class KegiatanArtSpaceController extends Controller
      */
     public function destroy(KegiatanArtSpace $kegiatanArtSpace)
     {
+        $this->imageUploadService->deleteImages($kegiatanArtSpace->images);
         $kegiatanArtSpace->delete();
         return response()->json([
             'success' => true,
