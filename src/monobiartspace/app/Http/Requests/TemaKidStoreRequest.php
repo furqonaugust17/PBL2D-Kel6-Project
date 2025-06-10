@@ -24,12 +24,15 @@ class TemaKidStoreRequest extends FormRequest
     {
         return [
             'nama'  => 'required|string|max:100',
+            'deskripsi'  => 'required|string',
             'kid_id'    => ['required',  Rule::unique('tema_kids')->where(function ($query) {
-                return $query->where('waktu', $this->input('waktu') . '-01');
+                return $query->where('waktu', $this->input('waktu') . '-01')->whereNull('deleted_at');
             }),],
             'waktu' => ['required', 'date_format:Y-m', 'after_or_equal:' . now()->format('Y-m')],
             'week' => 'required|array|min:1|max:4',
             'week.*' => 'string',
+            'foto' => 'required|array|max:5',
+            'foto.*' => 'image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 
@@ -39,6 +42,9 @@ class TemaKidStoreRequest extends FormRequest
             'nama.required' => 'Nama wajib diisi.',
             'nama.string' => 'Nama harus berupa teks.',
             'nama.max' => 'Nama maksimal 100 karakter.',
+
+            'deskripsi.required' => 'Deskripsi wajib diisi.',
+            'deskripsi.string' => 'Deskripsi harus berupa teks.',
 
             'waktu.required' => 'Waktu wajib diisi.',
             'waktu.date_format' => 'Format waktu harus dalam bentuk Tahun-Bulan (contoh: 2025-05).',
@@ -54,6 +60,14 @@ class TemaKidStoreRequest extends FormRequest
             'week.max' => 'Maksimal hanya 4 item week yang diperbolehkan.',
 
             'week.*.string' => 'Setiap item pada week harus berupa teks.',
+
+            'foto.required' => 'Mohon unggah minimal satu gambar.',
+            'foto.array'    => 'Format file tidak valid.',
+            'foto.max'      => 'Maksimal hanya boleh mengunggah :max gambar.',
+
+            'foto.*.image'  => 'Setiap file harus berupa gambar.',
+            'foto.*.mimes'  => 'Gambar harus berformat jpg, jpeg, atau png.',
+            'foto.*.max'    => 'Ukuran setiap gambar maksimal 2MB.',
         ];
     }
 }

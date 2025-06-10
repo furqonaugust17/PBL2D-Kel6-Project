@@ -24,12 +24,16 @@ class TemaKidUpdateRequest extends FormRequest
     {
         return [
             'nama'  => 'required|string|max:100',
+            'deskripsi'  => 'required|string',
             'waktu' => ['required', 'date_format:Y-m', 'after_or_equal:' . now()->format('Y-m')],
-            'kid_id'    => ['required',  Rule::unique('tema_kids')->where(function ($query) {
-                return $query->where('waktu', $this->input('waktu') . '-01');
+            'kid_id'    => ['required',  Rule::unique('tema_kids')->ignore($this->kidsTema->id)->where(function ($query) {
+                return $query->where('waktu', $this->input('waktu') . '-01')->whereNull('deleted_at');
             }),],
             'week' => 'required|array|min:1|max:4',
             'week.*' => 'required|string',
+            'is_active' => ['nullable', 'in:on'],
+            'foto' => 'required|array|max:5',
+            'foto.*' => 'image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 
@@ -39,6 +43,9 @@ class TemaKidUpdateRequest extends FormRequest
             'nama.required' => 'Nama wajib diisi.',
             'nama.string' => 'Nama harus berupa teks.',
             'nama.max' => 'Nama maksimal terdiri dari 100 karakter.',
+
+            'deskripsi.required' => 'Deskripsi wajib diisi.',
+            'deskripsi.string' => 'Deskripsi harus berupa teks.',
 
             'waktu.required' => 'Waktu wajib diisi.',
             'waktu.date_format' => 'Format waktu harus dalam format Tahun-Bulan (contoh: 2025-05).',
@@ -54,6 +61,13 @@ class TemaKidUpdateRequest extends FormRequest
 
             'week.*.required' => 'Setiap week wajib diisi.',
             'week.*.string' => 'Setiap week harus berupa teks.',
+            'foto.required' => 'Mohon unggah minimal satu gambar.',
+            'foto.array'    => 'Format file tidak valid.',
+            'foto.max'      => 'Maksimal hanya boleh mengunggah :max gambar.',
+
+            'foto.*.image'  => 'Setiap file harus berupa gambar.',
+            'foto.*.mimes'  => 'Gambar harus berformat jpg, jpeg, atau png.',
+            'foto.*.max'    => 'Ukuran setiap gambar maksimal 2MB.',
         ];
     }
 }
