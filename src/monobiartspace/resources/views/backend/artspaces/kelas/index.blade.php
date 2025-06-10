@@ -38,8 +38,10 @@
 
 
                             return `<div class="d-flex">
-                                        <a href="${uriEdit}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                        <button type="button" class="btn btn-danger shadow btn-xs sharp" onclick="deleteData(${data})"><i class="fa fa-trash"></i></button>
+                                        @role('supervisor')
+                                            <a href="${uriEdit}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                            <button type="button" class="btn btn-danger shadow btn-xs sharp" onclick="deleteData(${data})"><i class="fa fa-trash"></i></button>
+                                         @endrole
                                     </div>`
                         }
                     }
@@ -115,9 +117,11 @@
 <x-app-layout>
     <x-slot:title>Kelas</x-slot:title>
     <div class="row">
+        @role('supervisor')
         <div class="col-4">
             <a href="{{ route('artspace.create') }}" class="btn btn-sm btn-primary">Tambah Data Kelas</a>
         </div>
+        @endrole
         <div class="col-12 m-t35">
             <div class="card">
                 <div class="card-body">
