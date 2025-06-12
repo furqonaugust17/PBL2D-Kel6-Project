@@ -39,6 +39,9 @@
                         data: 'akhir',
                     },
                     {
+                        data: 'kapasitas',
+                    },
+                    {
                         data: 'id',
                         "render": function(data, type, row) {
                             let uriEdit =
@@ -142,6 +145,7 @@
                                     <th>Hari</th>
                                     <th>Mulai</th>
                                     <th>Akhir</th>
+                                    <th>Kapasitas</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -154,6 +158,7 @@
                                     <th>Hari</th>
                                     <th>Mulai</th>
                                     <th>Akhir</th>
+                                    <th>Kapasitas</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>
