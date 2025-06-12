@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class JadwalKid extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['hari', 'mulai', 'akhir', 'kategori_id'];
+    protected $fillable = ['hari', 'mulai', 'akhir', 'kategori_id', 'kapasitas'];
     protected $with = ['kategori'];
 
     public function kategori(): BelongsTo

@@ -9,5 +9,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class JadwalArtSpace extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['sesi', 'mulai', 'akhir'];
+    protected $fillable = ['sesi', 'mulai', 'akhir', 'kapasitas'];
 }
