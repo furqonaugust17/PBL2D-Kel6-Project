@@ -46,9 +46,15 @@
                 },
                 success: function(result) {
                     $.each(result.data, function(key, val) {
+                        let uriDetail =
+                            `{{ route('class.detail', ['tipe' => ':kid', 'slug' => ':slug']) }}`
+                            .replace(':kid', type == 'kids' ? 'kid' : 'artspace').replace(
+                                ':slug', val.slug);
                         classContainer.children('.row').children('.swiper-class').children(
                             '.swiper-wrapper').append(`
                             <div class="swiper-slide">
+                                <a class="link-underline link-underline-opacity-0"
+                                            href="${uriDetail}">
                                 <div class="card h-100">
                                     <img src="https://www.davidhechler.com/wp-content/uploads/2016/07/500x500-dummy-image.jpg" class="card-img-top" alt="...">
                                     <div class="card-body">
@@ -56,6 +62,7 @@
                                         ${(type != 'kids'? `<p class="card-text">${Intl.NumberFormat("id-ID", {style: "currency", currency: "IDR", minimumFractionDigits: 0, maximumFractionDigits: 0}).format(val.harga)}</p>` : '')}
                                     </div>
                                 </div>
+                                </a>
                             </div>
                         `)
                     })
