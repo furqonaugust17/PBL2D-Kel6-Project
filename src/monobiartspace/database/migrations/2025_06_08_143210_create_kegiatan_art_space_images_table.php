@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kegiatan_art_spaces', function (Blueprint $table) {
+        Schema::create('kegiatan_art_space_images', function (Blueprint $table) {
             $table->id();
-            $table->string('nama', 100);
-            $table->text('harga');
-            $table->unsignedBigInteger('artspace_id');
+            $table->foreignId('kegiatan_art_space_id')->references('id')->on('kegiatan_art_spaces')->onDelete('CASCADE');
+            $table->text('file')->nullable();
             $table->timestamps();
-            $table->softDeletes();
-            $table->foreign('artspace_id')->references('id')->on('art_spaces')->onDelete('CASCADE');
         });
     }
 
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kegiatan_art_spaces');
+        Schema::dropIfExists('kegiatan_art_space_images');
     }
 };
