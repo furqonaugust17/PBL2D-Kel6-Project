@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArtSpaceController;
+use App\Http\Controllers\HargaClassKidController;
 use App\Http\Controllers\KategoriKidController;
 use App\Http\Controllers\KegiatanArtSpaceController;
 use App\Http\Controllers\KidController;
@@ -24,6 +25,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified']], func
     Route::resource('kegiatan-artspace', KegiatanArtSpaceController::class)->parameters(['kegiatan-artspace' => 'kegiatanArtSpace']);
     Route::resource('kids-kategori', KategoriKidController::class)->parameters(['kids-kategori' => 'kidsKategori']);
     Route::resource('kids-tema', TemaKidController::class)->parameters(['kids-tema' => 'kidsTema']);
+    Route::resource('kids-price', HargaClassKidController::class)->parameters(['kids-price' => 'kidsPrice']);
 });
 
 Route::middleware('auth')->group(function () {
