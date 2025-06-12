@@ -15,7 +15,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
 });
 
 Route::get('class', [KelasController::class, 'index'])->name('class.index');
-Route::get('class/detail/{tipe}/{id}', [KelasController::class, 'detail'])->name('class.detail');
+Route::get('class/detail/{tipe}/{slug}', [KelasController::class, 'detail'])->name('class.detail');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('booking/artspace', [PendaftaranController::class, 'artSpace'])->name('booking.artspace');
