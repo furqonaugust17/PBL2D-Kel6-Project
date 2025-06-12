@@ -18,13 +18,13 @@ class KelasController extends Controller
         return view('frontend.kelas.index', compact('artspaces', 'kids'));
     }
 
-    public function detail(String $tipe, String $id)
+    public function detail(String $tipe, String $slug)
     {
         if ($tipe == 'artspace') {
-            $data = KegiatanArtSpace::find($id);
+            $data = KegiatanArtSpace::with(['images'])->where('slug', $slug)->first();
             return view('frontend.kelas.artspace', compact('data'));
         } else {
-            $data = TemaKid::with('detailTema')->find($id);
+            $data = TemaKid::with(['detailTema', 'images', 'kid.harga'])->where('slug', $slug)->first();
             return view('frontend.kelas.kid', compact('data'));
         }
     }
