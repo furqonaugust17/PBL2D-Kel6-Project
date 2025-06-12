@@ -81,10 +81,6 @@ class PendaftaranController extends Controller
 
     public function storeArtSpace(Request $request)
     {
-        // dd($request);
-        // $kegiatanArtSpace = KegiatanArtSpace::all();
-        // $jadwalArtSpace = JadwalArtSpace::all();
-        // return view('frontend.booking.artspace', compact('kegiatanArtSpace', 'jadwalArtSpace'));
         DB::beginTransaction();
         try {
             $userData = Auth::user();
@@ -97,9 +93,10 @@ class PendaftaranController extends Controller
             });
 
             // dd($currentParticipantCount);
-            $maxCapacity = 10;
+            $maxCapacity = JadwalArtSpace::find($request->sesi)->kapasitas;
             $incoming = count($request->participants);
 
+            dd($maxCapacity);
             if ($currentParticipantCount + $incoming > $maxCapacity) {
                 return response()->json(['message' => 'Sesi sudah penuh!'], 422);
             }
