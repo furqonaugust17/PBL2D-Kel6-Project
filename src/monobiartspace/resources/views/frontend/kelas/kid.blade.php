@@ -163,13 +163,14 @@
                         <div class="col-lg-6 col-12">
                             <h2>Harga</h2>
                             <ul>
-                                <li>Normal Meet Rp 100.000</li>
-                                <li>Bundle 3 Week Rp 320.000</li>
+                                @foreach ($data->kid->harga as $harga)
+                                    <li>{{ $harga->deskripsi }}</li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
                     <div class="button-wrapper btn btn-primary">
-                        <a href="{{ route('booking.artspace') }}" class="text-white">Pesan Sekarang</a>
+                        <a href="{{ route('booking.kids') }}" class="text-white">Pesan Sekarang</a>
                     </div>
                 </div>
             </div>

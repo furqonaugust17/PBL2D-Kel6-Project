@@ -53,7 +53,7 @@
                                 @foreach ($artspace->kegiatan as $indexKegiatan => $kegiatan)
                                     <div class="swiper-slide">
                                         <a class="link-underline link-underline-opacity-0"
-                                            href="{{ route('class.detail', ['tipe' => 'artspace', 'id' => $kegiatan->id]) }}">
+                                            href="{{ route('class.detail', ['tipe' => 'artspace', 'slug' => $kegiatan->slug]) }}">
                                             <div class="card h-100">
                                                 <img src="https://www.davidhechler.com/wp-content/uploads/2016/07/500x500-dummy-image.jpg"
                                                     class="card-img-top" alt="...">
@@ -98,7 +98,7 @@
                                 @foreach ($kid->temas as $indexTema => $tema)
                                     <div class="swiper-slide">
                                         <a class="link-underline link-underline-opacity-0"
-                                            href="{{ route('class.detail', ['tipe' => 'kid', 'id' => $tema->id]) }}">
+                                            href="{{ route('class.detail', ['tipe' => 'kid', 'slug' => $tema->slug]) }}">
                                             <div class="card h-100">
                                                 <img src="https://www.davidhechler.com/wp-content/uploads/2016/07/500x500-dummy-image.jpg"
                                                     class="card-img-top" alt="...">
