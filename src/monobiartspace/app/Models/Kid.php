@@ -21,4 +21,9 @@ class Kid extends Model
     {
         return $this->hasMany(TemaKid::class);
     }
+
+    public function harga(): HasMany
+    {
+        return $this->hasMany(HargaClassKid::class);
+    }
 }
