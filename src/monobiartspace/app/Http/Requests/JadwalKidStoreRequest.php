@@ -31,6 +31,7 @@ class JadwalKidStoreRequest extends FormRequest
             'hari'   => 'required|string|in:senin,selasa,rabu,kamis,jumat,sabtu,minggu',
             'mulai'  => 'required|date_format:H:i',
             'akhir'  => 'required|date_format:H:i|after:mulai',
+            'kapasitas'     => 'required|integer|min:1',
         ];
     }
 
@@ -51,6 +52,11 @@ class JadwalKidStoreRequest extends FormRequest
             'akhir.required'      => 'Waktu akhir wajib diisi.',
             'akhir.date_format'   => 'Format waktu akhir harus jam:menit (contoh: 09:00).',
             'akhir.after'         => 'Waktu akhir harus lebih besar dari waktu mulai.',
+
+            'kapasitas.required'     => 'Kapasitas wajib diisi',
+            'kapasitas.integer'     => 'Kapasitas harus dalam bentuk angka',
+            'kapasitas.min'     => 'Kapasitas minimal 1',
+
         ];
     }
 }

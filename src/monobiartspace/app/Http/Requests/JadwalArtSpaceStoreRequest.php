@@ -25,6 +25,7 @@ class JadwalArtSpaceStoreRequest extends FormRequest
             'sesi' => 'required|string|max:10',
             'mulai'     => 'required|date_format:H:i',
             'akhir'     => 'required|date_format:H:i|after:mulai',
+            'kapasitas'     => 'required|integer|min:1',
         ];
     }
 
@@ -41,6 +42,10 @@ class JadwalArtSpaceStoreRequest extends FormRequest
             'akhir.required'     => 'Waktu akhir wajib diisi.',
             'akhir.date_format'  => 'Format waktu akhir tidak valid. Gunakan format jam:menit (contoh: 09:00).',
             'akhir.after'        => 'Waktu akhir harus lebih dari waktu mulai.',
+
+            'kapasitas.required'     => 'Kapasitas wajib diisi',
+            'kapasitas.integer'     => 'Kapasitas harus dalam bentuk angka',
+            'kapasitas.min'     => 'Kapasitas minimal 1',
         ];
     }
 }
