@@ -32,6 +32,7 @@
                     <li><a href="{{ route('kids.index') }}">Kelas</a></li>
                     <li><a href="{{ route('kids-kategori.index') }}">Kategori</a></li>
                     <li><a href="{{ route('kids-tema.index') }}">Tema</a></li>
+                    <li><a href="{{ route('kids-price.index') }}">Harga</a></li>
                 </ul>
             </li>
         </ul>
