@@ -115,7 +115,7 @@ class TemaKidController extends Controller
 
     public function getData(String $id)
     {
-        $data = TemaKid::with('detailTema')->where('kid_id', $id)->get();
-        return response()->json($data);
+        $data = TemaKid::with('detailTema')->where('kid_id', $id)->where('is_active', 1)->first();
+        return response()->json(['data' => $data]);
     }
 }
