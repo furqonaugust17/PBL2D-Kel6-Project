@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ArtSpaceBookingRequest;
+use App\Http\Requests\KidsBookingRequest;
 use App\Mail\PendaftaranArtSpace;
 use App\Mail\PendaftaranKids;
 use App\Models\Children;
@@ -11,6 +13,7 @@ use App\Models\DetailPendaftaranKid;
 use App\Models\DetailPendaftaranTema;
 use App\Models\DetailTemaKid;
 use App\Models\JadwalArtSpace;
+use App\Models\JadwalKid;
 use App\Models\KategoriKid;
 use App\Models\KegiatanArtSpace;
 use App\Models\Kid;
@@ -79,24 +82,20 @@ class PendaftaranController extends Controller
         return view('frontend.booking.artspace', compact('kegiatanArtSpace', 'jadwalArtSpace'));
     }
 
-    public function storeArtSpace(Request $request)
+    public function storeArtSpace(ArtSpaceBookingRequest $request)
     {
         DB::beginTransaction();
         try {
             $userData = Auth::user();
             $customerData = $userData->customer;
-            $session = JadwalArtSpace::findOrFail($request->sesi);
 
-            // Hitung total peserta yang sudah booking untuk sesi tersebut
             $currentParticipantCount = Pendaftaran::where('sesi', $request->sesi)->where('tanggal_reservasi', $request->tanggal)->withCount('detailPendaftaran')->get()->sum(function ($booking) {
                 return $booking->detailPendaftaran->count();
             });
 
-            // dd($currentParticipantCount);
             $maxCapacity = JadwalArtSpace::find($request->sesi)->kapasitas;
             $incoming = count($request->participants);
 
-            dd($maxCapacity);
             if ($currentParticipantCount + $incoming > $maxCapacity) {
                 return response()->json(['message' => 'Sesi sudah penuh!'], 422);
             }
@@ -122,12 +121,9 @@ class PendaftaranController extends Controller
                 ];
             })->values()->toArray();
 
-            // dd($detailItem);
             $total_price = collect($detailItem)->sum(function ($item) {
                 return $item['price'] * $item['quantity'];
             });
-
-
 
             foreach ($request->participants as $participant) {
                 DetailPendaftaran::create([
@@ -205,7 +201,7 @@ class PendaftaranController extends Controller
         return view('frontend.booking.kid', compact('kids'));
     }
 
-    public function storekids(Request $request)
+    public function storekids(KidsBookingRequest $request)
     {
         DB::beginTransaction();
         try {
@@ -214,9 +210,10 @@ class PendaftaranController extends Controller
 
             $currentParticipantCount = DetailPendaftaranKid::where('jadwal_id', $request->jadwal)->get()->count();
 
-            $maxCapacity = 10;
+            $maxCapacity = JadwalKid::find($request->jadwal)->kapasitas;
 
-            if ($currentParticipantCount > $maxCapacity) {
+
+            if ($currentParticipantCount >= $maxCapacity) {
                 return response()->json(['message' => 'Sesi sudah penuh!'], 400);
             }
 
@@ -317,14 +314,19 @@ class PendaftaranController extends Controller
 
     public function calculateKidTransaction(Request $request)
     {
-        $hargaSatuan = 80000;
-        $diskon = 0;
         $jumlahTema = count($request->tema);
-        if ($jumlahTema == 3) {
-            $diskon = 10000;
-        } elseif ($jumlahTema == 4) {
-            $diskon = 20000;
+        $hargaData = Kid::find($request->kelas)->harga;
+        $hargaSatuan = $hargaData->where('jumlah_pertemuan', 1)->first()->harga;
+        $hargaJumlah = $hargaData->where('jumlah_pertemuan', $jumlahTema)->first();
+
+        if (!$hargaJumlah) {
+            $hargaJumlah = $hargaSatuan * $jumlahTema;
+        } else {
+            $hargaJumlah = $hargaJumlah->harga;
         }
+
+        $diskon = ($hargaSatuan * $jumlahTema) - $hargaJumlah;
+
         $temaModel = DetailTemaKid::all()->keyBy('id');
         $temas = collect($request->tema);
         $detailTema = $temas->map(function ($tema_id) use ($temaModel) {
@@ -334,6 +336,6 @@ class PendaftaranController extends Controller
                 'nama' => $tema->nama ?? 'Unknown',
             ];
         })->values()->toArray();
-        return response()->json(['harga' => ($jumlahTema * $hargaSatuan), 'diskon' => $diskon, 'total_bayar' => (($jumlahTema * $hargaSatuan) - $diskon), 'tema' => $detailTema]);
+        return response()->json(['harga' => ($jumlahTema * $hargaSatuan), 'diskon' => $diskon, 'total_bayar' => $hargaJumlah, 'tema' => $detailTema]);
     }
 }
