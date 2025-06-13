@@ -1,3 +1,77 @@
+@section('script')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            const swiper = new Swiper('.swiper-class', {
+                // Optional parameters
+                direction: 'horizontal',
+
+                // If we need pagination
+                pagination: {
+                    el: '.swiper-pagination-class',
+                },
+
+                // Navigation arrows
+                navigation: {
+                    nextEl: '.btn-nav-right',
+                    prevEl: '.btn-nav-left',
+                },
+
+                breakpoints: {
+                    "480": {
+                        "slidesPerView": 2,
+                        "spaceBetween": 30
+                    },
+                    "992": {
+                        "slidesPerView": 3,
+                        "spaceBetween": 50
+                    }
+                }
+            });
+            getDataClass('{{ $datas[0]->jenis }}', '{{ $datas[0]->id }}');
+        })
+
+        function getDataClass(type, id) {
+            console.log('masuk')
+            let uri = `{{ route('class', ['tipe' => ':tipe', 'id' => ':id']) }}`.replace(':tipe', `${type}`).replace(':id',
+                `${id}`);
+            let classContainer = $('#features-tab-1')
+            $.ajax({
+                url: uri,
+                type: 'GET',
+                beforeSend: function() {
+                    classContainer.removeClass('show active').fadeOut(200, function() {
+                        classContainer.children('.row').children('.swiper-class').children(
+                            '.swiper-wrapper').empty();
+                    });
+                },
+                success: function(result) {
+                    $.each(result.data, function(key, val) {
+                        let uriDetail =
+                            `{{ route('class.detail', ['tipe' => ':kid', 'slug' => ':slug']) }}`
+                            .replace(':kid', type == 'kids' ? 'kid' : 'artspace').replace(
+                                ':slug', val.slug);
+                        classContainer.children('.row').children('.swiper-class').children(
+                            '.swiper-wrapper').append(`
+                            <div class="swiper-slide">
+                                <a class="link-underline link-underline-opacity-0"
+                                            href="${uriDetail}">
+                                <div class="card h-100">
+                                    <img src="https://www.davidhechler.com/wp-content/uploads/2016/07/500x500-dummy-image.jpg" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${val.nama}</h5>
+                                        ${(type != 'kids'? `<p class="card-text">${Intl.NumberFormat("id-ID", {style: "currency", currency: "IDR", minimumFractionDigits: 0, maximumFractionDigits: 0}).format(val.harga)}</p>` : '')}
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                        `)
+                    })
+                    classContainer.fadeIn(250).addClass('show active');
+                }
+            })
+        }
+    </script>
+@endsection
 <x-app>
     <!-- Hero Section -->
     <section id="hero" class="hero section">
@@ -78,128 +152,58 @@
     </section><!-- /About Section -->
 
     <!-- Features Section -->
-    <section id="features" class="features section">
+    <section id="class" class="features section">
 
         <!-- Section Title -->
         <div class="container section-title" data-aos="fade-up">
-            <h2>Features</h2>
+            <h2>Monobi Class</h2>
             <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
         </div><!-- End Section Title -->
 
         <div class="container">
 
-            <div class="d-flex justify-content-center">
+            <div class="d-flex flex-column justify-content-center align-items-center gap-2">
 
                 <ul class="nav nav-tabs" data-aos="fade-up" data-aos-delay="100">
-
-                    <li class="nav-item">
-                        <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#features-tab-1">
-                            <h4>Modisit</h4>
-                        </a>
-                    </li><!-- End tab nav item -->
-
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-2">
-                            <h4>Praesenti</h4>
-                        </a><!-- End tab nav item -->
-
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-3">
-                            <h4>Explica</h4>
-                        </a>
-                    </li><!-- End tab nav item -->
-
+                    @foreach ($datas as $data)
+                        <li class="nav-item">
+                            <a class="nav-link {{ $loop->index == 0 ? 'active show' : '' }}"
+                                data-id="{{ $data->id }}" data-type="{{ $data->jenis }}" data-bs-toggle="tab"
+                                data-bs-target="#features-tab-1"
+                                onclick="getDataClass('{{ $data->jenis }}', '{{ $data->id }}')">
+                                <h4>{{ $data->nama }}</h4>
+                            </a>
+                        </li>
+                    @endforeach
                 </ul>
-
+                <a href="{{ route('class.index') }}" data-aos="fade-up" data-aos-delay="100">see all</a>
             </div>
 
             <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
-
                 <div class="tab-pane fade active show" id="features-tab-1">
                     <div class="row">
-                        <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
-                            <h3>Voluptatem dignissimos provident</h3>
-                            <p class="fst-italic">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore
-                                magna aliqua.
-                            </p>
-                            <ul>
-                                <li><i class="bi bi-check2-all"></i> <span>Ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat.</span></li>
-                                <li><i class="bi bi-check2-all"></i> <span>Duis aute irure dolor in reprehenderit
-                                        in voluptate velit.</span></li>
-                                <li><i class="bi bi-check2-all"></i> <span>Ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                        trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</span></li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-6 order-1 order-lg-2 text-center">
-                            <img src="{{ asset('landing-page/assets/img/features-illustration-1.webp') }}"
-                                alt="" class="img-fluid">
+                        <div class="swiper-class">
+                            <div class="swiper-wrapper">
+                            </div>
                         </div>
                     </div>
-                </div><!-- End tab content item -->
-
-                <div class="tab-pane fade" id="features-tab-2">
-                    <div class="row">
-                        <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
-                            <h3>Neque exercitationem debitis</h3>
-                            <p class="fst-italic">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore
-                                magna aliqua.
-                            </p>
-                            <ul>
-                                <li><i class="bi bi-check2-all"></i> <span>Ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat.</span></li>
-                                <li><i class="bi bi-check2-all"></i> <span>Duis aute irure dolor in reprehenderit
-                                        in voluptate velit.</span></li>
-                                <li><i class="bi bi-check2-all"></i> <span>Provident mollitia neque rerum
-                                        asperiores dolores quos qui a. Ipsum neque dolor voluptate nisi sed.</span>
-                                </li>
-                                <li><i class="bi bi-check2-all"></i> <span>Ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                        trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</span></li>
-                            </ul>
+                    <div class="navigation-button d-flex justify-content-center mt-4 gap-3">
+                        <div class="btn-nav-left">
+                            <div class="bg-primary rounded-circle d-flex justify-content-center align-items-center"
+                                style="width: 30px; height: 30px;">
+                                <i class="bi bi-chevron-left  text-white"></i>
+                            </div>
                         </div>
-                        <div class="col-lg-6 order-1 order-lg-2 text-center">
-                            <img src="{{ asset('landing-page/assets/img/features-illustration-2.webp') }}"
-                                alt="" class="img-fluid">
+                        <div class="swiper-pagination-class w-auto d-flex align-items-center"></div>
+                        <div class="btn-nav-right">
+                            <div class="bg-primary rounded-circle d-flex justify-content-center align-items-center"
+                                style="width: 30px; height: 30px;">
+                                <i class="bi bi-chevron-right text-white"></i>
+                            </div>
                         </div>
                     </div>
-                </div><!-- End tab content item -->
-
-                <div class="tab-pane fade" id="features-tab-3">
-                    <div class="row">
-                        <div
-                            class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
-                            <h3>Voluptatibus commodi accusamu</h3>
-                            <ul>
-                                <li><i class="bi bi-check2-all"></i> <span>Ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat.</span></li>
-                                <li><i class="bi bi-check2-all"></i> <span>Duis aute irure dolor in reprehenderit
-                                        in voluptate velit.</span></li>
-                                <li><i class="bi bi-check2-all"></i> <span>Provident mollitia neque rerum
-                                        asperiores dolores quos qui a. Ipsum neque dolor voluptate nisi sed.</span>
-                                </li>
-                            </ul>
-                            <p class="fst-italic">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore
-                                magna aliqua.
-                            </p>
-                        </div>
-                        <div class="col-lg-6 order-1 order-lg-2 text-center">
-                            <img src="{{ asset('landing-page/assets/img/features-illustration-3.webp') }}"
-                                alt="" class="img-fluid">
-                        </div>
-                    </div>
-                </div><!-- End tab content item -->
-
+                </div>
             </div>
-
         </div>
 
     </section><!-- /Features Section -->

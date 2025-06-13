@@ -9,7 +9,6 @@ on:
 jobs:
   laravel-tests:
     runs-on: ubuntu-latest
-
     services:
       mysql:
         image: mysql:8
@@ -25,7 +24,6 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
-
     defaults:
       run:
         working-directory: src/monobiartspace
@@ -46,7 +44,7 @@ jobs:
 
       - name: Copy .env.example
         run: cp .env.example .env
-
+        
       - name: Set database config for CI
         run: |
           echo "DB_CONNECTION=mysql" >> .env
