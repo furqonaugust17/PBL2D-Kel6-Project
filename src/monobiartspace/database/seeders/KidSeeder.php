@@ -16,33 +16,66 @@ class KidSeeder extends Seeder
     public function run(): void
     {
         $KiddyNest = Kid::create(['nama' => 'Kiddy Nest']);
+        $hargaKiddyNest = [
+            ['harga' => 110000, 'jumlah_pertemuan' => 1, 'deskripsi' => 'Normal Fee 110k/Meet'],
+            ['harga' => 320000, 'jumlah_pertemuan' => 3, 'deskripsi' => 'Bundling 3 week 320k/3 meet']
+        ];
+        $KiddyNest->harga()->createMany($hargaKiddyNest);
+
         $RegularClass = Kid::create(['nama' => 'Regular Class']);
+        $hargaRegularClass = [
+            ['harga' => 110000, 'jumlah_pertemuan' => 1, 'deskripsi' => 'Normal Fee 110k/Meet'],
+            ['harga' => 320000, 'jumlah_pertemuan' => 3, 'deskripsi' => 'Bundling 3 week 320k/3 meet']
+        ];
+        $RegularClass->harga()->createMany($hargaRegularClass);
 
         $kategoriKiddy = [
-            ['nama'   => 'Kiddy Explorer', 'deskripsi' => '(2-5 tahun)'],
-            ['nama' => 'Kindergarten', 'deskripsi' => '(3-5 tahun)']
+            ['nama'   => 'Kiddy Explorer', 'deskripsi' => '(2-5 tahun)', 'jadwal' => [
+                ['hari' => 'Senin', 'mulai' => '07:00', 'akhir' => '08:00', 'kapasitas' => 6],
+                ['hari' => 'Selasa', 'mulai' => '07:00', 'akhir' => '08:00', 'kapasitas' => 6],
+                ['hari' => 'Rabu', 'mulai' => '07:00', 'akhir' => '08:00', 'kapasitas' => 6]
+            ]],
+            ['nama' => 'Kindergarten', 'deskripsi' => '(3-5 tahun)', 'jadwal' => [
+                ['hari' => 'Senin', 'mulai' => '09:00', 'akhir' => '10:00', 'kapasitas' => 6],
+                ['hari' => 'Selasa', 'mulai' => '09:00', 'akhir' => '10:00', 'kapasitas' => 6],
+                ['hari' => 'Rabu', 'mulai' => '09:00', 'akhir' => '10:00', 'kapasitas' => 6]
+            ]]
         ];
 
         $kategoriRegular = [
-            ['nama'   => 'Baby class', 'deskripsi' => '(10 - 18 bulan)'],
-            ['nama' => 'Pre toddler', 'deskripsi' => '(1,5 - 2,5 tahun)'],
-            ['nama' => 'Toddler', 'deskripsi' => '(2,5 - 5 tahun)']
+            ['nama'   => 'Baby class', 'deskripsi' => '(10 - 18 bulan)', 'jadwal' => [
+                ['hari' => 'Senin', 'mulai' => '07:00', 'akhir' => '08:00', 'kapasitas' => 6],
+                ['hari' => 'Selasa', 'mulai' => '07:00', 'akhir' => '08:00', 'kapasitas' => 6],
+                ['hari' => 'Rabu', 'mulai' => '07:00', 'akhir' => '08:00', 'kapasitas' => 6]
+            ]],
+            ['nama' => 'Pre toddler', 'deskripsi' => '(1,5 - 2,5 tahun)', 'jadwal' => [
+                ['hari' => 'Senin', 'mulai' => '09:00', 'akhir' => '10:00', 'kapasitas' => 6],
+                ['hari' => 'Selasa', 'mulai' => '09:00', 'akhir' => '10:00', 'kapasitas' => 6],
+                ['hari' => 'Rabu', 'mulai' => '09:00', 'akhir' => '10:00', 'kapasitas' => 6]
+            ]],
+            ['nama' => 'Toddler', 'deskripsi' => '(2,5 - 5 tahun)', 'jadwal' => [
+                ['hari' => 'Senin', 'mulai' => '09:00', 'akhir' => '10:00', 'kapasitas' => 6],
+                ['hari' => 'Selasa', 'mulai' => '09:00', 'akhir' => '10:00', 'kapasitas' => 6],
+                ['hari' => 'Rabu', 'mulai' => '09:00', 'akhir' => '10:00', 'kapasitas' => 6]
+            ]]
         ];
 
         foreach ($kategoriKiddy as $kiddy) {
-            KategoriKid::create([
+            $dataKiddy = KategoriKid::create([
                 'nama'  => $kiddy['nama'],
                 'deskripsi' => $kiddy['deskripsi'],
                 'kid_id' => $KiddyNest->id
             ]);
+            $dataKiddy->jadwal()->createMany($kiddy['jadwal']);
         }
 
         foreach ($kategoriRegular as $regular) {
-            KategoriKid::create([
+            $dataRegular = KategoriKid::create([
                 'nama'  => $regular['nama'],
                 'deskripsi' => $regular['deskripsi'],
                 'kid_id' => $RegularClass->id
             ]);
+            $dataRegular->jadwal()->createMany($kiddy['jadwal']);
         }
 
         $temas = [
