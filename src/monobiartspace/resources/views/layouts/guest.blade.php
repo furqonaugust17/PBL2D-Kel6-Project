@@ -22,12 +22,13 @@
 
 <body class="vh-100">
     {{ $slot }}
-    
+
     <script src="{{ asset('plugins/vendor/global/global.min.js') }}"></script>
     <script src="{{ asset('plugins/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('plugins/js/custom.js') }}"></script>
     <script src="{{ asset('plugins/js/deznav-init.js') }}"></script>
     @yield('script')
+
 </body>
 
 </html>

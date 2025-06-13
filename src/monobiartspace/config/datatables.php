@@ -42,7 +42,7 @@ return [
 
     /*
      * List of available builders for DataTables.
-     * This is where you can register your custom DataTables builder.
+     * This is where you can register your custom dataTables builder.
      */
     'engines' => [
         'eloquent' => Yajra\DataTables\EloquentDataTable::class,
@@ -79,7 +79,7 @@ return [
     'error' => env('DATATABLES_ERROR', null),
 
     /*
-     * Default columns definition of DataTable utility functions.
+     * Default columns definition of dataTable utility functions.
      */
     'columns' => [
         /*

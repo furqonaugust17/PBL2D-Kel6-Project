@@ -7,7 +7,6 @@
     <title>Index - iLanding Bootstrap Template</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicons -->
     <link href="{{ asset('landing-page/assets/img/favicon.png') }}" rel="icon">
@@ -29,7 +28,6 @@
 
     <!-- Main CSS File -->
     <link href="{{ asset('landing-page/assets/css/main.css') }}" rel="stylesheet">
-    @yield('css')
 
 </head>
 
@@ -48,9 +46,6 @@
             class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('landing-page/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('landing-page/assets/vendor/php-email-form/validate.js') }}"></script>
     <script src="{{ asset('landing-page/assets/vendor/aos/aos.js') }}"></script>
@@ -60,7 +55,7 @@
 
     <!-- Main JS File -->
     <script src="{{ asset('landing-page/assets/js/main.js') }}"></script>
-    @yield('script')
+
 </body>
 
 </html>
