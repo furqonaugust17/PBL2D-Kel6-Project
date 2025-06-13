@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('kegiatan_art_spaces', function (Blueprint $table) {
-            $table->text('slug')->after('id')->unique();
+            $table->mediumText('slug')->after('id')->unique();
             $table->text('deskripsi')->after('nama');
         });
     }
