@@ -35,6 +35,7 @@
                     url: "{{ route('booking.kids.calculate') }}",
                     type: "POST",
                     data: {
+                        kelas,
                         tema
                     },
                     success: function(data) {
@@ -92,13 +93,13 @@
                             <td>:</td>
                             <td id="tema">
                                 <ul class="m-0" style="list-style-type: '- '; padding-left: 1.2em;">${ data.tema.map(value => `
-                                                <li>
-                                                     <div>
-                                                         <input type="hidden" name="tema[]" value="${value.id}" />
-                                                          <span>${value.nama}</span>
-                                                      </div>
-                                                </li>
-                                                `).join('')}
+                                    <li>
+                                          <div>
+                                              <input type="hidden" name="tema[]" value="${value.id}" />
+                                                <span>${value.nama}</span>
+                                            </div>
+                                    </li>
+                                    `).join('')}
                                 </ul>
                             </td>
                         </tr>
@@ -199,18 +200,21 @@
                     type: "GET",
                     success: function(result) {
                         console.log(result);
-
                         $('.tema-data').empty();
-                        $('.tema-data').append(`<span>${result[0].nama}</span>`);
-                        $('.tema-data').append(`<ul></ul>`);
-                        $.each(result[0].detail_tema, function(key, val) {
-                            $('.tema-data ul').append(`
+                        if (result.data) {
+                            $('.tema-data').append(`<span>${result.data.nama}</span>`);
+                            $('.tema-data').append(`<ul></ul>`);
+                            $.each(result.data.detail_tema, function(key, val) {
+                                $('.tema-data ul').append(`
                             <li>
                                 <input type="checkbox" id="${key}" name="tema" value="${val.id}" ${(key + 1) < mingguKeBerapa() ? 'disabled' : ''}   />
                                 <label for="${key}">${val.nama} (Week ${val.week})
-                            </li>
-                            `);
-                        })
+                                    </li>
+                                    `);
+                            })
+                        } else {
+                            $('.tema-data').append(`<h2>Saat ini belum ada tema.</h2>`);
+                        }
                     }
                 });
 
