@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tema_kids', function (Blueprint $table) {
-            $table->mediumText('slug')->after('id')->unique();
+            $table->string('slug', 100)->after('id')->unique();
             $table->text('deskripsi')->after('nama');
         });
     }
