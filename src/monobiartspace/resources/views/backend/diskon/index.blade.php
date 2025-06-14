@@ -54,7 +54,6 @@
 
 
         function deleteData(id) {
-            // let token = $("meta[name='csrf-token']").attr("content");
             Swal.fire({
                 title: "Anda Yakin?",
                 text: "Data akan terhapus pada sistem!!",
@@ -75,8 +74,6 @@
                         url: uriDelete,
                         type: 'DELETE',
                         success: function(data) {
-
-
                             toastr.success(data.message, {
                                 closeButton: false,
                                 debug: false,
@@ -94,7 +91,7 @@
                                 showMethod: "fadeIn",
                                 hideMethod: "fadeOut"
                             })
-                            $('#table-karyawan').DataTable().ajax.reload()
+                            $('#table-diskon').DataTable().ajax.reload()
                         }
                     })
                 }
