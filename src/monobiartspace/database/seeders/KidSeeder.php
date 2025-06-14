@@ -60,6 +60,19 @@ class KidSeeder extends Seeder
             ]]
         ];
 
+        $RegularClass = Kid::create(['nama' => 'Regular Class']);
+
+        $kategoriKiddy = [
+            ['nama'   => 'Kiddy Explorer', 'deskripsi' => '(2-5 tahun)'],
+            ['nama' => 'Kindergarten', 'deskripsi' => '(3-5 tahun)']
+        ];
+
+        $kategoriRegular = [
+            ['nama'   => 'Baby class', 'deskripsi' => '(10 - 18 bulan)'],
+            ['nama' => 'Pre toddler', 'deskripsi' => '(1,5 - 2,5 tahun)'],
+            ['nama' => 'Toddler', 'deskripsi' => '(2,5 - 5 tahun)']
+        ];
+
         foreach ($kategoriKiddy as $kiddy) {
             $dataKiddy = KategoriKid::create([
                 'nama'  => $kiddy['nama'],

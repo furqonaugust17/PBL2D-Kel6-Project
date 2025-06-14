@@ -18,7 +18,6 @@ class KategoriKid extends Model
     {
         return $this->belongsTo(Kid::class);
     }
-
     public function jadwal(): HasMany
     {
         return $this->hasMany(JadwalKid::class, 'kategori_id');

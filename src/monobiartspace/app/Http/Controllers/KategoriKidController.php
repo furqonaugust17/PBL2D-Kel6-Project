@@ -40,15 +40,7 @@ class KategoriKidController extends Controller
         $data = $request->validated();
         KategoriKid::create($data);
 
-        return redirect()->route('kategori-kids.index')->with('success', 'Kategori Berhasil Ditambahkan');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(KategoriKid $kidsKategori)
-    {
-        // 
+        return redirect()->route('kids-kategori.index')->with('success', 'Kategori Berhasil Ditambahkan');
     }
 
     /**
@@ -69,7 +61,7 @@ class KategoriKidController extends Controller
 
         $kidsKategori->update($data);
 
-        return redirect()->route('kategori-kids.index')->with('success', 'Kategori Berhasil Diupdate');
+        return redirect()->route('kids-kategori.index')->with('success', 'Kategori Berhasil Diupdate');
     }
 
     /**

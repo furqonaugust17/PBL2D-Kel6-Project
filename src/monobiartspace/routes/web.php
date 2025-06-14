@@ -9,7 +9,10 @@ use App\Http\Controllers\Frontend\PendaftaranController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\DiskonController;
+use App\Http\Controllers\HargaClassKidController;
+use App\Http\Controllers\KategoriKidController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TemaKidController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RuangController;
 
@@ -22,6 +25,12 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
 
     Route::resource('artspace', ArtSpaceController::class);
     Route::resource('kids', KidController::class);
+
+    Route::resource('kegiatan-artspace', KegiatanArtSpaceController::class)->parameters(['kegiatan-artspace' => 'kegiatanArtSpace']);
+    Route::resource('kids-kategori', KategoriKidController::class)->parameters(['kids-kategori' => 'kidsKategori']);
+    Route::resource('kids-tema', TemaKidController::class)->parameters(['kids-tema' => 'kidsTema']);
+    Route::resource('kids-price', HargaClassKidController::class)->parameters(['kids-price' => 'kidsPrice']);
+
     Route::resource('karyawan', KaryawanController::class);
     Route::resource('ruang', RuangController::class);
     Route::resource('fasilitas', FasilitasController::class);
