@@ -27,11 +27,14 @@
                     }
                 }
             });
-            getDataClass('{{ $datas[0]->jenis }}', '{{ $datas[0]->id }}');
+
+            @if (!empty($datas))
+                getDataClass('{{ $datas[0]->jenis }}', '{{ $datas[0]->id }}');
+            @endif
+
         })
 
         function getDataClass(type, id) {
-            console.log('masuk')
             let uri = `{{ route('class', ['tipe' => ':tipe', 'id' => ':id']) }}`.replace(':tipe', `${type}`).replace(':id',
                 `${id}`);
             let classContainer = $('#features-tab-1')
@@ -45,6 +48,8 @@
                     });
                 },
                 success: function(result) {
+                    console.log(result);
+
                     $.each(result.data, function(key, val) {
                         let uriDetail =
                             `{{ route('class.detail', ['tipe' => ':kid', 'slug' => ':slug']) }}`
@@ -56,7 +61,7 @@
                                 <a class="link-underline link-underline-opacity-0"
                                             href="${uriDetail}">
                                 <div class="card h-100">
-                                    <img src="https://www.davidhechler.com/wp-content/uploads/2016/07/500x500-dummy-image.jpg" class="card-img-top" alt="...">
+                                    <img src="${val.images.length != 0 ? 'storage/' +  val.images[0].file : 'https://www.davidhechler.com/wp-content/uploads/2016/07/500x500-dummy-image.jpg'}" class="card-img-top" alt="...">
                                     <div class="card-body">
                                         <h5 class="card-title">${val.nama}</h5>
                                         ${(type != 'kids'? `<p class="card-text">${Intl.NumberFormat("id-ID", {style: "currency", currency: "IDR", minimumFractionDigits: 0, maximumFractionDigits: 0}).format(val.harga)}</p>` : '')}
