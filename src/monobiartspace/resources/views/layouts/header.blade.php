@@ -2,8 +2,8 @@
     <div
         class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-        <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
-            <img src="{{ asset('landing-page/assets/img/logo.png') }}" alt="">
+        <a href="{{ url('/') }}" class="logo d-flex align-items-center me-auto me-xl-0">
+            <img src="{{ asset('images/monobi_logo.png') }}" alt="">
         </a>
 
         <nav id="navmenu" class="navmenu">
@@ -34,8 +34,8 @@
             @if (Auth::user())
                 <a class="btn btn-getstarted" href="index.html#about">Profile</a>
             @else
-                <a class="btn" href="index.html#about">Login</a>
-                <a class="btn-getstarted m-0" href="index.html#about">Register</a>
+                <a class="btn" href="{{ route('login') }}">Login</a>
+                <a class="btn-getstarted m-0" href="{{ route('register') }}">Register</a>
             @endif
         </div>
     </div>
