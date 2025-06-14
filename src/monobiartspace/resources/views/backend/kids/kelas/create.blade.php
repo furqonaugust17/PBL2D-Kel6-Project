@@ -5,7 +5,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="basic-form">
-                        <form action="{{ route('kelas.store') }}" method="POST">
+                        <form action="{{ route('kids.store') }}" method="POST">
                             @csrf
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label" style="direction: ltr;">Nama</label>

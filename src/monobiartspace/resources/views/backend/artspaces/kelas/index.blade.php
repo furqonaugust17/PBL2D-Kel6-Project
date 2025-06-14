@@ -21,12 +21,18 @@
                 serverSide: true,
                 ajax: "{{ url()->current() }}",
                 columns: [{
+                        data: null,
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
                         data: 'nama',
                     },
                     {
                         data: 'id',
                         "render": function(data, type, row) {
-                            let uriEdit = "{{ route('kelas.edit', ['kela' => ':id']) }}"
+                            let uriEdit = "{{ route('artspace.edit', ['artspace' => ':id']) }}"
                                 .replace(
                                     ':id', data);
 
@@ -37,7 +43,13 @@
                                     </div>`
                         }
                     }
-                ]
+                ],
+                columnDefs: [{
+                    targets: 0,
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                }]
             });
 
 
@@ -45,7 +57,6 @@
 
 
         function deleteData(id) {
-            // let token = $("meta[name='csrf-token']").attr("content");
             Swal.fire({
                 title: "Anda Yakin?",
                 text: "Data akan terhapus pada sistem!!",
@@ -56,7 +67,7 @@
                 cancelButtonText: "Batal",
             }).then((result) => {
                 if (result.value) {
-                    let uriDelete = "{{ route('kelas.destroy', ['kela' => ':id']) }}".replace(':id', id);
+                    let uriDelete = "{{ route('artspace.destroy', ['artspace' => ':id']) }}".replace(':id', id);
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -66,8 +77,6 @@
                         url: uriDelete,
                         type: 'DELETE',
                         success: function(data) {
-
-
                             toastr.success(data.message, {
                                 closeButton: false,
                                 debug: false,
@@ -88,6 +97,14 @@
                             $('#table-kelas').DataTable().ajax.reload()
                         }
                     })
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ada Kesalahan Pada Server",
+                        type: "warning",
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Oke",
+                    })
                 }
             });
         }
@@ -99,7 +116,7 @@
     <x-slot:title>Kelas</x-slot:title>
     <div class="row">
         <div class="col-4">
-            <a href="{{ route('kelas.create') }}" class="btn btn-sm btn-primary">Tambah Data Kelas</a>
+            <a href="{{ route('artspace.create') }}" class="btn btn-sm btn-primary">Tambah Data Kelas</a>
         </div>
         <div class="col-12 m-t35">
             <div class="card">
@@ -108,6 +125,7 @@
                         <table id="table-kelas" class="display nowrap" style="width: 100%;">
                             <thead>
                                 <tr>
+                                    <th>No</th>
                                     <th>Nama</th>
                                     <th>Action</th>
                                 </tr>
@@ -116,6 +134,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
+                                    <th>No</th>
                                     <th>Nama</th>
                                     <th>Action</th>
                                 </tr>
@@ -127,6 +146,3 @@
         </div>
     </div>
 </x-app-layout>
-
-
-
