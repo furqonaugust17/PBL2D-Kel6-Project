@@ -1,17 +1,61 @@
 <?php
 
+use App\Http\Controllers\ArtSpaceController;
+use App\Http\Controllers\JadwalArtSpaceController;
+use App\Http\Controllers\JadwalKidController;
+use App\Http\Controllers\KegiatanArtSpaceController;
+use App\Http\Controllers\KidController;
+use App\Http\Controllers\Frontend\KelasController;
+use App\Http\Controllers\Frontend\MainController;
+use App\Http\Controllers\Frontend\PendaftaranController;
+use App\Http\Controllers\KaryawanController;
+use App\Http\Controllers\FasilitasController;
+use App\Http\Controllers\DiskonController;
+use App\Http\Controllers\HargaClassKidController;
+use App\Http\Controllers\KategoriKidController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TemaKidController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RuangController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [MainController::class, 'index']);
 
-
-Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified']], function () {
+Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdmin']], function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::resource('artspace', ArtSpaceController::class);
+    Route::resource('kids', KidController::class);
+
+    Route::resource('kegiatan-artspace', KegiatanArtSpaceController::class)->parameters(['kegiatan-artspace' => 'kegiatanArtSpace']);
+    Route::resource('kids-kategori', KategoriKidController::class)->parameters(['kids-kategori' => 'kidsKategori']);
+    Route::resource('kids-tema', TemaKidController::class)->parameters(['kids-tema' => 'kidsTema']);
+    Route::resource('artspace-jadwal', JadwalArtSpaceController::class)->parameters(['artspace-jadwal' => 'jadwalArtSpace']);
+    Route::resource('kids-jadwal', JadwalKidController::class)->parameters(['kids-jadwal' => 'jadwalKid']);
+    Route::resource('kids-price', HargaClassKidController::class)->parameters(['kids-price' => 'kidsPrice']);
+
+    Route::resource('karyawan', KaryawanController::class);
+    Route::resource('ruang', RuangController::class);
+    Route::resource('fasilitas', FasilitasController::class);
+    Route::resource('diskon', DiskonController::class);
+});
+
+Route::get('class', [KelasController::class, 'index'])->name('class.index');
+Route::get('class/detail/{tipe}/{slug}', [KelasController::class, 'detail'])->name('class.detail');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('booking/artspace', [PendaftaranController::class, 'artSpace'])->name('booking.artspace');
+    Route::post('booking/artspace', [PendaftaranController::class, 'storeArtSpace'])->name('booking.artspace.store');
+    Route::post('booking/artspace/calculate', [PendaftaranController::class, 'calculateArtSpaceTransaction'])->name('booking.artspace.calculate');
+
+    Route::get('booking/kids', [PendaftaranController::class, 'kids'])->name('booking.kids');
+    Route::post('booking/kids', [PendaftaranController::class, 'storeKids'])->name('booking.kids.store');
+    Route::post('booking/kids/calculate', [PendaftaranController::class, 'calculateKidTransaction'])->name('booking.kids.calculate');
+
+    Route::get('booking', [PendaftaranController::class, 'index'])->name('booking');
+    Route::get('booking/detail/{id}', [PendaftaranController::class, 'show'])->name('booking.show');
+    Route::post('booking/cancel/{id}', [PendaftaranController::class, 'cancel'])->name('booking.cancel');
 });
 
 Route::middleware('auth')->group(function () {
