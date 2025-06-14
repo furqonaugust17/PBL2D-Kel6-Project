@@ -13,7 +13,6 @@ class KegiatanArtSpace extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = ['slug', 'nama', 'deskripsi', 'harga', 'artspace_id'];
-    protected $with = ['artspace'];
 
     public static function boot()
     {
