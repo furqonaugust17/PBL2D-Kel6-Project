@@ -5,8 +5,8 @@
                 <img src="{{ asset('images/Untitled-1.jpg') }}" alt="">
                 <a href="javascript:void(0);"><i class="fa fa-cog" aria-hidden="true"></i></a>
             </div>
-            <h5 class="name"><span class="font-w400">Hello,</span> Marquez</h5>
-            <p class="email">marquezzzz@mail.com</p>
+            <h5 class="name"><span class="font-w400">Hello,</span> {{ Auth::user()->name }}</h5>
+            <p class="email">{{ Auth::user()->email }}</p>
         </div>
         <ul class="metismenu" id="menu">
             <li class="nav-label first">Main Menu</li>
@@ -54,7 +54,7 @@
             </li>
             <li><a class="ai-icon" href="{{ route('diskon.index') }}">
                     <i class="fas fa-percentage"></i>
-                    <span class="nav-text">diskon</span>
+                    <span class="nav-text">Diskon</span>
                 </a>
             </li>
         </ul>
