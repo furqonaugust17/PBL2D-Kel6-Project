@@ -8,7 +8,7 @@
     <script src="{{ asset('plugins/js/plugins-init/datatables.init.js') }}"></script>
     <script src="{{ asset('plugins/vendor/sweetalert2/dist/sweetalert2.min.js') }}"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#table-ruang').DataTable({
                 language: {
                     paginate: {
@@ -19,13 +19,23 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ url()->current() }}",
-                columns: [
-                    { data: 'nama' },
-                    { data: 'kapasitas' },
+                columns: [{
+                        data: null,
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'nama'
+                    },
+                    {
+                        data: 'kapasitas'
+                    },
                     {
                         data: 'id',
-                        render: function (data, type, row) {
-                            let uriEdit = "{{ route('ruang.edit', ['ruang' => ':id']) }}".replace(':id', data);
+                        render: function(data, type, row) {
+                            let uriEdit = "{{ route('ruang.edit', ['ruang' => ':id']) }}".replace(
+                                ':id', data);
 
                             return `<div class="d-flex">
                                         <a href="${uriEdit}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
@@ -33,7 +43,13 @@
                                     </div>`;
                         }
                     }
-                ]
+                ],
+                columnDefs: [{
+                    targets: 0,
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                }]
             });
         });
 
@@ -57,7 +73,7 @@
                     $.ajax({
                         url: uriDelete,
                         type: 'DELETE',
-                        success: function (data) {
+                        success: function(data) {
                             $('#table-ruang').DataTable().ajax.reload();
                         }
                     });
@@ -80,6 +96,7 @@
                         <table id="table-ruang" class="display nowrap" style="width: 100%;">
                             <thead>
                                 <tr>
+                                    <th>No</th>
                                     <th>Nama Ruang</th>
                                     <th>Kapasitas</th>
                                     <th>Action</th>
@@ -87,13 +104,13 @@
                             </thead>
                             <tfoot>
                                 <tr>
+                                    <th>No</th>
                                     <th>Nama Ruang</th>
                                     <th>Kapasitas</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                                {{-- diisi otomatis oleh DataTables --}}
                             </tbody>
                         </table>
                     </div>
