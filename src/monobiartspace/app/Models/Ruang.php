@@ -11,8 +11,8 @@ class Ruang extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'ruang'; 
-    protected $fillable = ['id_ruang', 'nama_fasilitas'];
+    protected $table = 'ruang';
+    protected $fillable = ['nama', 'kapasitas'];
 
     public function fasilitas(): HasMany
     {
