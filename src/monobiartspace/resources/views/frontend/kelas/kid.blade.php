@@ -98,21 +98,11 @@
                         <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
                             class="swiper mySwiper2">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-                                </div>
+                                @foreach ($data->images as $image)
+                                    <div class="swiper-slide">
+                                        <img src="storage/{{ $image->file }}" />
+                                    </div>
+                                @endforeach
                             </div>
 
                         </div>
@@ -122,21 +112,11 @@
                             </div>
                             <div thumbsSlider="" class="swiper mySwiper">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-                                    </div>
+                                    @foreach ($data->images as $image)
+                                        <div class="swiper-slide">
+                                            <img src="storage/{{ $image->file }}" />
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="btn-next">
@@ -147,10 +127,7 @@
                 </div>
                 <div class="col-lg-8 col-12">
                     <h1 class="fw-bold">{{ $data->nama }}</h1>
-                    <p class="text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi repudiandae
-                        excepturi ea
-                        blanditiis perferendis velit laboriosam ratione nobis quia eaque ipsum repellendus sed nulla,
-                        voluptas alias quis, eius dolores voluptatum.</p>
+                    <p class="text-justify">{{ $data->deskripsi }}</p>
                     <div class="row">
                         <div class="col-lg-6 col-12">
                             <h2>Tema Setiap Minggu</h2>
