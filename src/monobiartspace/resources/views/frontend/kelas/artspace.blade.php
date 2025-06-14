@@ -63,13 +63,12 @@
     </style>
 @endsection
 @section('script')
-    {{-- <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script> --}}
     <script type="text/javascript">
         $(document).ready(function() {
             const swiper = new Swiper(".mySwiper", {
                 loop: true,
                 spaceBetween: 10,
-                slidesPerView: 5,
+                slidesPerView: {{ count($data->images) }},
                 freeMode: true,
                 watchSlidesProgress: true,
             });
@@ -94,28 +93,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-12">
-                    {{-- <img class="w-100 rounded"
-                        src="https://www.davidhechler.com/wp-content/uploads/2016/07/500x500-dummy-image.jpg"
-                        alt=""> --}}
                     <div class="rounded">
                         <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
                             class="swiper mySwiper2">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-                                </div>
+                                @foreach ($data->images as $image)
+                                    <div class="swiper-slide">
+                                        <img src="{{ asset('storage/' . $image->file) }}" />
+                                    </div>
+                                @endforeach
                             </div>
 
                         </div>
@@ -125,21 +111,11 @@
                             </div>
                             <div thumbsSlider="" class="swiper mySwiper">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-                                    </div>
+                                    @foreach ($data->images as $image)
+                                        <div class="swiper-slide">
+                                            <img src="{{ asset('storage/' . $image->file) }}" />
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="btn-next">
@@ -151,10 +127,7 @@
                 <div class="col-lg-8 col-12">
                     <h1 class="fw-bold">{{ $data->nama }}</h1>
                     <p class="text-body-secondary fs-3">Rp {{ number_format($data->harga, 0, ',', '.') }}</p>
-                    <p class="text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi repudiandae
-                        excepturi ea
-                        blanditiis perferendis velit laboriosam ratione nobis quia eaque ipsum repellendus sed nulla,
-                        voluptas alias quis, eius dolores voluptatum.</p>
+                    <p class="text-justify">{{ $data->deskripsi }}</p>
                     <div class="button-wrapper btn btn-primary">
                         <a href="{{ route('booking.artspace') }}" class="text-white">Pesan Sekarang</a>
                     </div>
