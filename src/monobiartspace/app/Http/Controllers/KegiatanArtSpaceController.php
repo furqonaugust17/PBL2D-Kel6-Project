@@ -25,7 +25,7 @@ class KegiatanArtSpaceController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $kegiatanArtSpace = KegiatanArtSpace::query();
+            $kegiatanArtSpace = KegiatanArtSpace::with(['artspace']);
             return DataTables::of($kegiatanArtSpace)->make();
         }
         return view('backend.artspaces.kegiatan.index');
