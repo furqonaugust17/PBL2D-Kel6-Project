@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ArtSpaceController;
+use App\Http\Controllers\JadwalArtSpaceController;
+use App\Http\Controllers\JadwalKidController;
 use App\Http\Controllers\KegiatanArtSpaceController;
 use App\Http\Controllers\KidController;
 use App\Http\Controllers\Frontend\KelasController;
@@ -29,6 +31,8 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
     Route::resource('kegiatan-artspace', KegiatanArtSpaceController::class)->parameters(['kegiatan-artspace' => 'kegiatanArtSpace']);
     Route::resource('kids-kategori', KategoriKidController::class)->parameters(['kids-kategori' => 'kidsKategori']);
     Route::resource('kids-tema', TemaKidController::class)->parameters(['kids-tema' => 'kidsTema']);
+    Route::resource('artspace-jadwal', JadwalArtSpaceController::class)->parameters(['artspace-jadwal' => 'jadwalArtSpace']);
+    Route::resource('kids-jadwal', JadwalKidController::class)->parameters(['kids-jadwal' => 'jadwalKid']);
     Route::resource('kids-price', HargaClassKidController::class)->parameters(['kids-price' => 'kidsPrice']);
 
     Route::resource('karyawan', KaryawanController::class);
