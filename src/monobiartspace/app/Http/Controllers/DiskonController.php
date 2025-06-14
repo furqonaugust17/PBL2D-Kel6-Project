@@ -81,8 +81,12 @@ class DiskonController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Diskon $diskon)
     {
-        //
+        $diskon->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'Diskon Berhasil Dihapus',
+        ]);
     }
 }
