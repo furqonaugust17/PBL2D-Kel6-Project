@@ -14,6 +14,6 @@ class ArtSpace extends Model
 
     public function kegiatan(): HasMany
     {
-        return $this->hasMany(KegiatanArtSpace::class);
+        return $this->hasMany(KegiatanArtSpace::class, 'artspace_id');
     }
 }

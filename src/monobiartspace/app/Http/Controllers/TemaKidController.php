@@ -17,7 +17,6 @@ class TemaKidController extends Controller
     {
         $this->imageUploadService = $imageUploadService;
     }
-
     /**
      * Display a listing of the resource.
      */
@@ -106,7 +105,7 @@ class TemaKidController extends Controller
             $detailTema->nama = $data['week'][$index];
             $detailTema->save();
         }
-
+      
         if ($request->hasFile('foto')) {
             $this->imageUploadService->deleteImages($kidsTema->images);
 
@@ -114,8 +113,7 @@ class TemaKidController extends Controller
 
             $kidsTema->images()->createMany($paths);
         }
-
-
+      
         return redirect()->route('kids-tema.index')->with('success', 'Tema Berhasil Diupdate');
     }
 
@@ -131,5 +129,11 @@ class TemaKidController extends Controller
             'success' => true,
             'message' => 'Tema Berhasil Dihapus',
         ]);
+    }
+
+    public function getData(String $id)
+    {
+        $data = TemaKid::with('detailTema')->where('kid_id', $id)->where('is_active', 1)->first();
+        return response()->json(['data' => $data]);
     }
 }

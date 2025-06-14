@@ -11,14 +11,18 @@ class Kid extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = ['nama'];
-
-    public function kategori(): HasMany
+    public function kategories(): HasMany
     {
         return $this->hasMany(KategoriKid::class);
     }
 
-    public function tema(): HasMany
+    public function temas(): HasMany
     {
         return $this->hasMany(TemaKid::class);
+    }
+
+    public function harga(): HasMany
+    {
+        return $this->hasMany(HargaClassKid::class);
     }
 }

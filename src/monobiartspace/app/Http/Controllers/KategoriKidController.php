@@ -39,9 +39,9 @@ class KategoriKidController extends Controller
     {
         $data = $request->validated();
         KategoriKid::create($data);
-
         return redirect()->route('kids-kategori.index')->with('success', 'Kategori Berhasil Ditambahkan');
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -74,5 +74,11 @@ class KategoriKidController extends Controller
             'success' => true,
             'message' => 'Kategori Berhasil Dihapus',
         ]);
+    }
+
+    public function getData(String $id)
+    {
+        $data = KategoriKid::where('kid_id', $id)->get();
+        return response()->json($data);
     }
 }
