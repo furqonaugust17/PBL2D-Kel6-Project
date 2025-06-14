@@ -13,9 +13,9 @@ class MainController extends Controller
     public function index()
     {
         $datas = DB::select('
-            (SELECT id, nama, "artspace" AS jenis FROM art_spaces LIMIT 2)
+            (SELECT id, nama, "artspace" AS jenis FROM art_spaces WHERE deleted_at IS NULL LIMIT 2)
             UNION ALL
-            (SELECT id, nama, "kids" AS jenis FROM kids)
+            (SELECT id, nama, "kids" AS jenis FROM kids WHERE deleted_at IS NULL)
             LIMIT 3
         ');
         return view('landing-page.index', compact('datas'));
@@ -24,9 +24,9 @@ class MainController extends Controller
     public function getDataClass(String $tipe, String $id)
     {
         if ($tipe == 'artspace') {
-            $data = KegiatanArtSpace::where('artspace_id', $id)->get();
+            $data = KegiatanArtSpace::with('images')->where('artspace_id', $id)->get();
         } else {
-            $data = TemaKid::with('detailTema')->where('kid_id', $id)->get();
+            $data = TemaKid::with(['detailTema', 'images'])->where('kid_id', $id)->get();
         }
 
         return response()->json(['success' => true, 'data' => $data]);
