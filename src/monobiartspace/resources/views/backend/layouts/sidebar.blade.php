@@ -15,6 +15,11 @@
                     <span class="nav-text">Dashboard</span>
                 </a>
             </li>
+            <li><a class="ai-icon" href="{{ route('pembayaran.index') }}">
+                    <i class="fas fa-money-bill"></i>
+                    <span class="nav-text">Pembayaran</span>
+                </a>
+            </li>
         </ul>
     </div>
 </div>
