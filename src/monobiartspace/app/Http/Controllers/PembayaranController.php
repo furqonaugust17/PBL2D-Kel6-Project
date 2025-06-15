@@ -48,13 +48,6 @@ class PembayaranController extends Controller
      */
     public function show(PembayaranBooking $pembayaran, String $type)
     {
-        // if ($type == 'kids') {
-        //     $data = (object) $this->pembayaranService->getDataPembayaranKids($pembayaran->order_id);
-        //     return view('backend.pembayaran.kid', compact('data'));
-        // } else {
-        //     $data = (object) $this->pembayaranService->getDataPembayaranArtSpace($pembayaran->order_id);
-        //     return view('backend.pembayaran.artspace', compact('data'));
-        // }
         $data = $pembayaran->load(['pendaftaran.customer.user']);
         return view('backend.pembayaran.detail', compact('data'));
     }
