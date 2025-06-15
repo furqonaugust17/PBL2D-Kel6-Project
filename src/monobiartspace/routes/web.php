@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,6 +13,9 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified']], func
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('pembayaran/{pembayaran}/{type}', [PembayaranController::class, 'show'])->name('pembayaran.show');
+    Route::resource('pembayaran', PembayaranController::class)->except(['show']);
 });
 
 Route::middleware('auth')->group(function () {
