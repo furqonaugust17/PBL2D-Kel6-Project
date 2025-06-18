@@ -23,6 +23,6 @@ jobs:
             cd src/monobiartspace
             COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist --optimize-autoloader
             php artisan key:generate
-            php artisan migrate:fresh
+            php artisan migrate:fresh --seed
             php artisan config:clear
             php artisan config:cache
