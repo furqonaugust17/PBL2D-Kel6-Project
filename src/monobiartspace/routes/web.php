@@ -14,6 +14,7 @@ use App\Http\Controllers\DiskonController;
 use App\Http\Controllers\HargaClassKidController;
 use App\Http\Controllers\KategoriKidController;
 use App\Http\Controllers\PendaftaranController;
+use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TemaKidController;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
     Route::resource('fasilitas', FasilitasController::class);
     Route::resource('diskon', DiskonController::class);
     Route::resource('pendaftaran', PendaftaranController::class);
+    Route::resource('pembayaran', PembayaranController::class)->except(['show']);
 });
 
 Route::get('class', [FrontKelas::class, 'index'])->name('class.index');
@@ -58,6 +60,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('booking', [FrontPendaftaran::class, 'index'])->name('booking');
     Route::get('booking/detail/{id}', [FrontPendaftaran::class, 'show'])->name('booking.show');
     Route::post('booking/cancel/{id}', [FrontPendaftaran::class, 'cancel'])->name('booking.cancel');
+    Route::get('pembayaran/{pembayaran}/{type}', [PembayaranController::class, 'show'])->name('pembayaran.show');
 });
 
 Route::middleware('auth')->group(function () {

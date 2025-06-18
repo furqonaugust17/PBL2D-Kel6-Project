@@ -20,6 +20,11 @@
                     <span class="nav-text">Pendaftaran</span>
                 </a>
             </li>
+            <li><a class="ai-icon" href="{{ route('pembayaran.index') }}">
+                    <i class="fas fa-money-bill"></i>
+                    <span class="nav-text">Pembayaran</span>
+                </a>
+            </li>
             <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                     <i class="fas fa-chalkboard"></i>
                     <span class="nav-text">Monobi Art Space</span>
