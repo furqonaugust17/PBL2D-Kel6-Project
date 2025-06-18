@@ -14,7 +14,7 @@ class PembayaranService
             'pendaftaran.detailPendaftaranKid.children',
             'pendaftaran.detailPendaftaranKid.jadwalKid.kategori.kid',
             'pendaftaran.detailPendaftaranKid.jadwalKid.kategori',
-            'pendaftaran.detailPendaftaranKid.detailPendaftaranTema.tema'
+            'pendaftaran.detailPendaftaranKid.detailPendaftaranTema.tema.tema'
         ])->where('order_id', $order_id)->firstOrFail();;
         $pendaftaran = $pembayaran->pendaftaran;
         $detailKid = optional($pendaftaran)->detailPendaftaranKid;
@@ -34,6 +34,7 @@ class PembayaranService
             'tgl_lahir'           => optional($detailKid->children)->tgl_lahir,
             'kelas'               => optional(optional($detailKid->jadwalKid)?->kategori?->kid)->nama,
             'kategori'            => optional($detailKid->jadwalKid?->kategori)->nama,
+            'judul_tema'          => $detailKid->detailPendaftaranTema->first()->tema->tema->nama,
             'tema'                => $temaList,
             'no_telepon'          => optional($pendaftaran->customer)->notelp,
             'status_pembayaran'   => $pembayaran->status ?? 'Pending',
