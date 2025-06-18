@@ -184,7 +184,7 @@ class PendaftaranController extends Controller
         $total_bayar = 0;
         $detailItem = $participants->groupBy('activity_id')->map(function ($group, $activity_id) use ($kegiatans, &$total_bayar) {
             $kegiatan = $kegiatans[$activity_id] ?? null;
-            $total_bayar += $kegiatan->harga;
+            $total_bayar += ($kegiatan->harga * intval($group->count()));
             return [
                 'id' => 'activity_' . $activity_id,
                 'name' => $kegiatan->nama ?? 'Unknown',

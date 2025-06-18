@@ -20,6 +20,7 @@
                     });
                 });
 
+                console.log(participants);
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -63,7 +64,7 @@
                             <td>:</td>
                             <td id="kegiatan">
                                  <ul class="m-0" style="list-style-type: '- '; padding-left: 1.2em;">${ participants.map((value, index) => `
-                                    <li>${value.name} (${data.data[index].name} ${data.data[index].price} )</li>
+                                    <li>${value.name} (${data.data.find(element => element.id === `activity_${value.activity_id}`).name} ${data.data.find(element => element.id === `activity_${value.activity_id}`).price} )</li>
                                     `).join('')}
                                 </ul>
                             </td>
