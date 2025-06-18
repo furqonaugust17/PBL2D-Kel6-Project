@@ -14,6 +14,6 @@ class DetailTemaKid extends Model
 
     public function tema(): BelongsTo
     {
-        return $this->belongsTo(TemaKid::class);
+        return $this->belongsTo(TemaKid::class, 'tema_kid_id');
     }
 }
