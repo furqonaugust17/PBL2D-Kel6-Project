@@ -15,6 +15,11 @@
                     <span class="nav-text">Dashboard</span>
                 </a>
             </li>
+            <li><a class="ai-icon" href="{{ route('pendaftaran.index') }}">
+                    <i class="fas fa-file-alt"></i>
+                    <span class="nav-text">Pendaftaran</span>
+                </a>
+            </li>
         </ul>
     </div>
 </div>
