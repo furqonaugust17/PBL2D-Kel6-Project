@@ -18,6 +18,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
             cd /var/www/monobiartspace
+            git reset --hard origin/main
             git pull origin ${{ github.ref_name }} --force
             cd src/monobiartspace
             COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist --optimize-autoloader
