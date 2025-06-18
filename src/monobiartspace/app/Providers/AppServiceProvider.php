@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (request()->host() != 'localhost') {
+        if (request()->host() != '127.0.0.1') {
             URL::forceScheme('https');
         }
     }
