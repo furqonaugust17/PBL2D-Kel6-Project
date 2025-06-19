@@ -18,6 +18,7 @@
                     },
                     {
                         data: 'order_id',
+                        name: 'pembayaran_bookings.order_id'
                     },
                     {
                         data: 'type',
@@ -27,6 +28,7 @@
                     },
                     {
                         data: 'amount',
+                        name: 'pembayaran_bookings.amount'
                     },
                     {
                         data: 'id',
