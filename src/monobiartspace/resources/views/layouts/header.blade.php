@@ -32,7 +32,10 @@
 
         <div class="d-flex">
             @if (Auth::user())
-                <a class="btn btn-getstarted" href="index.html#about">Profile</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button class="btn btn-getstarted">Logout</button>
+                </form>
             @else
                 <a class="btn" href="{{ route('login') }}">Login</a>
                 <a class="btn-getstarted m-0" href="{{ route('register') }}">Register</a>
