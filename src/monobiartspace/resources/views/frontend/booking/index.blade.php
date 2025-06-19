@@ -67,21 +67,22 @@
     </div>
     <section class="section">
         <div class="container">
-            <table id="table-booking" class="table" style="width: 100%;">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Order ID</th>
-                        <th>Booking</th>
-                        <th>Tanggal Reservasi</th>
-                        <th>Total Bayar</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table id="table-booking" class="table" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Order ID</th>
+                            <th>Booking</th>
+                            <th>Tanggal Reservasi</th>
+                            <th>Total Bayar</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
 </x-app>
