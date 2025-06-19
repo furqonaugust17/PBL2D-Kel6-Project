@@ -3,16 +3,6 @@
         <nav class="navbar navbar-expand">
             <div class="collapse navbar-collapse justify-content-between">
                 <div class="header-left">
-                    <!-- <div class="input-group search-area right d-lg-inline-flex d-none">
-        <input type="text" class="form-control" placeholder="Find something here...">
-        <div class="input-group-append">
-         <span class="input-group-text">
-          <a href="javascript:void(0)">
-           <i class="flaticon-381-search-2"></i>
-          </a>
-         </span>
-        </div>
-       </div> -->
                     <div class="input-group search-area right d-lg-inline-flex d-none">
                         <input type="text" class="form-control" placeholder="Search here...">
                         <span class="input-group-text"><a href="javascript:void(0)"><i
@@ -223,8 +213,8 @@
                         <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
                             <img src="{{ asset('images/profile/pic1.jpg') }}" width="20" alt="" />
                             <div class="header-info">
-                                <span>Johndoe</span>
-                                <small>Super Admin</small>
+                                <span>{{ Auth::user()->name }}</span>
+                                <small>{{ Auth::user()->getRoleNames()->first() }}</small>
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
