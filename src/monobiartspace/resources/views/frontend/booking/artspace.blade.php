@@ -64,8 +64,8 @@
                             <td>:</td>
                             <td id="kegiatan">
                                  <ul class="m-0" style="list-style-type: '- '; padding-left: 1.2em;">${ participants.map((value, index) => `
-                                    <li>${value.name} (${data.data.find(element => element.id === `activity_${value.activity_id}`).name} ${data.data.find(element => element.id === `activity_${value.activity_id}`).price} )</li>
-                                    `).join('')}
+                                                                        <li>${value.name} (${data.data.find(element => element.id === `activity_${value.activity_id}`).name} ${data.data.find(element => element.id === `activity_${value.activity_id}`).price} )</li>
+                                                                        `).join('')}
                                 </ul>
                             </td>
                         </tr>
@@ -132,18 +132,18 @@
             const container = document.getElementById('participants');
             const html = `
         <tr class="participant">
-            <td>
+            <td class="d-lg-table-cell d-block">
                 <div class="row">
                     <label class="col-sm-4 col-form-label">Nama Peserta</label>
-                    <div class="col-sm-8" style="padding-left: 1.4rem !important;">
+                    <div class="col-sm-8 ps-lg-4">
                         <input type="text" class="form-control" name="participants[][name]"
                             required>
                     </div>
                 </div>
             </td>
-            <td>
+            <td class="d-lg-table-cell d-block">
                 <div class="row">
-                    <label class="col-sm-4 col-form-label text-end">Kegiatan</label>
+                    <label class="col-sm-4 col-form-label text-lg-end">Kegiatan</label>
                     <div class="col-sm-8">
                         <select name="participants[][activity_id]" class="form-control">
                             @foreach ($kegiatanArtSpace as $kegiatan)
@@ -155,7 +155,7 @@
                     </div>
                 </div>
             </td>
-            <td>
+            <td class="align-bottom">
                     <button type="button" class="btn btn-danger w-100" onclick="removeParticipant(this)"><i
                         class="bi bi-trash"></i></button>
             </td>
@@ -214,17 +214,17 @@
                     </thead>
                     <tbody id="participants">
                         <tr class="participant">
-                            <td>
+                            <td class="d-lg-table-cell d-block">
                                 <div class="row">
                                     <label class="col-sm-4 col-form-label">Nama Peserta</label>
-                                    <div class="col-sm-8" style="padding-left: 1.4rem !important;">
+                                    <div class="col-sm-8 ps-lg-4">
                                         <input type="text" class="form-control" name="participants[][name]" required>
                                     </div>
                                 </div>
                             </td>
-                            <td>
+                            <td class="d-lg-table-cell d-block">
                                 <div class="row">
-                                    <label class="col-sm-4 col-form-label text-end">Kegiatan</label>
+                                    <label class="col-sm-4 col-form-label text-lg-end">Kegiatan</label>
                                     <div class="col-sm-8">
                                         <select name="participants[][activity_id]" class="form-control">
                                             @foreach ($kegiatanArtSpace as $kegiatan)
