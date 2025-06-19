@@ -26,11 +26,23 @@
                         @endif
                     </ul>
                 </li>
+                @if (Auth::user())
+                    <li class="d-lg-none d-block">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button class="btn btn-getstarted">Logout</button>
+                        </form>
+                    </li>
+                @else
+                    <li class="d-lg-none d-block"><a href="{{ route('login') }}">Login</a></li>
+                    <li class="d-lg-none d-block"><a href="{{ route('register') }}">Register</a>
+                    </li>
+                @endif
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
-        <div class="d-flex">
+        <div class="d-flex order-3 d-lg-block d-none">
             @if (Auth::user())
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
