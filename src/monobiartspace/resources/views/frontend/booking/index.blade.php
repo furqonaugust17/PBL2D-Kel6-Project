@@ -17,7 +17,7 @@
                         data: null,
                     },
                     {
-                        data: 'pembayaran.order_id',
+                        data: 'order_id',
                     },
                     {
                         data: 'type',
@@ -27,7 +27,6 @@
                     },
                     {
                         data: 'amount',
-                        name: 'pembayaran.amount'
                     },
                     {
                         data: 'id',

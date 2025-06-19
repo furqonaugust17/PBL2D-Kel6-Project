@@ -41,7 +41,9 @@ class PendaftaranController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $pendaftaran = Pendaftaran::with('pembayaran');
+            $pendaftaran = Pendaftaran::select('pendaftarans.*', 'pembayaran_bookings.amount',  'pembayaran_bookings.order_id')
+                ->leftJoin('pembayaran_bookings', 'pembayaran_bookings.pendaftaran_id', '=', 'pendaftarans.id')
+                ->where('customer_id', Auth::user()->customer->id);
             return DataTables::of($pendaftaran)->addColumn('amount', function ($row) {
                 return "Rp " . number_format($row->amount, 0, ',', '.');
             })->addColumn('tanggal_reservasi', function ($row) {
