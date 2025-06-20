@@ -15,6 +15,11 @@
                     <span class="nav-text">Dashboard</span>
                 </a>
             </li>
+            <li><a class="ai-icon" href="{{ route('customer.index') }}">
+                    <i class="fas fa-user"></i>
+                    <span class="nav-text">Customer</span>
+                </a>
+            </li>
         </ul>
     </div>
 </div>
