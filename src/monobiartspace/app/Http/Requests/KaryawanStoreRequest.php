@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Spatie\Permission\Models\Role;
 
 class KaryawanStoreRequest extends FormRequest
 {
@@ -35,11 +36,13 @@ class KaryawanStoreRequest extends FormRequest
 
             'jk' => ['required', Rule::in(['l', 'p'])],
 
+            'role'  => ['required', Rule::in(Role::pluck('name'))],
+
             'alamat' => ['nullable', 'string', 'max:255'],
 
             'notelp' => [
                 'nullable',
-                'regex:/^(\+62|0)[0-9]{9,15}$/',
+                'regex:/^\+62[0-9]{9,15}$/',
                 'max:15'
             ],
 
@@ -75,7 +78,7 @@ class KaryawanStoreRequest extends FormRequest
             'jk.required' => 'Jenis kelamin wajib dipilih.',
             'jk.in' => 'Jenis kelamin hanya boleh L (Laki-laki) atau P (Perempuan).',
             'alamat.max' => 'Alamat terlalu panjang, maksimal :max karakter.',
-            'notelp.regex' => 'Nomor telepon harus valid dan sesuai format Indonesia (cth: 0812xxxx atau +62812xxxx).',
+            'notelp.regex' => 'Nomor telepon harus valid dan sesuai format Indonesia +62812xxxx).',
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah terdaftar',
             'password.required' => 'Password wajib diisi.',
