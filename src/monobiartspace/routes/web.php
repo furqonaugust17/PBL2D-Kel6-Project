@@ -15,6 +15,7 @@ use App\Http\Controllers\HargaClassKidController;
 use App\Http\Controllers\KategoriKidController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TemaKidController;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
     Route::resource('diskon', DiskonController::class);
     Route::resource('pendaftaran', PendaftaranController::class);
     Route::resource('pembayaran', PembayaranController::class)->except(['show']);
+    Route::resource('customer', CustomerController::class);
 });
 
 Route::get('class', [FrontKelas::class, 'index'])->name('class.index');

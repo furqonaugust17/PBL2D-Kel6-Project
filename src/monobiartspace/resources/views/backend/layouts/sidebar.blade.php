@@ -52,6 +52,11 @@
                     <span class="nav-text">Manajemen Karyawan</span>
                 </a>
             </li>
+            <li><a class="ai-icon" href="{{ route('customer.index') }}">
+                    <i class="fas fa-user"></i>
+                    <span class="nav-text">Customer</span>
+                </a>
+            </li>
             <li><a class="ai-icon" href="{{ route('ruang.index') }}">
                     <i class="fas fa-warehouse"></i>
                     <span class="nav-text">Manajemen Ruang</span>

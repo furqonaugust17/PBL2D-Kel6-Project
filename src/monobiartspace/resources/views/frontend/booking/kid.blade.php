@@ -93,13 +93,13 @@
                             <td>:</td>
                             <td id="tema">
                                 <ul class="m-0" style="list-style-type: '- '; padding-left: 1.2em;">${ data.tema.map(value => `
-                                    <li>
-                                          <div>
-                                              <input type="hidden" name="tema[]" value="${value.id}" />
-                                                <span>${value.nama}</span>
-                                            </div>
-                                    </li>
-                                    `).join('')}
+                                        <li>
+                                              <div>
+                                                  <input type="hidden" name="tema[]" value="${value.id}" />
+                                                    <span>${value.nama}</span>
+                                                </div>
+                                        </li>
+                                        `).join('')}
                                 </ul>
                             </td>
                         </tr>
@@ -285,36 +285,36 @@
                 <table class="w-100 z-1" id="formContent">
                     <tbody>
                         <tr>
-                            <td>Nama Lengkap Anak</td>
-                            <td>
+                            <td class="d-lg-table-cell d-block">Nama Lengkap Anak</td>
+                            <td class="d-lg-table-cell d-block">
                                 <input class="form-control" type="text" name="nama-lengkap" id="nama-lengkap"
                                     required>
                             </td>
                         </tr>
                         <tr>
-                            <td>Nama Panggilan Anak</td>
-                            <td>
+                            <td class="d-lg-table-cell d-block">Nama Panggilan Anak</td>
+                            <td class="d-lg-table-cell d-block">
                                 <input class="form-control" type="text" name="nama-panggilan" id="nama-panggilan"
                                     required>
                             </td>
                         </tr>
                         <tr>
-                            <td>Usia Anak Saat Ini</td>
-                            <td>
+                            <td class="d-lg-table-cell d-block">Usia Anak Saat Ini</td>
+                            <td class="d-lg-table-cell d-block">
                                 <input class="form-control" type="number" name="usia-saat-ini" id="usia-saat-ini"
                                     required>
                             </td>
                         </tr>
                         <tr>
-                            <td>Tanggal Lahir anak</td>
-                            <td>
+                            <td class="d-lg-table-cell d-block">Tanggal Lahir anak</td>
+                            <td class="d-lg-table-cell d-block">
                                 <input class="form-control" type="date" name="tgl-lahir" id="tgl-lahir"
                                     onclick="this.showPicker()" required>
                             </td>
                         </tr>
                         <tr>
-                            <td>Pilih Kelas</td>
-                            <td>
+                            <td class="d-lg-table-cell d-block">Pilih Kelas</td>
+                            <td class="d-lg-table-cell d-block">
                                 <select class="form-control" name="kelas_id" id="kelas" required>
                                     <option value="" selected disabled>== Pilih Kelas ==</option>
                                     @foreach ($kids as $kelas)
@@ -324,8 +324,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Pilih Kategori</td>
-                            <td>
+                            <td class="d-lg-table-cell d-block">Pilih Kategori</td>
+                            <td class="d-lg-table-cell d-block">
                                 <select class="form-control" name="kategori_id" id="kategori" required>
                                     <option value="" selected disabled>Silahkan Pilih Kelas Terlebih Dahulu
                                     </option>
@@ -333,8 +333,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Pilih Jadwal</td>
-                            <td>
+                            <td class="d-lg-table-cell d-block">Pilih Jadwal</td>
+                            <td class="d-lg-table-cell d-block">
                                 <select class="form-control" name="jadwal_id" id="jadwal" required>
                                     <option value="" selected disabled>Silahkan Pilih Kelas Terlebih Dahulu
                                     </option>
@@ -342,8 +342,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="vertical-align: top;">Tema</td>
-                            <td>
+                            <td class="d-lg-table-cell d-block" style="vertical-align: top;">Tema</td>
+                            <td class="d-lg-table-cell d-block">
                                 <div class="tema-data">
                                     <p>Silahkan Pilih Kelas Terlebih Dahulu</p>
                                 </div>
