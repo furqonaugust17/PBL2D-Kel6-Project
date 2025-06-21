@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{{ asset('plugins/vendor/chartist/css/chartist.min.css') }}">
     <link href="{{ asset('plugins/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/vendor/owl-carousel/owl.carousel.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/vendor/toastr/css/toastr.min.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/css/style.css') }}" rel="stylesheet">
 
 </head>
@@ -721,20 +722,41 @@
                         target="_blank">DexignZone</a> 2021</p>
             </div>
         </div>
-
-
     </div>
 
     <script src="{{ asset('plugins/vendor/global/global.min.js') }}"></script>
     <script src="{{ asset('plugins/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('plugins/vendor/chart.js/Chart.bundle.min.js') }}"></script>
-
-    @yield('script')
-
+    <script src="{{ asset('plugins/vendor/toastr/js/toastr.min.js') }}"></script>
     <script src="{{ asset('plugins/vendor/owl-carousel/owl.carousel.js') }}"></script>
     <script src="{{ asset('plugins/js/custom.js') }}"></script>
     <script src="{{ asset('plugins/js/deznav-init.js') }}"></script>
 
+    @yield('script')
+    @if (session('success'))
+        <script type="text/javascript">
+            $(document).ready(function() {
+                toastr.success("{{ session('success') }}", {
+                    closeButton: false,
+                    debug: false,
+                    newestOnTop: false,
+                    progressBar: true,
+                    positionClass: "toast-top-right",
+                    preventDuplicates: false,
+                    onclick: null,
+                    showDuration: 300,
+                    hideDuration: 1000,
+                    timeOut: 500,
+                    extendedTimeOut: 1000,
+                    showEasing: "swing",
+                    hideEasing: "linear",
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut"
+                })
+
+            })
+        </script>
+    @endif
 
 
 </body>
