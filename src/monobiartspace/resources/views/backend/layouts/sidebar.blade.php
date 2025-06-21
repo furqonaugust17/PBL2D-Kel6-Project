@@ -16,10 +16,10 @@
                 </a>
             </li>
             <li><a class="ai-icon" href="{{ route('partner.index') }}">
-                <i class="flaticon-144-layout"></i>
-                <span class="nav-text">Partner</span>
+                    <i class="fas fa-users"></i>
+                    <span class="nav-text">Partner</span>
                 </a>
-            </li> 
+            </li>
         </ul>
     </div>
 </div>
