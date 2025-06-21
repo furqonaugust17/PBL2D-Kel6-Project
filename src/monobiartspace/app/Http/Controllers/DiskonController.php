@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DiskonStoreRequest;
+use App\Http\Requests\DiskonUpdateRequest;
 use App\Models\Diskon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -44,15 +45,6 @@ class DiskonController extends Controller
         return redirect()->route('diskon.index')->with('success', 'Data diskon Berhasil Disimpan');
     }
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Diskon $diskon)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -64,9 +56,13 @@ class DiskonController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Diskon $diskon)
+    public function update(DiskonUpdateRequest $request, Diskon $diskon)
     {
-        //
+        $data = $request->validated();
+
+        $diskon->update($data);
+
+        return redirect()->route('diskon.index')->with('success', 'Data Diskon Berhasil Diupdate');
     }
 
     /**
@@ -74,6 +70,10 @@ class DiskonController extends Controller
      */
     public function destroy(Diskon $diskon)
     {
-        //
+        $diskon->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'Diskon Berhasil Dihapus',
+        ]);
     }
 }
