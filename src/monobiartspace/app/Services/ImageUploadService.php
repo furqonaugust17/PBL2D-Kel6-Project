@@ -40,4 +40,9 @@ class ImageUploadService
             $image->delete();
         }
     }
+
+    public function deleteSingleImage($image)
+    {
+        Storage::disk('public')->delete($image);
+    }
 }
