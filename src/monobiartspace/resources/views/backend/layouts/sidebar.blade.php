@@ -15,6 +15,11 @@
                     <span class="nav-text">Dashboard</span>
                 </a>
             </li>
+            <li><a class="ai-icon" href="{{ route('galeri.index') }}">
+                    <i class="fas fa-images"></i>
+                    <span class="nav-text">Galeri</span>
+                </a>
+            </li>
         </ul>
     </div>
 </div>
