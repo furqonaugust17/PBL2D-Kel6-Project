@@ -17,7 +17,7 @@
             </li>
             <li><a class="ai-icon" href="{{ route('diskon.index') }}">
                     <i class="fas fa-percentage"></i>
-                    <span class="nav-text">diskon</span>
+                    <span class="nav-text">Diskon</span>
                 </a>
             </li>
         </ul>
