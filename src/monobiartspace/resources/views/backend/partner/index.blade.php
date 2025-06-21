@@ -1,141 +1,151 @@
-    @section('css')
-        <link href="{{ asset('plugins/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('plugins/vendor/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet">
-    @endsection
-
-    @section('script')
-        <script src="{{ asset('plugins/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
-        <script src="{{ asset('plugins/js/plugins-init/datatables.init.js') }}"></script>
-        <script src="{{ asset('plugins/vendor/sweetalert2/dist/sweetalert2.min.js') }}"></script>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $('#table-partner').DataTable({
-                    language: {
-                        paginate: {
-                            next: '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
-                            previous: '<i class="fa fa-angle-double-left" aria-hidden="true"></i>'
+@section('css')
+    <link href="{{ asset('plugins/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/vendor/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet">
+@endsection
+@section('script')
+    <script src="{{ asset('plugins/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('plugins/js/plugins-init/datatables.init.js') }}"></script>
+    <script src="{{ asset('plugins/vendor/sweetalert2/dist/sweetalert2.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#table-partner').DataTable({
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
+                        previous: '<i class="fa fa-angle-double-left" aria-hidden="true"></i>'
+                    }
+                },
+                processing: true,
+                serverSide: true,
+                ajax: "{{ url()->current() }}",
+                columns: [{
+                        data: null,
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    }, {
+                        data: 'name',
+                    },
+                    {
+                        data: 'phone',
+                    },
+                    {
+                        data: 'image',
+                        "render": function(data, type, row) {
+                            let uriImage = "{{ asset('storage/:gambar') }}"
+                                .replace(
+                                    ':gambar', data);
+                            return `<img src="${uriImage}" alt="" class="img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;">`;
                         }
                     },
-                    processing: true,
-                    serverSide: true,
-                    ajax: "{{ url()->current() }}",
-                    columns: [{
-                            data: 'name',
-                        },
-                        {
-                            data: 'phone',
-                        },
-                        {
-                            data: 'image',
-                                                        "render": function(data, type, row) {
-                                let uriImage = "{{ asset('storage/:gambar') }}"
-                                    .replace(
-                                        ':gambar', data);
-                                return `<img src="${uriImage}" alt="partner">`
-                            }
-                        },
-                        {
-                            data: 'description',
-                        },
-                        {
-                            data: 'id',
-                            "render": function(data, type, row) {
-                                let uriEdit = "{{ route('partner.edit', ['partner' => ':id']) }}"
-                                    .replace(
-                                        ':id', data);
-
-                                return `<div class="d-flex">
-                                            <a href="${uriEdit}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                            <button type="button" class="btn btn-danger shadow btn-xs sharp" onclick="deleteData(${data})"><i class="fa fa-trash"></i></button>
-                                        </div>`
-                            }
+                    {
+                        data: 'description',
+                    },
+                    {
+                        data: 'id',
+                        "render": function(data, type, row) {
+                            let uriEdit = "{{ route('partner.edit', ['partner' => ':id']) }}"
+                                .replace(
+                                    ':id', data);
+                            return `<div class="d-flex">
+                                        <a href="${uriEdit}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                        <button type="button" class="btn btn-danger shadow btn-xs sharp" onclick="deleteData(${data})"><i class="fa fa-trash"></i></button>
+                                    </div>`
                         }
-                    ]
-                });
-            });
-
-            function deleteData(id) {
-                Swal.fire({
-                    title: "Anda Yakin?",
-                    text: "Data akan terhapus pada sistem!!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Hapus",
-                    cancelButtonText: "Batal",
-                }).then((result) => {
-                    if (result.value) {
-                        let uriDelete = "{{ route('partner.destroy', ['partner' => ':id']) }}".replace(':id', id);
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            }
-                        });
-                        $.ajax({
-                            url: uriDelete,
-                            type: 'DELETE',
-                            success: function(data) {
-                                toastr.success(data.message, {
-                                    closeButton: false,
-                                    debug: false,
-                                    newestOnTop: false,
-                                    progressBar: true,
-                                    positionClass: "toast-top-right",
-                                    preventDuplicates: false,
-                                    onclick: null,
-                                    showDuration: 300,
-                                    hideDuration: 1000,
-                                    timeOut: 500,
-                                    extendedTimeOut: 1000,
-                                    showEasing: "swing",
-                                    hideEasing: "linear",
-                                    showMethod: "fadeIn",
-                                    hideMethod: "fadeOut"
-                                })
-                                $('#table-partner').DataTable().ajax.reload()
-                            }
-                        })
                     }
-                });
-            }
-        </script>
-    @endsection
+                ],
+                columnDefs: [{
+                    targets: 0,
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                }]
+            });
+        });
 
-    <x-app-layout>
-        <x-slot:title>Partner</x-slot:title>
-        <div class="row">
-            <div class="col-4">
-                <a href="{{ route('partner.create') }}" class="btn btn-sm btn-primary">Tambah Data Partner</a>
-            </div>
-            <div class="col-12 m-t35">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="table-partner" class="display nowrap" style="width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th>Nama</th>
-                                        <th>NoHp</th>
-                                        <th>Image</th>
-                                        <th>Deskripsi</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th>Nama</th>
-                                        <th>NoHp</th>
-                                        <th>Image</th>
-                                        <th>Deskripsi</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
+        function deleteData(id) {
+            Swal.fire({
+                title: "Anda Yakin?",
+                text: "Data akan terhapus pada sistem!!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Hapus",
+                cancelButtonText: "Batal",
+            }).then((result) => {
+                if (result.value) {
+                    let uriDelete = "{{ route('partner.destroy', ['partner' => ':id']) }}".replace(':id', id);
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: uriDelete,
+                        type: 'DELETE',
+                        success: function(data) {
+                            toastr.success(data.message, {
+                                closeButton: false,
+                                debug: false,
+                                newestOnTop: false,
+                                progressBar: true,
+                                positionClass: "toast-top-right",
+                                preventDuplicates: false,
+                                onclick: null,
+                                showDuration: 300,
+                                hideDuration: 1000,
+                                timeOut: 500,
+                                extendedTimeOut: 1000,
+                                showEasing: "swing",
+                                hideEasing: "linear",
+                                showMethod: "fadeIn",
+                                hideMethod: "fadeOut"
+                            })
+                            $('#table-partner').DataTable().ajax.reload()
+                        }
+                    })
+                }
+            });
+        }
+    </script>
+@endsection
+<x-app-layout>
+    <x-slot:title>Partner</x-slot:title>
+    <div class="row">
+        <div class="col-4">
+            <a href="{{ route('partner.create') }}" class="btn btn-sm btn-primary">Tambah Data Partner</a>
+        </div>
+        <div class="col-12 m-t35">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="table-partner" class="display nowrap" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>NoHp</th>
+                                    <th>Image</th>
+                                    <th>Deskripsi</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>NoHp</th>
+                                    <th>Image</th>
+                                    <th>Deskripsi</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-    </x-app-layout>
+    </div>
+</x-app-layout>

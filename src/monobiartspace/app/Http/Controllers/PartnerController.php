@@ -2,29 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PartnerStoreRequest;
+use App\Http\Requests\PartnerUpdateRequest;
 use App\Models\Partner;
-use App\Services\ImagesService;
+use App\Services\ImageUploadService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
 class PartnerController extends Controller
 {
+    protected $imageUploadService;
+
+    public function __construct(ImageUploadService $imageUploadService)
+    {
+        $this->imageUploadService = $imageUploadService;
+    }
+
     /**
      * Display a listing of the resource.
      */
-    protected $imagesService;
-
-    public function __construct(ImagesService $imagesService)
-    {
-        $this->imagesService = $imagesService;
-    }
     public function index()
     {
         if (request()->ajax()) {
             $partner = Partner::query();
             return DataTables::of($partner)->make();
         }
-        
+
         return view('backend.partner.index');
     }
 
@@ -33,39 +36,19 @@ class PartnerController extends Controller
      */
     public function create()
     {
-        //
         return view('backend.partner.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PartnerStoreRequest $request)
     {
-        //
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'notelp' => 'required|string|max:15',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
-            'deskripsi' => 'required|string|max:255',
-        ]);
-       $imageName= $this->imagesService->uploadImages($request->file('image'), 'partner');
-        Partner::create([
-            'name' => $request->name,
-            'phone' => $request->notelp,
-            'image' => $imageName,
-            'description' => $request->deskripsi,
-        ]);
-        
-        return redirect()->route('partner.index')->with('success', 'Partner berhasil ditambahkan');
-    }
+        $data = $request->validated();
+        $data['image'] = $this->imageUploadService->storeSingle($request->file('image'), 'partner');
+        Partner::create($data);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Partner $partner)
-    {
-        //
+        return redirect()->route('partner.index')->with('success', 'Partner Berhasil Ditambahkan');
     }
 
     /**
@@ -73,36 +56,24 @@ class PartnerController extends Controller
      */
     public function edit(Partner $partner)
     {
-        //
         return view('backend.partner.edit', compact('partner'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Partner $partner)
+    public function update(PartnerUpdateRequest $request, Partner $partner)
     {
-        //
-        $request->validate([
-            'name' => 'required',
-            'nohp' => 'required',
-            'image' => 'required',
-            'deskripsi' => 'required',
-        ]);
+        $data = $request->validated();
 
         if ($request->hasFile('image')) {
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-            $partner->image = $imageName;
+            $this->imageUploadService->deleteSingleImage($partner->image);
+            $data['image'] = $this->imageUploadService->storeSingle($request->file('image'), 'partner');
         }
 
-        $partner->update([
-            'name' => $request->name,
-            'phone' => $request->nohp,
-            'description' => $request->deskripsi,
-        ]);
+        $partner->update($data);
 
-        return redirect()->route('partner.index')->with('success', 'Partner berhasil diupdate');
+        return redirect()->route('partner.index')->with('success', 'Partner Berhasil Diupdate');
     }
 
     /**
@@ -110,8 +81,11 @@ class PartnerController extends Controller
      */
     public function destroy(Partner $partner)
     {
-        //
+        $this->imageUploadService->deleteSingleImage($partner->image);
         $partner->delete();
-        return redirect()->route('partner.index')->with('success', 'Partner berhasil dihapus');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Partner Berhasil Dihapus',
+        ]);
     }
 }
