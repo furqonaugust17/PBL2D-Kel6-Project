@@ -38,7 +38,7 @@ class CustomerUpdateRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('users', 'name')->ignore($user_id),
+                Rule::unique('users', 'name')->whereNull('deleted_at')->ignore($user_id),
             ],
             'email' => [
                 'required',
@@ -46,7 +46,7 @@ class CustomerUpdateRequest extends FormRequest
                 'lowercase',
                 'email:rfc,dns',
                 'max:255',
-                Rule::unique('users', 'email')->ignore($user_id),
+                Rule::unique('users', 'email')->whereNull('deleted_at')->ignore($user_id),
             ],
             'password' => [
                 'nullable',
