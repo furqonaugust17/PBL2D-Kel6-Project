@@ -30,6 +30,9 @@
                         data: 'phone',
                     },
                     {
+                        data: 'email',
+                    },
+                    {
                         data: 'image',
                         "render": function(data, type, row) {
                             let uriImage = "{{ asset('storage/:gambar') }}"
@@ -124,7 +127,8 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama</th>
-                                    <th>NoHp</th>
+                                    <th>No Telepon</th>
+                                    <th>Email</th>
                                     <th>Image</th>
                                     <th>Deskripsi</th>
                                     <th>Aksi</th>
@@ -136,7 +140,8 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama</th>
-                                    <th>NoHp</th>
+                                    <th>No Telepon</th>
+                                    <th>Email</th>
                                     <th>Image</th>
                                     <th>Deskripsi</th>
                                     <th>Aksi</th>

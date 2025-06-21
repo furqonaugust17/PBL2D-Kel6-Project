@@ -24,6 +24,7 @@ class PartnerStoreRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'phone' => 'required|string|regex:/^\+62[0-9]{9,15}$/|max:15',
+            'email' => 'required|string|email:rfc,dns|max:100',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
             'description' => 'required|string|max:255',
         ];
@@ -40,6 +41,11 @@ class PartnerStoreRequest extends FormRequest
             'phone.regex' => 'Nomor telepon harus valid dan sesuai format Indonesia +62812xxxx.',
             'phone.string' => 'Nomor telepon harus berupa teks.',
             'phone.max' => 'Nomor telepon maksimal 15 karakter.',
+
+            'email.required' => 'email wajib diisi.',
+            'email.email' => 'format email tidak valid.',
+            'email.string' => 'email harus berupa teks.',
+            'email.max' => 'email maksimal 100 karakter.',
 
             'image.required' => 'Gambar wajib diunggah.',
             'image.image' => 'File harus berupa gambar.',

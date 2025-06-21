@@ -55,10 +55,23 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="text" placeholder="contoh: jhondoe@gmail.com"
+                                        class="form-control @error('email') is-invalid @enderror" name="email"
+                                        value="{{ $errors->any() ? old('email') : $partner->email }}" required>
+                                    @error('email')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
                                     <label>Gambar Partner</label>
                                     <input type="file" id="gambar"
                                         class="form-control @error('image') is-invalid @enderror" name="image"
-                                        accept="image/*" required>
+                                        accept="image/*">
                                     <div id="preview" class="mt-2"></div>
                                     @error('image')
                                         <div class="invalid-feedback">{{ $message }}</div>
