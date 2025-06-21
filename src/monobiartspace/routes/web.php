@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,6 +13,8 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified']], func
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::resource('galeri', GaleriController::class);
 });
 
 Route::middleware('auth')->group(function () {
