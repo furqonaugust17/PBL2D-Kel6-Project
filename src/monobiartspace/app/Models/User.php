@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\NotifyCustomer;
 use App\Observers\UserObserver;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -55,5 +56,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function customer(): HasOne
     {
         return $this->hasOne(Customer::class);
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new NotifyCustomer);
     }
 }
