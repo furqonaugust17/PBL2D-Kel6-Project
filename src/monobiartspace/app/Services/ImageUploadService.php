@@ -24,13 +24,13 @@ class ImageUploadService
         return $paths;
     }
 
-    public function storeSingle($image): string
+    public function storeSingle($image, string $directory = 'gallery'): string
     {
         $extension = $image->getClientOriginalExtension();
 
         $filename = Str::uuid()->toString() . '.' . $extension;
 
-        return $image->storeAs('uploads/gallery', $filename, 'public');
+        return $image->storeAs('uploads/' . $directory, $filename, 'public');
     }
 
     public function deleteImages($images)
@@ -39,5 +39,10 @@ class ImageUploadService
             Storage::disk('public')->delete($image->file);
             $image->delete();
         }
+    }
+
+    public function deleteSingleImage($image)
+    {
+        Storage::disk('public')->delete($image);
     }
 }

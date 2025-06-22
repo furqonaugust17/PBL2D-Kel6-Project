@@ -57,6 +57,11 @@
                     <span class="nav-text">Customer</span>
                 </a>
             </li>
+            <li><a class="ai-icon" href="{{ route('partner.index') }}">
+                    <i class="fas fa-users"></i>
+                    <span class="nav-text">Partner</span>
+                </a>
+            </li>
             <li><a class="ai-icon" href="{{ route('ruang.index') }}">
                     <i class="fas fa-warehouse"></i>
                     <span class="nav-text">Manajemen Ruang</span>

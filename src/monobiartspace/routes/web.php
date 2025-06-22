@@ -18,6 +18,7 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TemaKidController;
+use App\Http\Controllers\PartnerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RuangController;
 
@@ -45,6 +46,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
     Route::resource('pendaftaran', PendaftaranController::class);
     Route::resource('pembayaran', PembayaranController::class)->except(['show']);
     Route::resource('customer', CustomerController::class);
+    Route::resource('partner', PartnerController::class);
 });
 
 Route::get('class', [FrontKelas::class, 'index'])->name('class.index');
