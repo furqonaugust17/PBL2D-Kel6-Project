@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Config;
 class NotifyCustomer extends Notification
 {
     use Queueable;
-    protected $email = 'monobi@gmail.com';
     protected $isCreate;
     /**
      * Create a new notification instance.
@@ -41,7 +40,6 @@ class NotifyCustomer extends Notification
         return (new MailMessage)->markdown($this->isCreate ? 'mail.customer.create' : 'mail.customer.update', [
             'url' => $this->verificationUrl($notifiable),
             'data' => $notifiable,
-            'email' => $this->email
         ])->subject($this->isCreate ? 'Verifikasi Email' : 'Informasi Akun Anda Telah Diperbarui');
     }
 
