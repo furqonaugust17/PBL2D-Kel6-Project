@@ -58,7 +58,7 @@
                                         class="form-control @error('notelp')
                                         is-invalid
                                     @enderror"
-                                        placeholder="Nomor Telepon" required
+                                        placeholder="contoh: +6281823876127" required
                                         value="{{ $errors->any() ? old('notelp') : $customer->notelp }}">
                                     @error('notelp')
                                         <div class="invalid-feedback">
