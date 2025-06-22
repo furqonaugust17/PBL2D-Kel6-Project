@@ -53,7 +53,7 @@
                                         class="form-control @error('notelp')
                                         is-invalid
                                     @enderror"
-                                        placeholder="Nomor Telepon" required value="{{ old('notelp') }}">
+                                        placeholder="contoh: +6281823876127" required value="{{ old('notelp') }}">
                                     @error('notelp')
                                         <div class="invalid-feedback">
                                             {{ $message }}
