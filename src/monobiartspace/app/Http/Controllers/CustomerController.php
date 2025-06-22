@@ -6,6 +6,7 @@ use App\Http\Requests\CustomerStoreRequest;
 use App\Http\Requests\CustomerUpdateRequest;
 use App\Models\Customer;
 use App\Models\User;
+use App\Notifications\NotifyCustomer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
@@ -63,6 +64,8 @@ class CustomerController extends Controller
             'user_id'   => $user->id
         ]);
 
+        $user->notify(new NotifyCustomer());
+
         return redirect()->route('customer.index')->with('success', 'Customer Berhasil Ditambahkan');
     }
 
@@ -101,6 +104,8 @@ class CustomerController extends Controller
         ]);
 
         $customer->user->save();
+        $customer->user->notify(new NotifyCustomer(false));
+
         return redirect()->route('customer.index')->with('success', 'Customer Berhasil Diupdate');
     }
 

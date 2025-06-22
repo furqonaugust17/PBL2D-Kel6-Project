@@ -33,14 +33,14 @@ class CustomerStoreRequest extends FormRequest
                 'max:15'
             ],
             'alamat' => ['required'],
-            'username' => ['required', 'string', 'max:255', 'unique:users,name'],
+            'username' => ['required', 'string', 'max:255',  Rule::unique('users', 'name')->whereNull('deleted_at')],
             'email' => [
                 'required',
                 'string',
                 'lowercase',
                 'email',
                 'max:255',
-                'unique:' . User::class,
+                Rule::unique('users', 'email')->whereNull('deleted_at'),
                 'email:rfc,dns'
             ],
             'password' => [
