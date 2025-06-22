@@ -25,6 +25,9 @@
                     },
                     {
                         data: 'diskon',
+                        "render": function(data, type, row) {
+                            return `${data}%`;
+                        }
                     },
                     {
                         data: 'code',
@@ -102,10 +105,10 @@
 
 
 <x-app-layout>
-    <x-slot:title>diskon</x-slot:title>
+    <x-slot:title>Diskon</x-slot:title>
     <div class="row">
         <div class="col-4">
-            <a href="{{ route('diskon.create') }}" class="btn btn-sm btn-primary">Tambah Data diskon</a>
+            <a href="{{ route('diskon.create') }}" class="btn btn-sm btn-primary">Tambah Diskon</a>
         </div>
         <div class="col-12 m-t35">
             <div class="card">
@@ -115,9 +118,9 @@
                             <thead>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>diskon</th>
-                                    <th>code</th>
-                                    <th>expired_date</th>
+                                    <th>Diskon</th>
+                                    <th>Kode Diskon</th>
+                                    <th>Waktu Expired</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -126,9 +129,9 @@
                             <tfoot>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>diskon</th>
-                                    <th>code</th>
-                                    <th>expired_date</th>
+                                    <th>Diskon</th>
+                                    <th>Kode Diskon</th>
+                                    <th>Waktu Expired</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>

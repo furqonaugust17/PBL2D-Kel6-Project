@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DiskonStoreRequest;
+use App\Http\Requests\DiskonUpdateRequest;
 use App\Models\Diskon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -32,50 +34,35 @@ class DiskonController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(DiskonStoreRequest $request)
     {
 
-        $request->validate([
-            'nama' => 'required|string|max:20',
-            'diskon' => 'required|numeric|min:0|max:100',
-            'code' => 'required|string|unique:diskons,code|max:6',
-            'expired_date' => 'required|date|after:today',
-        ]);
+        $data = $request->validated();
 
-        Diskon::create([
-            'nama'  => $request->nama,
-            'diskon'  => $request->diskon,
-            'code'  => $request->code,
-            'expired_date'  => $request->expired_date,
-        ]);
+        Diskon::create($data);
 
 
         return redirect()->route('diskon.index')->with('success', 'Data diskon Berhasil Disimpan');
     }
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Diskon $diskon)
     {
-        //
+        return view('backend.diskon.edit', compact('diskon'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(DiskonUpdateRequest $request, Diskon $diskon)
     {
-        //
+        $data = $request->validated();
+
+        $diskon->update($data);
+
+        return redirect()->route('diskon.index')->with('success', 'Data Diskon Berhasil Diupdate');
     }
 
     /**
