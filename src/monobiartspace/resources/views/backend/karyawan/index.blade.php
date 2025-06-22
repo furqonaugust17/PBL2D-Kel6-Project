@@ -26,6 +26,10 @@
                         data: 'user.name',
                     },
                     {
+                        data: 'role',
+                        name: 'user.role.name',
+                    },
+                    {
                         data: 'user.email',
                     },
                     {
@@ -122,6 +126,7 @@
                                 <tr>
                                     <th>Nama</th>
                                     <th>Username</th>
+                                    <th>Jabatan</th>
                                     <th>Email</th>
                                     <th>Jenis Kelamin</th>
                                     <th>No Telepon</th>
@@ -135,6 +140,7 @@
                                 <tr>
                                     <th>Nama</th>
                                     <th>Username</th>
+                                    <th>Jabatan</th>
                                     <th>Email</th>
                                     <th>Jenis Kelamin</th>
                                     <th>No Telepon</th>

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasPermissions;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 #[ObservedBy([UserObserver::class])]
@@ -57,9 +58,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(Karyawan::class, 'user_id');
     }
-  
+
     public function customer(): HasOne
     {
         return $this->hasOne(Customer::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }

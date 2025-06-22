@@ -49,7 +49,7 @@
             </li>
             <li><a href="{{ route('karyawan.index') }}" class="ai-icon">
                     <i class="fas fa-users"></i>
-                    <span class="nav-text">Manajemen Karyawan</span>
+                    <span class="nav-text">Karyawan</span>
                 </a>
             </li>
             <li><a class="ai-icon" href="{{ route('customer.index') }}">
