@@ -80,7 +80,8 @@
                             <p>Jika Anda merasa tidak pernah melakukan pendaftaran ini, Anda bisa mengabaikan email ini.
                                 Akun tidak akan aktif sepenuhnya tanpa verifikasi email.
                             </p>
-                            <p>Jika Anda memiliki pertanyaan atau butuh bantuan, hubungi kami di {{ $email }}.
+                            <p>Jika Anda memiliki pertanyaan atau butuh bantuan, hubungi kami di
+                                {{ config('mail.from.address') }}.
                             </p>
                             <p>Terima kasih telah bergabung!</p>
                         </td>

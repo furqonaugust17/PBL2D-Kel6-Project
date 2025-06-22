@@ -71,7 +71,7 @@
                     <tr>
                         <td style="padding: 20px;">
                             <p>Jika Anda merasa tidak pernah melakukan perubahan ini atau terdapat kesalahan, silakan
-                                segera hubungi tim kami melalui email: {{ $email }}.</p>
+                                segera hubungi tim kami melalui email: {{ config('mail.from.address') }}.</p>
                         </td>
                     </tr>
                     <tr>
