@@ -18,9 +18,33 @@
                     $.ajax({
                         url: uri,
                         type: 'POST',
-                        success: function(result) {
-                            console.log(result);
-                        }
+                        beforeSend: function() {
+                            Swal.fire({
+                                title: 'Memproses...',
+                                text: 'Mohon tunggu sebentar',
+                                allowOutsideClick: false,
+                                didOpen: () => {
+                                    Swal
+                                        .showLoading();
+                                }
+                            });
+                        },
+                        success: function(data) {
+                            Swal.close();
+                            Swal.fire({
+                                icon: "success",
+                                title: data.message,
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            Swal.close();
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: xhr.responseJSON
+                                    .message,
+                            });
+                        },
                     })
                 }
             })
