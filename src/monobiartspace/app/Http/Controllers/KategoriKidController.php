@@ -17,7 +17,7 @@ class KategoriKidController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $kategori = KategoriKid::query();
+            $kategori = KategoriKid::with('kid');
             return DataTables::of($kategori)->make();
         }
         return view('backend.kids.kategori.index');
