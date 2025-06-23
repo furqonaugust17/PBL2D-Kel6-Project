@@ -61,7 +61,7 @@
                                 <a class="link-underline link-underline-opacity-0"
                                             href="${uriDetail}">
                                 <div class="card h-100">
-                                    <img src="${val.images.length != 0 ? 'storage/' +  val.images[0].file : 'https://www.davidhechler.com/wp-content/uploads/2016/07/500x500-dummy-image.jpg'}" class="card-img-top" alt="...">
+                                    <img src="${val.images.length != 0 ? 'storage/' +  val.images[0].file : 'https://www.davidhechler.com/wp-content/uploads/2016/07/500x500-dummy-image.jpg'}" class="card-img-top" alt="..." loading="lazy">
                                     <div class="card-body">
                                         <h5 class="card-title">${val.nama}</h5>
                                         ${(type != 'kids'? `<p class="card-text">${Intl.NumberFormat("id-ID", {style: "currency", currency: "IDR", minimumFractionDigits: 0, maximumFractionDigits: 0}).format(val.harga)}</p>` : '')}
@@ -107,7 +107,7 @@
                 <div class="col-lg-6">
                     <div class="hero-image" data-aos="zoom-out" data-aos-delay="300">
                         <img src="{{ asset('landing-page/assets/img/illustration-1.webp') }}" alt="Hero Image"
-                            class="img-fluid">
+                            class="img-fluid" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -144,9 +144,9 @@
                     <div class="image-wrapper">
                         <div class="images position-relative" data-aos="zoom-out" data-aos-delay="400">
                             <img src="{{ asset('landing-page/assets/img/about-5.webp') }}" alt="Business Meeting"
-                                class="img-fluid main-image rounded-4">
+                                class="img-fluid main-image rounded-4" loading="lazy">
                             <img src="{{ asset('landing-page/assets/img/about-2.webp') }}" alt="Team Discussion"
-                                class="img-fluid small-image rounded-4">
+                                class="img-fluid small-image rounded-4" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -215,7 +215,9 @@
 
     <!-- Clients Section -->
     <section id="clients" class="clients section">
-
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Partner</h2>
+        </div>
         <div class="container" data-aos="fade-up" data-aos-delay="100">
 
             <div class="swiper init-swiper">
@@ -253,218 +255,39 @@
             }
           </script>
                 <div class="swiper-wrapper align-items-center">
-                    <div class="swiper-slide"><img src="{{ asset('landing-page/assets/img/clients/client-1.png') }}"
-                            class="img-fluid" alt=""></div>
-                    <div class="swiper-slide"><img src="{{ asset('landing-page/assets/img/clients/client-2.png') }}"
-                            class="img-fluid" alt=""></div>
-                    <div class="swiper-slide"><img src="{{ asset('landing-page/assets/img/clients/client-3.png') }}"
-                            class="img-fluid" alt=""></div>
-                    <div class="swiper-slide"><img src="{{ asset('landing-page/assets/img/clients/client-4.png') }}"
-                            class="img-fluid" alt=""></div>
-                    <div class="swiper-slide"><img src="{{ asset('landing-page/assets/img/clients/client-5.png') }}"
-                            class="img-fluid" alt=""></div>
-                    <div class="swiper-slide"><img src="{{ asset('landing-page/assets/img/clients/client-6.png') }}"
-                            class="img-fluid" alt=""></div>
-                    <div class="swiper-slide"><img src="{{ asset('landing-page/assets/img/clients/client-7.png') }}"
-                            class="img-fluid" alt=""></div>
-                    <div class="swiper-slide"><img src="{{ asset('landing-page/assets/img/clients/client-8.png') }}"
-                            class="img-fluid" alt=""></div>
+                    @foreach ($partners as $partner)
+                        <div class="swiper-slide"><img src="{{ asset('storage/' . $partner->image) }}"
+                                class="img-fluid" alt="{{ $partner->name }}" loading="lazy">
+                        </div>
+                    @endforeach
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
-
         </div>
+    </section>
 
-    </section><!-- /Clients Section -->
-
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials section light-background">
-
-        <!-- Section Title -->
+    <section id="gallery" class="services section light-background">
         <div class="container section-title" data-aos="fade-up">
-            <h2>Testimonials</h2>
+            <h2>Gallery</h2>
             <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-        </div><!-- End Section Title -->
-
-        <div class="container">
-
-            <div class="row g-5">
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="testimonial-item">
-                        <img src="{{ asset('landing-page/assets/img/testimonials/testimonials-1.jpg') }}"
-                            class="testimonial-img" alt="">
-                        <h3>Saul Goodman</h3>
-                        <h4>Ceo &amp; Founder</h4>
-                        <div class="stars">
-                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                class="bi bi-star-fill"></i>
-                        </div>
-                        <p>
-                            <i class="bi bi-quote quote-icon-left"></i>
-                            <span>Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
-                                rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
-                                risus at semper.</span>
-                            <i class="bi bi-quote quote-icon-right"></i>
-                        </p>
-                    </div>
-                </div><!-- End testimonial item -->
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="testimonial-item">
-                        <img src="{{ asset('landing-page/assets/img/testimonials/testimonials-2.jpg') }}"
-                            class="testimonial-img" alt="">
-                        <h3>Sara Wilsson</h3>
-                        <h4>Designer</h4>
-                        <div class="stars">
-                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                class="bi bi-star-fill"></i>
-                        </div>
-                        <p>
-                            <i class="bi bi-quote quote-icon-left"></i>
-                            <span>Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid
-                                cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet
-                                legam anim culpa.</span>
-                            <i class="bi bi-quote quote-icon-right"></i>
-                        </p>
-                    </div>
-                </div><!-- End testimonial item -->
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-                    <div class="testimonial-item">
-                        <img src="{{ asset('landing-page/assets/img/testimonials/testimonials-3.jpg') }}"
-                            class="testimonial-img" alt="">
-                        <h3>Jena Karlis</h3>
-                        <h4>Store Owner</h4>
-                        <div class="stars">
-                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                class="bi bi-star-fill"></i>
-                        </div>
-                        <p>
-                            <i class="bi bi-quote quote-icon-left"></i>
-                            <span>Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem
-                                veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint
-                                minim.</span>
-                            <i class="bi bi-quote quote-icon-right"></i>
-                        </p>
-                    </div>
-                </div><!-- End testimonial item -->
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-                    <div class="testimonial-item">
-                        <img src="{{ asset('landing-page/assets/img/testimonials/testimonials-4.jpg') }}"
-                            class="testimonial-img" alt="">
-                        <h3>Matt Brandon</h3>
-                        <h4>Freelancer</h4>
-                        <div class="stars">
-                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                class="bi bi-star-fill"></i>
-                        </div>
-                        <p>
-                            <i class="bi bi-quote quote-icon-left"></i>
-                            <span>Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim
-                                fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem
-                                dolore labore illum veniam.</span>
-                            <i class="bi bi-quote quote-icon-right"></i>
-                        </p>
-                    </div>
-                </div><!-- End testimonial item -->
-
-            </div>
-
         </div>
-
-    </section><!-- /Testimonials Section -->
-
-    <!-- Services Section -->
-    <section id="services" class="services section light-background">
-
-        <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-            <h2>Services</h2>
-            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-        </div><!-- End Section Title -->
-
         <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-            <div class="row g-4">
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="service-card d-flex">
-                        <div class="icon flex-shrink-0">
-                            <i class="bi bi-activity"></i>
-                        </div>
-                        <div>
-                            <h3>Nesciunt Mete</h3>
-                            <p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus
-                                dolores iure perferendis tempore et consequatur.</p>
-                            <a href="service-details.html" class="read-more">Read More <i
-                                    class="bi bi-arrow-right"></i></a>
+            <div class="row g-2">
+                @foreach ($galleries as $gallery)
+                    <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                        <div class="service-card d-flex">
+                            <img src="{{ asset('storage/' . $gallery->image) }}" class="img-fluid"
+                                alt="{{ $gallery->deskripsi }}" loading="lazy">
                         </div>
                     </div>
-                </div><!-- End Service Card -->
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="service-card d-flex">
-                        <div class="icon flex-shrink-0">
-                            <i class="bi bi-diagram-3"></i>
-                        </div>
-                        <div>
-                            <h3>Eosle Commodi</h3>
-                            <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque
-                                eum hic non ut nesciunt dolorem.</p>
-                            <a href="service-details.html" class="read-more">Read More <i
-                                    class="bi bi-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div><!-- End Service Card -->
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-                    <div class="service-card d-flex">
-                        <div class="icon flex-shrink-0">
-                            <i class="bi bi-easel"></i>
-                        </div>
-                        <div>
-                            <h3>Ledo Markt</h3>
-                            <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id
-                                voluptas adipisci eos earum corrupti.</p>
-                            <a href="service-details.html" class="read-more">Read More <i
-                                    class="bi bi-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div><!-- End Service Card -->
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-                    <div class="service-card d-flex">
-                        <div class="icon flex-shrink-0">
-                            <i class="bi bi-clipboard-data"></i>
-                        </div>
-                        <div>
-                            <h3>Asperiores Commodit</h3>
-                            <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea
-                                fuga sit provident adipisci neque.</p>
-                            <a href="service-details.html" class="read-more">Read More <i
-                                    class="bi bi-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div><!-- End Service Card -->
-
+                @endforeach
             </div>
-
         </div>
+    </section>
 
-    </section><!-- /Services Section -->
-
-    <!-- Faq Section -->
     <section class="faq-9 faq section light-background" id="faq">
-
         <div class="container">
             <div class="row">
-
                 <div class="col-lg-5" data-aos="fade-up">
                     <h2 class="faq-title">Have a question? Check out the FAQ</h2>
                     <p class="faq-description">Punya pertanyaan seputar kelas atau layanan Monobi? Tenang, kami sudah
@@ -479,7 +302,6 @@
                         </svg>
                     </div>
                 </div>
-
                 <div class="col-lg-7" data-aos="fade-up" data-aos-delay="300">
                     <div class="faq-container">
                         <div class="faq-item">
@@ -489,8 +311,7 @@
                                     remaja, hingga dewasa tanpa batasan usia.</p>
                             </div>
                             <i class="faq-toggle bi bi-chevron-right"></i>
-                        </div><!-- End Faq item-->
-
+                        </div>
                         <div class="faq-item">
                             <h3>Apakah harus punya pengalaman seni sebelumnya?</h3>
                             <div class="faq-content">
@@ -498,8 +319,7 @@
                                     akan dibimbing langkah demi langkah oleh instruktur kami.</p>
                             </div>
                             <i class="faq-toggle bi bi-chevron-right"></i>
-                        </div><!-- End Faq item-->
-
+                        </div>
                         <div class="faq-item">
                             <h3>Apa saja yang perlu saya bawa untuk ikut kelas?</h3>
                             <div class="faq-content">
@@ -507,51 +327,20 @@
                                     tinggal datang dan berkarya!</p>
                             </div>
                             <i class="faq-toggle bi bi-chevron-right"></i>
-                        </div><!-- End Faq item-->
-
-                        <div class="faq-item">
-                            <h3>Non consectetur a erat nam at lectus urna duis?</h3>
-                            <div class="faq-content">
-                                <p>Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus
-                                    laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor
-                                    rhoncus dolor purus non.</p>
-                            </div>
-                            <i class="faq-toggle bi bi-chevron-right"></i>
-                        </div><!-- End Faq item-->
-
-                        <div class="faq-item">
-                            <h3>Feugiat scelerisque varius morbi enim nunc faucibus?</h3>
-                            <div class="faq-content">
-                                <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id
-                                    interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus
-                                    scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim.
-                                    Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
-                            </div>
-                            <i class="faq-toggle bi bi-chevron-right"></i>
-                        </div><!-- End Faq item-->
-
-                        <div class="faq-item">
-                            <h3>Dolor sit amet consectetur adipiscing elit pellentesque?</h3>
-                            <div class="faq-content">
-                                <p> </p>
-                            </div>
-                            <i class="faq-toggle bi bi-chevron-right"></i>
-                        </div><!-- End Faq item-->
+                        </div>
                     </div>
                 </div>
 
             </div>
         </div>
-    </section><!-- /Faq Section -->
+    </section>
 
-    <!-- Contact Section -->
     <section id="contact" class="contact section light-background">
 
-        <!-- Section Title -->
         <div class="container section-title" data-aos="fade-up">
             <h2>Contact</h2>
             <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-        </div><!-- End Section Title -->
+        </div>
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
 
@@ -600,30 +389,24 @@
                         <h3>Get In Touch</h3>
                         <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ante
                             ipsum primis.</p>
-
                         <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up"
                             data-aos-delay="200">
                             <div class="row gy-4">
-
                                 <div class="col-md-6">
                                     <input type="text" name="name" class="form-control"
                                         placeholder="Nama Anda" required="">
                                 </div>
-
                                 <div class="col-md-6 ">
                                     <input type="email" class="form-control" name="email"
                                         placeholder="Email Anda" required="">
                                 </div>
-
                                 <div class="col-12">
                                     <input type="text" class="form-control" name="subject" placeholder="Subject"
                                         required="">
                                 </div>
-
                                 <div class="col-12">
                                     <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
                                 </div>
-
                                 <div class="col-12 text-center">
                                     <div class="loading">Loading</div>
                                     <div class="error-message"></div>
@@ -631,16 +414,11 @@
 
                                     <button type="submit" class="btn">Send Message</button>
                                 </div>
-
                             </div>
                         </form>
-
                     </div>
                 </div>
-
             </div>
-
         </div>
-
-    </section><!-- /Contact Section -->
+    </section>
 </x-app>
