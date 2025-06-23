@@ -28,7 +28,7 @@ class JadwalKidController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $jadwal = JadwalKid::query();
+            $jadwal = JadwalKid::with('kategori');
             return DataTables::of($jadwal)->addColumn('hari', function ($row) {
                 return ucfirst($row->hari);
             })->filterColumn('hari', function ($query, $keyword) {
