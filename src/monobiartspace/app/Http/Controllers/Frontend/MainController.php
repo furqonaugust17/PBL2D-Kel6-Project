@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Galeri;
 use App\Models\KegiatanArtSpace;
+use App\Models\Partner;
 use App\Models\TemaKid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +20,9 @@ class MainController extends Controller
             (SELECT id, nama, "kids" AS jenis FROM kids WHERE deleted_at IS NULL)
             LIMIT 3
         ');
-        return view('landing-page.index', compact('datas'));
+        $galleries = Galeri::all();
+        $partners = Partner::all();
+        return view('landing-page.index', compact('datas', 'galleries', 'partners'));
     }
 
     public function getDataClass(String $tipe, String $id)
