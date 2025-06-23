@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Frontend\KelasController;
 use App\Http\Controllers\Frontend\MainController;
+use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\PendaftaranController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('booking', [PendaftaranController::class, 'index'])->name('booking');
     Route::get('booking/detail/{id}', [PendaftaranController::class, 'show'])->name('booking.show');
     Route::post('booking/cancel/{id}', [PendaftaranController::class, 'cancel'])->name('booking.cancel');
+
+    Route::get('payment/status', [PaymentController::class, 'status']);
 });
 
 Route::middleware('auth')->group(function () {
