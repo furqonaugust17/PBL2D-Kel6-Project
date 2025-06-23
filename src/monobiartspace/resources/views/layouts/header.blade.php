@@ -11,7 +11,7 @@
                 <li><a href="{{ Request::path() != '/' ? url('/#hero') : '#hero' }}">Home</a></li>
                 <li><a href="{{ Request::path() != '/' ? url('/#about') : '#about' }}">About</a></li>
                 <li><a href="{{ Request::path() != '/' ? url('/#class') : '#class' }}">Class</a></li>
-                <li><a href="{{ Request::path() != '/' ? url('/#services') : '#services' }}">Services</a></li>
+                <li><a href="{{ Request::path() != '/' ? url('/#gallery') : '#gallery' }}">Gallery</a></li>
                 <li><a href="{{ Request::path() != '/' ? url('/#contact') : '#contact' }}">Contact</a></li>
                 <li class="dropdown"><a href="#"><span>Booking</span>
                         <i class="bi bi-chevron-down toggle-dropdown"></i></a>
