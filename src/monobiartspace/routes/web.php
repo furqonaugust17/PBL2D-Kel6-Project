@@ -17,6 +17,7 @@ use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GaleriController;
+use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TemaKidController;
 use App\Http\Controllers\PartnerController;
@@ -67,6 +68,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('booking/detail/{id}', [FrontPendaftaran::class, 'show'])->name('booking.show');
     Route::post('booking/cancel/{id}', [FrontPendaftaran::class, 'cancel'])->name('booking.cancel');
     Route::get('pembayaran/{pembayaran}/{type}', [PembayaranController::class, 'show'])->name('pembayaran.show');
+    Route::get('payment/status', [PaymentController::class, 'status']);
 });
 
 Route::middleware('auth')->group(function () {

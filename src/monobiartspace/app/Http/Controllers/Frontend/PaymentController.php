@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Mail\PendaftaranArtSpace;
 use App\Mail\PendaftaranKids;
 use App\Models\PembayaranBooking;
-use App\Models\Pendaftaran;
 use App\Services\PembayaranService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class PaymentController extends Controller
@@ -49,5 +49,19 @@ class PaymentController extends Controller
         }
 
         return response()->json(['message' => 'ok'])->setStatusCode(200);
+    }
+
+    public function status(Request $request)
+    {
+        $payment = PembayaranBooking::with('pendaftaran')->where('order_id', $request->order_id)->whereHas('pendaftaran', function ($query) {
+            $query->where('customer_id', Auth::user()->customer->id);
+        })->firstOrFail();
+        $type = $payment->pendaftaran->type == 'artspace';
+        if ($type) {
+            $data = PembayaranService::getDataPembayaranArtSpace($request->order_id);
+        } else {
+            $data = PembayaranService::getDataPembayaranKids($request->order_id);
+        }
+        return view('frontend.booking.status', compact('data', 'type'));
     }
 }
