@@ -7,6 +7,7 @@ use App\Http\Requests\ArtSpaceBookingRequest;
 use App\Http\Requests\KidsBookingRequest;
 use App\Mail\PendaftaranArtSpace;
 use App\Mail\PendaftaranKids;
+use App\Mail\PendaftaranRefundNotification;
 use App\Models\Children;
 use App\Models\DetailPendaftaran;
 use App\Models\DetailPendaftaranKid;
@@ -74,6 +75,8 @@ class PendaftaranController extends Controller
     {
         $pendaftaran = Pendaftaran::findOrFail($id);
         $pendaftaran->update(['status' => 'ajukan batal']);
+        $data = $pendaftaran->load(['pembayaran', 'customer']);
+        Mail::to(env('MAIL_USERNAME'))->send(new PendaftaranRefundNotification($data));
         return response()->json(['success' => true, 'message' => 'Pembatalan Diajukan']);
     }
 
