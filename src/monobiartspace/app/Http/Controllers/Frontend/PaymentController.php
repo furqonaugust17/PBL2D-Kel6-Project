@@ -50,4 +50,16 @@ class PaymentController extends Controller
 
         return response()->json(['message' => 'ok'])->setStatusCode(200);
     }
+
+    public function status(Request $request)
+    {
+        $payment = PembayaranBooking::with('pendaftaran')->where('order_id', $request->order_id)->first();
+        $type = $payment->pendaftaran->type == 'artspace';
+        if ($type) {
+            $data = PembayaranService::getDataPembayaranArtSpace($request->order_id);
+        } else {
+            $data = PembayaranService::getDataPembayaranKids($request->order_id);
+        }
+        return view('frontend.booking.status', compact('data', 'type'));
+    }
 }
