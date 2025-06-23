@@ -42,14 +42,20 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
     Route::resource('kids-price', HargaClassKidController::class)->parameters(['kids-price' => 'kidsPrice']);
 
     Route::resource('karyawan', KaryawanController::class);
-    Route::resource('ruang', RuangController::class);
-    Route::resource('fasilitas', FasilitasController::class);
     Route::resource('diskon', DiskonController::class);
     Route::resource('pendaftaran', PendaftaranController::class);
     Route::resource('pembayaran', PembayaranController::class)->except(['show']);
     Route::resource('customer', CustomerController::class);
     Route::resource('partner', PartnerController::class);
     Route::resource('galeri', GaleriController::class);
+
+    Route::middleware(['ExceptSupervisor'])->group(function () {
+        Route::resource('ruang', RuangController::class)->except(['index']);
+        Route::resource('fasilitas', FasilitasController::class)->except(['index']);
+    });
+
+    Route::resource('ruang', RuangController::class)->only(['index']);
+    Route::resource('fasilitas', FasilitasController::class)->only(['index']);
 });
 
 Route::get('class', [FrontKelas::class, 'index'])->name('class.index');
