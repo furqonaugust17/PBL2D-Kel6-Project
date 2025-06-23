@@ -5,7 +5,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="basic-form">
-                        <form action="{{ route('kids-kategori.update', ['kidsKategori' => $kategoriKid->id]) }}"
+                        <form action="{{ route('kids-kategori.update', ['kidsKategori' => $kidsKategori->id]) }}"
                             method="POST">
                             @method('PUT')
                             @csrf
@@ -15,7 +15,7 @@
                                     <select name="kid_id" id="" class="form-control">
                                         @foreach ($kids as $kid)
                                             <option value="{{ $kid->id }}"
-                                                {{ $kategoriKid->kid_id == $kid->id ? 'selected' : '' }}>
+                                                {{ $kidsKategori->kid_id == $kid->id ? 'selected' : '' }}>
                                                 {{ $kid->nama }}</option>
                                         @endforeach
                                     </select>
@@ -29,7 +29,7 @@
                                         is-invalid
                                     @enderror"
                                         placeholder="Nama Kategori" required
-                                        value="{{ $errors->any() ? old('nama') : $kategoriKid->nama }}">
+                                        value="{{ $errors->any() ? old('nama') : $kidsKategori->nama }}">
                                     @error('nama')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -43,7 +43,7 @@
                                     <textarea name="deskripsi" id="" cols="30" rows="10"
                                         class="form-control @error('deskripsi')
                                         is-invalid
-                                    @enderror">{{ $errors->any() ? old('deskripsi') : $kategoriKid->deskripsi }}</textarea>
+                                    @enderror">{{ $errors->any() ? old('deskripsi') : $kidsKategori->deskripsi }}</textarea>
                                     @error('deskripsi')
                                         <div class="invalid-feedback">
                                             {{ $message }}

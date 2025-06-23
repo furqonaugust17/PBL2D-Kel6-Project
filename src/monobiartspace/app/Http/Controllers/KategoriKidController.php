@@ -49,7 +49,7 @@ class KategoriKidController extends Controller
     public function edit(KategoriKid $kidsKategori)
     {
         $kids = Kid::all();
-        return view('backend.kids.kategori.edit', compact('kategoriKid', 'kids'));
+        return view('backend.kids.kategori.edit', compact('kidsKategori', 'kids'));
     }
 
     /**
