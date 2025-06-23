@@ -18,7 +18,6 @@ class ExceptSupervisor
         if ($request->user()->hasAnyRole(['supervisor'])) {
             return $next($request);
         }
-
         return redirect()->back();
     }
 }
