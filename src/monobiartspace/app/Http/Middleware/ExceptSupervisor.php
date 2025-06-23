@@ -15,10 +15,10 @@ class ExceptSupervisor
      */
     public function handle(Request $request, Closure $next): Response
     {
-       if ($request->user()->hasAnyRole(['supervisor'])) {
+        if ($request->user()->hasAnyRole(['supervisor'])) {
             return $next($request);
         }
-        
+
         return redirect()->back();
     }
 }

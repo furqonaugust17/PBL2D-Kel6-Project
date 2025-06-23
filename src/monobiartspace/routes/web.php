@@ -52,10 +52,14 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
     Route::middleware(['ExceptSupervisor'])->group(function () {
         Route::resource('ruang', RuangController::class)->except(['index']);
         Route::resource('fasilitas', FasilitasController::class)->except(['index']);
+        Route::resource('artspace-jadwal', JadwalArtSpaceController::class)->parameters(['artspace-jadwal' => 'jadwalArtSpace'])->except(['index']);;
+        Route::resource('kids-jadwal', JadwalKidController::class)->parameters(['kids-jadwal' => 'jadwalKid'])->except(['index']);;
     });
 
     Route::resource('ruang', RuangController::class)->only(['index']);
     Route::resource('fasilitas', FasilitasController::class)->only(['index']);
+    Route::resource('artspace-jadwal', JadwalArtSpaceController::class)->parameters(['artspace-jadwal' => 'jadwalArtSpace'])->only(['index']);;
+    Route::resource('kids-jadwal', JadwalKidController::class)->parameters(['kids-jadwal' => 'jadwalKid'])->only(['index']);;
 });
 
 Route::get('class', [FrontKelas::class, 'index'])->name('class.index');
