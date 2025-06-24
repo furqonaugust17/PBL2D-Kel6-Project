@@ -82,6 +82,11 @@
                     <span class="nav-text">Galeri</span>
                 </a>
             </li>
+            <li><a class="ai-icon" href="{{ route('inventaris.index') }}">
+                    <i class="fas fa-box"></i>
+                    <span class="nav-text">Inventaris</span>
+                </a>
+            </li>
         </ul>
     </div>
 </div>

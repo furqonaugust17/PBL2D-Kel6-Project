@@ -23,6 +23,7 @@ use App\Http\Controllers\TemaKidController;
 use App\Http\Controllers\PartnerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RuangController;
+use App\Http\Controllers\InventarisController;
 
 Route::get('/', [MainController::class, 'index']);
 
@@ -30,7 +31,6 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-
 
     Route::resource('artspace', ArtSpaceController::class)->only(['index']);
     Route::resource('kegiatan-artspace', KegiatanArtSpaceController::class)->parameters(['kegiatan-artspace' => 'kegiatanArtSpace'])->only(['index']);;
@@ -51,6 +51,8 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
     Route::resource('galeri', GaleriController::class);
     Route::resource('ruang', RuangController::class)->only(['index']);
     Route::resource('fasilitas', FasilitasController::class)->only(['index']);
+    Route::resource('inventaris', InventarisController::class)->parameters(['inventaris' => 'inventaris']);
+
 
     Route::middleware(['ExceptSupervisor'])->group(function () {
         Route::resource('ruang', RuangController::class)->except(['index']);
