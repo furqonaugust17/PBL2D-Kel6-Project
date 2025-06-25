@@ -7,8 +7,9 @@
     <script src="{{ asset('plugins/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('plugins/js/plugins-init/datatables.init.js') }}"></script>
     <script src="{{ asset('plugins/vendor/sweetalert2/dist/sweetalert2.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/plug-ins/2.3.2/dataRender/ellipsis.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#table-ruang').DataTable({
                 language: {
                     paginate: {
@@ -19,13 +20,20 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ url()->current() }}",
-                columns: [
-                    { data: 'nama' },
-                    { data: 'kapasitas' },
+                columns: [{
+                        data: 'nama'
+                    },
+                    {
+                        data: 'kapasitas'
+                    },
+                    {
+                        data: 'deskripsi'
+                    },
                     {
                         data: 'id',
-                        render: function (data, type, row) {
-                            let uriEdit = "{{ route('ruang.edit', ['ruang' => ':id']) }}".replace(':id', data);
+                        render: function(data, type, row) {
+                            let uriEdit = "{{ route('ruang.edit', ['ruang' => ':id']) }}".replace(
+                                ':id', data);
 
                             return `<div class="d-flex">
                                         <a href="${uriEdit}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
@@ -33,7 +41,11 @@
                                     </div>`;
                         }
                     }
-                ]
+                ],
+                columnDefs: [{
+                    targets: 2,
+                    render: $.fn.dataTable.render.ellipsis(40)
+                }, ]
             });
         });
 
@@ -57,7 +69,24 @@
                     $.ajax({
                         url: uriDelete,
                         type: 'DELETE',
-                        success: function (data) {
+                        success: function(data) {
+                            toastr.success(data.message, {
+                                closeButton: false,
+                                debug: false,
+                                newestOnTop: false,
+                                progressBar: true,
+                                positionClass: "toast-top-right",
+                                preventDuplicates: false,
+                                onclick: null,
+                                showDuration: 300,
+                                hideDuration: 1000,
+                                timeOut: 500,
+                                extendedTimeOut: 1000,
+                                showEasing: "swing",
+                                hideEasing: "linear",
+                                showMethod: "fadeIn",
+                                hideMethod: "fadeOut"
+                            })
                             $('#table-ruang').DataTable().ajax.reload();
                         }
                     });
@@ -82,6 +111,7 @@
                                 <tr>
                                     <th>Nama Ruang</th>
                                     <th>Kapasitas</th>
+                                    <th>Deskripsi</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -89,11 +119,11 @@
                                 <tr>
                                     <th>Nama Ruang</th>
                                     <th>Kapasitas</th>
+                                    <th>Deskripsi</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                                {{-- diisi otomatis oleh DataTables --}}
                             </tbody>
                         </table>
                     </div>
