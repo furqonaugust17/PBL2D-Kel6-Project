@@ -13,7 +13,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified']], func
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    Route::resource('inventaris', InventarisController::class)->parameters(['inventaris' => 'inventaris']);
+    Route::resource('inventaris', InventarisController::class)->middleware('inventaris')->parameters(['inventaris' => 'inventaris']);
 });
 
 Route::middleware('auth')->group(function () {
@@ -23,5 +23,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
-
-
