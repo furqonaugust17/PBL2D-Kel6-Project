@@ -16,14 +16,9 @@
                 </a>
             </li>
             <li><a class="ai-icon" href="{{ route('ruang.index') }}">
-                <i class="fas fa-warehouse"></i>
-                <span class="nav-text">Manajemen Ruang</span>
-            </a>
-            </li>
-            <li><a class="ai-icon" href="{{ route('fasilitas.index') }}">
-                <i class="fas fa-screwdriver"></i>
-                <span class="nav-text">Manajemen Fasilitas</span>
-            </a>
+                    <i class="fas fa-warehouse"></i>
+                    <span class="nav-text">Ruang</span>
+                </a>
             </li>
         </ul>
     </div>
