@@ -15,6 +15,23 @@
                     <span class="nav-text">Dashboard</span>
                 </a>
             </li>
+            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                    <i class="fas fa-chalkboard"></i>
+                    <span class="nav-text">Monobi Art Space</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="{{ route('artspace-jadwal.index') }}">Jadwal</a></li>
+                </ul>
+            </li>
+            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                    <i class="fas fa-chalkboard"></i>
+                    <span class="nav-text">Monobi Kids</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="{{ route('kids.index') }}">Kelas</a></li>
+                    <li><a href="{{ route('kids-jadwal.index') }}">Jadwal</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
 </div>
