@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Frontend\MainController;
 use App\Http\Controllers\JadwalKidController;
 use App\Http\Controllers\KategoriKidController;
@@ -12,6 +13,8 @@ Route::prefix('kids')->group(function () {
     Route::get('/tema/{id}', [TemaKidController::class, 'getData'])->name('tema.getdata');
     Route::get('/jadwal/{id}', [JadwalKidController::class, 'getData'])->name('jadwal.getdata');
 });
+
+Route::get('/dashboard', [DashboardController::class, 'chart'])->middleware(['auth', 'verified', 'ifAdmin'])->name('dashboard.chart');
 
 Route::get('class/{tipe}/{id}', [MainController::class, 'getDataClass'])->name('class');
 
