@@ -16,6 +16,7 @@ use App\Http\Controllers\KategoriKidController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\ProfileController;
@@ -28,9 +29,10 @@ use App\Http\Controllers\InventarisController;
 Route::get('/', [MainController::class, 'index']);
 
 Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdmin']], function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/', function () {
+        return redirect()->route('dashboard');
+    });
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('artspace', ArtSpaceController::class)->only(['index']);
     Route::resource('kegiatan-artspace', KegiatanArtSpaceController::class)->parameters(['kegiatan-artspace' => 'kegiatanArtSpace'])->only(['index']);;
