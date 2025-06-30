@@ -2,6 +2,7 @@
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
         data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('landing-page/assets/js/custom.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#form').on('submit', function(e) {
@@ -62,14 +63,14 @@
                             <td class="responsive-text fw-normal d-inline d-md-table-cell d-lg-table-cell">:</td>
                             <td class="d-block d-md-table-cell d-lg-table-cell" id="kegiatan">
                                  <ul class="m-0" style="list-style-type: '- '; padding-left: 1.2em;">
-                                    ${ participants.map((value, index) => `<li>${value.name} (${data.data.find(element => element.id === `activity_${value.activity_id}`).name} ${data.data.find(element => element.id === `activity_${value.activity_id}`).price} )</li>`).join('')}
+                                    ${ participants.map((value, index) => `<li>${value.name} (${data.data.find(element => element.id === `activity_${value.activity_id}`).name} ${currency(data.data.find(element => element.id === `activity_${value.activity_id}`).price)})</li>`).join('')}
                                 </ul>
                             </td>
                         </tr>
                         <tr>
                             <td class="responsive-text fw-normal d-inline d-md-table-cell d-lg-table-cell">Total Pembayaran</td>
                             <td class="responsive-text fw-normal d-inline d-md-table-cell d-lg-table-cell">:</td>
-                            <td class="harga-responsive d-block d-md-table-cell d-lg-table-cell" id="total_bayar">${data.total_bayar}</td>
+                            <td class="harga-responsive d-block d-md-table-cell d-lg-table-cell" id="total_bayar">${currency(data.total_bayar)}</td>
                         </tr>
                         <tr class="align-top">
                             <td class="responsive-text fw-normal d-inline d-md-table-cell d-lg-table-cell">Diskon</td>
@@ -156,7 +157,7 @@
                         <select name="participants[][activity_id]" class="form-control">
                             @foreach ($kegiatanArtSpace as $kegiatan)
                                 <option value="{{ $kegiatan->id }}">{{ $kegiatan->nama }} - Rp
-                                    {{ $kegiatan->harga }}
+                                    {{ number_format($kegiatan->harga, 0, ',', '.') }}
                                 </option>
                             @endforeach
                         </select>
@@ -196,7 +197,7 @@
                         endTotal = parseInt(harga) - (parseInt(harga) * (response.data.diskon / 100));
                         $('.diskon-message').append(
                             `<span class="text-success fs-6">${response.message}</span`);
-                        $('#total_bayar').html(endTotal)
+                        $('#total_bayar').html(currency(endTotal))
                     } else {
                         $('#diskon-wrapper input').attr('disabled', false);
                         $('#diskon-wrapper button').attr('disabled', false);
@@ -246,8 +247,8 @@
                                         <select class="form-control" name="sesi" id="session" required>
                                             @foreach ($jadwalArtSpace as $jadwal)
                                                 <option value="{{ $jadwal->id }}">{{ $jadwal->sesi }}
-                                                    {{ $jadwal->mulai }} -
-                                                    {{ $jadwal->akhir }}</option>
+                                                    {{ date('H:i', strtotime($jadwal->mulai)) }} -
+                                                    {{ date('H:i', strtotime($jadwal->akhir)) }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -272,7 +273,7 @@
                                         <select name="participants[][activity_id]" class="form-control">
                                             @foreach ($kegiatanArtSpace as $kegiatan)
                                                 <option value="{{ $kegiatan->id }}">{{ $kegiatan->nama }} - Rp
-                                                    {{ $kegiatan->harga }}
+                                                    {{ number_format($kegiatan->harga, 0, ',', '.') }}
                                                 </option>
                                             @endforeach
                                         </select>
