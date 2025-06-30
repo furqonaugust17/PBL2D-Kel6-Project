@@ -32,11 +32,11 @@
                     data: {
                         tanggal,
                         sesi,
-                        participants
+                        participants,
                     },
                     success: function(data) {
                         console.log(data);
-                        // window.snap.pay(`${data.snapToken}`);
+
                         Swal.fire({
                             title: "Konfirmasi Pendaftaran",
                             width: 750,
@@ -48,30 +48,44 @@
                             html: `
                             <table class="text-start w-100">
                         <tr>
-                            <td>Tanggal Booking</td>
-                            <td>:</td>
-                            <td id="tgl-booking">${tanggal}</td>
+                            <td class="responsive-text fw-normal d-inline d-md-table-cell d-lg-table-cell">Tanggal Booking</td>
+                            <td class="responsive-text fw-normal d-inline d-md-table-cell d-lg-table-cell">:</td>
+                            <td class="d-block d-md-table-cell d-lg-table-cell" id="tgl-booking">${tanggal}</td>
                         </tr>
                         <tr>
-                            <td>Sesi</td>
-                            <td>:</td>
-                            <td id="sesi">${$(
-                                `select[name="sesi"] option[value="${sesi}"]`).html()}</td>
+                            <td class="responsive-text fw-normal d-inline d-md-table-cell d-lg-table-cell">Sesi</td>
+                            <td class="responsive-text fw-normal d-inline d-md-table-cell d-lg-table-cell">:</td>
+                            <td class="d-block d-md-table-cell d-lg-table-cell" id="sesi">${$(`select[name="sesi"] option[value="${sesi}"]`).html()}</td>
                         </tr>
                         <tr class="align-top">
-                            <td>Kegiatan</td>
-                            <td>:</td>
-                            <td id="kegiatan">
-                                 <ul class="m-0" style="list-style-type: '- '; padding-left: 1.2em;">${ participants.map((value, index) => `
-                                    <li>${value.name} (${data.data[index].name} ${data.data[index].price} )</li>
-                                    `).join('')}
+                            <td class="responsive-text fw-normal d-inline d-md-table-cell d-lg-table-cell">Kegiatan</td>
+                            <td class="responsive-text fw-normal d-inline d-md-table-cell d-lg-table-cell">:</td>
+                            <td class="d-block d-md-table-cell d-lg-table-cell" id="kegiatan">
+                                 <ul class="m-0" style="list-style-type: '- '; padding-left: 1.2em;">
+                                    ${ participants.map((value, index) => `<li>${value.name} (${data.data.find(element => element.id === `activity_${value.activity_id}`).name} ${data.data.find(element => element.id === `activity_${value.activity_id}`).price} )</li>`).join('')}
                                 </ul>
                             </td>
                         </tr>
                         <tr>
-                            <td>Total Pembayaran</td>
-                            <td>:</td>
-                            <td><b>${data.total_bayar}</b></td>
+                            <td class="responsive-text fw-normal d-inline d-md-table-cell d-lg-table-cell">Total Pembayaran</td>
+                            <td class="responsive-text fw-normal d-inline d-md-table-cell d-lg-table-cell">:</td>
+                            <td class="harga-responsive d-block d-md-table-cell d-lg-table-cell" id="total_bayar">${data.total_bayar}</td>
+                        </tr>
+                        <tr class="align-top">
+                            <td class="responsive-text fw-normal d-inline d-md-table-cell d-lg-table-cell">Diskon</td>
+                            <td class="responsive-text fw-normal d-inline d-md-table-cell d-lg-table-cell">:</td>
+                            <td class="d-block d-md-table-cell d-lg-table-cell" id="diskon-wrapper">
+                                <div class="row">
+                                    <div class="col-8 col-lg-8">
+                                        <input type="text" name="diskon" class="form-control" />
+                                    </div>
+                                    <div class="col-4 col-lg-4">
+                                        <button class="btn btn-primary w-100" id="cekDiskon" onclick="cekDiskon('${data.total_bayar}')">cek</button>
+                                    </div>
+                                    <div class="diskon-message">
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     </table>
                             `,
@@ -83,7 +97,8 @@
                                     data: {
                                         tanggal,
                                         sesi,
-                                        participants
+                                        participants,
+                                        diskon: $('input[name="diskon"]').val()
                                     },
                                     beforeSend: function() {
                                         Swal.fire({
@@ -115,12 +130,6 @@
                         })
                     }
                 })
-                console.log({
-                    tanggal,
-                    sesi,
-                    participants
-                });
-
             })
         });
 
@@ -131,18 +140,18 @@
             const container = document.getElementById('participants');
             const html = `
         <tr class="participant">
-            <td>
-                <div class="row">
+            <td class="d-lg-table-cell d-block">
+                <div class="row align-items-end">
                     <label class="col-sm-4 col-form-label">Nama Peserta</label>
-                    <div class="col-sm-8" style="padding-left: 1.4rem !important;">
+                    <div class="col-sm-8 ps-lg-4" style="">
                         <input type="text" class="form-control" name="participants[][name]"
                             required>
                     </div>
                 </div>
             </td>
-            <td>
+            <td class="d-lg-table-cell d-block">
                 <div class="row">
-                    <label class="col-sm-4 col-form-label text-end">Kegiatan</label>
+                    <label class="col-sm-4 col-form-label text-lg-end">Kegiatan</label>
                     <div class="col-sm-8">
                         <select name="participants[][activity_id]" class="form-control">
                             @foreach ($kegiatanArtSpace as $kegiatan)
@@ -154,7 +163,7 @@
                     </div>
                 </div>
             </td>
-            <td>
+            <td class="align-bottom">
                     <button type="button" class="btn btn-danger w-100" onclick="removeParticipant(this)"><i
                         class="bi bi-trash"></i></button>
             </td>
@@ -167,6 +176,41 @@
 
         function removeParticipant(elemet) {
             $(elemet).closest('tr.participant').remove();
+        }
+
+        function cekDiskon(harga) {
+            const diskon = $(`input[name=diskon]`).val();
+            $.ajax({
+                url: `{{ route('checkDiskon') }}`,
+                type: 'POST',
+                data: {
+                    diskon
+                },
+                beforeSend: function() {
+                    $('#diskon-wrapper input').attr('disabled', true);
+                    $('#diskon-wrapper button').attr('disabled', true);
+                    $('.diskon-message').empty()
+                },
+                success: function(response) {
+                    if (response.success) {
+                        endTotal = parseInt(harga) - (parseInt(harga) * (response.data.diskon / 100));
+                        $('.diskon-message').append(
+                            `<span class="text-success fs-6">${response.message}</span`);
+                        $('#total_bayar').html(endTotal)
+                    } else {
+                        $('#diskon-wrapper input').attr('disabled', false);
+                        $('#diskon-wrapper button').attr('disabled', false);
+                        $('.diskon-message').append(
+                            `<span class="text-danger fs-6">${response.message}</span`);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#diskon-wrapper input').attr('disabled', false);
+                    $('#diskon-wrapper button').attr('disabled', false);
+                    $('.diskon-message').append(
+                        `<span class="text-danger fs-6">${xhr.responseJSON.message}</span`);
+                }
+            })
         }
     </script>
 @endsection
@@ -189,7 +233,7 @@
                                         Datang</label>
                                     <div class="col-sm-10">
                                         <input type="date" class="form-control" name="tanggal" id="booking-date"
-                                            onclick="this.showPicker()">
+                                            onclick="this.showPicker()" required>
                                     </div>
                                 </div>
                             </td>
@@ -199,7 +243,7 @@
                                 <div class="row">
                                     <label for="session" class="col-sm-2 col-form-label">Sesi</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control" name="sesi" id="session">
+                                        <select class="form-control" name="sesi" id="session" required>
                                             @foreach ($jadwalArtSpace as $jadwal)
                                                 <option value="{{ $jadwal->id }}">{{ $jadwal->sesi }}
                                                     {{ $jadwal->mulai }} -
@@ -213,17 +257,17 @@
                     </thead>
                     <tbody id="participants">
                         <tr class="participant">
-                            <td>
-                                <div class="row">
+                            <td class="d-lg-table-cell d-block">
+                                <div class="row align-items-end">
                                     <label class="col-sm-4 col-form-label">Nama Peserta</label>
-                                    <div class="col-sm-8" style="padding-left: 1.4rem !important;">
+                                    <div class="col-sm-8 ps-lg-4" style="">
                                         <input type="text" class="form-control" name="participants[][name]" required>
                                     </div>
                                 </div>
                             </td>
-                            <td>
+                            <td class="d-lg-table-cell d-block">
                                 <div class="row">
-                                    <label class="col-sm-4 col-form-label text-end">Kegiatan</label>
+                                    <label class="col-sm-4 col-form-label text-lg-end">Kegiatan</label>
                                     <div class="col-sm-8">
                                         <select name="participants[][activity_id]" class="form-control">
                                             @foreach ($kegiatanArtSpace as $kegiatan)
