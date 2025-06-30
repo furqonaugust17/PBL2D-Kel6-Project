@@ -76,4 +76,18 @@ class DiskonController extends Controller
             'message' => 'Diskon Berhasil Dihapus',
         ]);
     }
+
+    public function getDiskon(Request $request)
+    {
+        $diskon = Diskon::where('code', $request->diskon)->first();
+        if (!$diskon) {
+            return response()->json(['success' => false, 'message' => 'Kode Diskon Tidak Ada'])->setStatusCode(404);
+        }
+
+        if (now()->diffInDays("$diskon->expired_date 23:59:59") < 0) {
+            return response()->json(['success' => false, 'message' => 'Kode Diskon Sudah Tidak Berlaku']);
+        }
+
+        return response()->json(['success' => true, 'data' => $diskon, 'message' => 'anda mendapatkan diskon sebesar ' . $diskon->diskon . '%']);
+    }
 }
