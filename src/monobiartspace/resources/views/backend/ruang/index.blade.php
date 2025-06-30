@@ -51,15 +51,16 @@
                     }
                 ],
                 columnDefs: [{
-                    targets: 0,
-                    render: function(data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
+                        targets: 0,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        targets: 2,
+                        render: $.fn.dataTable.render.ellipsis(40)
                     }
-                }],
-                [{
-                    targets: 2,
-                    render: $.fn.dataTable.render.ellipsis(40)
-                }]
+                ],
             });
         });
 

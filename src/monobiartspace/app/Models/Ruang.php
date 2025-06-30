@@ -11,14 +11,10 @@ class Ruang extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'ruang';
-<<<<<<< HEAD
-    protected $fillable = ['nama', 'kapasitas'];
+    protected $fillable = ['nama', 'kapasitas', 'deskripsi'];
 
     public function fasilitas(): HasMany
     {
         return $this->hasMany(Fasilitas::class);
     }
-=======
-    protected $fillable = ['nama', 'kapasitas', 'deskripsi'];
->>>>>>> a95fdf11e4af06a1494869033f1a241c438a8182
 }
