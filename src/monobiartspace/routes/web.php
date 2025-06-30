@@ -9,7 +9,6 @@ use App\Http\Controllers\Frontend\KelasController as FrontKelas;
 use App\Http\Controllers\Frontend\MainController;
 use App\Http\Controllers\Frontend\PendaftaranController as FrontPendaftaran;
 use App\Http\Controllers\KaryawanController;
-use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\DiskonController;
 use App\Http\Controllers\HargaClassKidController;
 use App\Http\Controllers\KategoriKidController;
@@ -52,12 +51,10 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
     Route::resource('partner', PartnerController::class);
     Route::resource('galeri', GaleriController::class);
     Route::resource('ruang', RuangController::class)->only(['index']);
-    Route::resource('fasilitas', FasilitasController::class)->only(['index']);
     Route::resource('inventaris', InventarisController::class)->middleware('inventaris')->parameters(['inventaris' => 'inventaris']);
 
     Route::middleware(['ExceptSupervisor'])->group(function () {
         Route::resource('ruang', RuangController::class)->except(['index']);
-        Route::resource('fasilitas', FasilitasController::class)->except(['index']);
         Route::resource('artspace-jadwal', JadwalArtSpaceController::class)->parameters(['artspace-jadwal' => 'jadwalArtSpace'])->except(['index']);
         Route::resource('kids-jadwal', JadwalKidController::class)->parameters(['kids-jadwal' => 'jadwalKid'])->except(['index']);
 

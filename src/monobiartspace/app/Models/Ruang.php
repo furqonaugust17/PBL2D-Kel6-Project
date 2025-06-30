@@ -12,9 +12,4 @@ class Ruang extends Model
 
     protected $table = 'ruang';
     protected $fillable = ['nama', 'kapasitas', 'deskripsi'];
-
-    public function fasilitas(): HasMany
-    {
-        return $this->hasMany(Fasilitas::class);
-    }
 }
