@@ -13,9 +13,9 @@ use App\Models\DetailPendaftaran;
 use App\Models\DetailPendaftaranKid;
 use App\Models\DetailPendaftaranTema;
 use App\Models\DetailTemaKid;
+use App\Models\Diskon;
 use App\Models\JadwalArtSpace;
 use App\Models\JadwalKid;
-use App\Models\KategoriKid;
 use App\Models\KegiatanArtSpace;
 use App\Models\Kid;
 use App\Models\PembayaranBooking;
@@ -26,7 +26,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use stdClass;
 use Yajra\DataTables\Facades\DataTables;
 
 class PendaftaranController extends Controller
@@ -105,30 +104,30 @@ class PendaftaranController extends Controller
                 return response()->json(['message' => 'Sesi sudah penuh!'], 422);
             }
 
+            $calculate = $this->calculateArtSpaceTransaction($request)->getData(true);
+            $detailItem = $calculate['data'];
+            $total_price = $calculate['total_bayar'];
+            if ($request->diskon) {
+                $diskonData = Diskon::where('code', $request->diskon)->first();
+                $diskon = $total_price * ($diskonData->diskon / 100);
+                array_push($detailItem, [
+                    'id' => 'D01',
+                    'name' => $diskonData->nama . ' ' . $diskonData->diskon . '%',
+                    'quantity' => 1,
+                    'price' => -$diskon
+                ]);
+            } else {
+                $diskon = 0;
+            }
 
             $booking = Pendaftaran::create([
                 'type'  => 'artspace',
                 'customer_id'   => $customerData->id,
                 'sesi' => $request->sesi,
                 'tanggal_reservasi' => $request->tanggal,
+                'nominal'   => $total_price,
+                'diskon'    => $diskon
             ]);
-
-
-            $kegiatans = KegiatanArtSpace::all()->keyBy('id');
-            $participants = collect($request->participants);
-            $detailItem = $participants->groupBy('activity_id')->map(function ($group, $activity_id) use ($kegiatans) {
-                $kegiatan = $kegiatans[$activity_id] ?? null;
-                return [
-                    'id' => 'activity_' . $activity_id,
-                    'name' => $kegiatan->nama ?? 'Unknown',
-                    'quantity' => intval($group->count()),
-                    'price' => intval($kegiatan->harga ?? 0)
-                ];
-            })->values()->toArray();
-
-            $total_price = collect($detailItem)->sum(function ($item) {
-                return $item['price'] * $item['quantity'];
-            });
 
             foreach ($request->participants as $participant) {
                 DetailPendaftaran::create([
@@ -137,8 +136,6 @@ class PendaftaranController extends Controller
                     'kegiatan' => $participant['activity_id']
                 ]);
             }
-
-            $booking->update(['nominal' => $total_price]);
 
             $order_id = 'booking-artspace-' . $customerData->id .  '-' . now()->format('YmdHis') . '-' . Str::random(4);
             $params = array(
@@ -153,13 +150,12 @@ class PendaftaranController extends Controller
                 ),
                 'item_details' => $detailItem
             );
-
             $payment = \Midtrans\Snap::createTransaction($params);
 
             PembayaranBooking::create([
                 'order_id'  => $order_id,
                 'pendaftaran_id'    => $booking->id,
-                'amount'    => $total_price,
+                'amount'    => $total_price - $diskon,
                 'snap_token'    => $payment->token,
                 'snap_url'  => $payment->redirect_url
             ]);

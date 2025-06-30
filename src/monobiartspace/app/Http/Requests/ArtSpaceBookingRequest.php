@@ -36,6 +36,7 @@ class ArtSpaceBookingRequest extends FormRequest
                 'integer',
                 'exists:kegiatan_art_spaces,id',
             ],
+            'diskon'    => 'nullable|exists:diskons,code'
         ];
     }
 
@@ -53,6 +54,7 @@ class ArtSpaceBookingRequest extends FormRequest
             'participants.*.activity_id.required' => 'Activity ID peserta wajib diisi.',
             'participants.*.activity_id.integer' => 'Activity ID harus berupa angka.',
             'participants.*.activity_id.exists' => 'Activity ID tidak ditemukan di database.',
+            'diskon.exists' => 'Kode diskon tidak ada'
         ];
     }
 }

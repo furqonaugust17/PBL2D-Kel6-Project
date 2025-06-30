@@ -12,6 +12,36 @@
 --------------------------------------------------------------*/
 /* Fonts */
 
+.responsive-text {
+  font-weight: bold !important;
+}
+
+.harga-responsive {
+  font-weight: normal !important;
+}
+
+@media (min-width: 576px) {
+  .responsive-text {
+    font-weight: bold !important;
+  }
+
+  .harga-responsive {
+    font-weight: normal !important;
+  }
+
+}
+
+@media (min-width: 768px) {
+  .responsive-text {
+    font-weight: normal !important;
+  }
+
+  .harga-responsive {
+    font-weight: bold !important;
+  }
+
+}
+
 .text-justify {
   text-align: justify;
 }
