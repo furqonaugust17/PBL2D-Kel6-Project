@@ -2,6 +2,7 @@
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
         data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('landing-page/assets/js/custom.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#form').on('submit', function(e) {
@@ -47,76 +48,76 @@
                             allowOutsideClick: false,
                             allowEscapeKey: false,
                             html: `
-                            <table class="text-start">
+                            <table class="text-start w-100">
                         <tr>
-                            <td>Nama Lengkap Anak</td>
-                            <td>:</td>
-                            <td id="nama-lengkap">${nama_lengkap}</td>
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">Nama Lengkap Anak</td>
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">:</td>
+                            <td class="d-block d-md-table-cell d-lg-table-cell" id="nama-lengkap">${nama_lengkap}</td>
                         </tr>
                         <tr>
-                            <td>Nama Panggilan Anak</td>
-                            <td>:</td>
-                            <td id="nama-panggilan">${nama_panggilan}</td>
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">Nama Panggilan Anak</td>
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">:</td>
+                            <td class="d-block d-md-table-cell d-lg-table-cell" id="nama-panggilan">${nama_panggilan}</td>
                         </tr>
                         <tr>
-                            <td>Tanggal Lahir</td>
-                            <td>:</td>
-                            <td id="tgl-lahir">${tanggal_lahir}</td>
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">Tanggal Lahir</td>
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">:</td>
+                            <td class="d-block d-md-table-cell d-lg-table-cell" id="tgl-lahir">${tanggal_lahir}</td>
                         </tr>
                         <tr>
-                            <td>Umur Saat ini</td>
-                            <td>:</td>
-                            <td id="umur">${usia_saat_ini}</td>
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">Umur Saat ini</td>
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">:</td>
+                            <td class="d-block d-md-table-cell d-lg-table-cell" id="umur">${usia_saat_ini}</td>
                         </tr>
                         <tr>
-                            <td>Kelas</td>
-                            <td>:</td>
-                            <td id="kelas">${$(`select[name="kelas_id"] option[value="${kelas}"]`)
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">Kelas</td>
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">:</td>
+                            <td class="d-block d-md-table-cell d-lg-table-cell" id="kelas">${$(`select[name="kelas_id"] option[value="${kelas}"]`)
                             .html()}</td>
                         </tr>
                         <tr>
-                            <td>Kategori</td>
-                            <td>:</td>
-                            <td id="kategori">${$(
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">Kategori</td>
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">:</td>
+                            <td class="d-block d-md-table-cell d-lg-table-cell" id="kategori">${$(
                                 `select[name="kategori_id"] option[value="${kategori}"]`)
                             .html()}</td>
                         </tr>
                         <tr>
-                            <td>Jadwal</td>
-                            <td>:</td>
-                            <td id="jadwal">${$(
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">Jadwal</td>
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">:</td>
+                            <td class="d-block d-md-table-cell d-lg-table-cell" id="jadwal">${$(
                                 `select[name="jadwal_id"] option[value="${jadwal}"]`)
                             .html()}</td>
                         </tr>
-                        <tr>
-                            <td>Tema yang Dipilih</td>
-                            <td>:</td>
-                            <td id="tema">
+                        <tr class="align-top">
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">Tema yang Dipilih</td>
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">:</td>
+                            <td class="d-block d-md-table-cell d-lg-table-cell" id="tema">
                                 <ul class="m-0" style="list-style-type: '- '; padding-left: 1.2em;">${ data.tema.map(value => `
-                                    <li>
-                                          <div>
-                                              <input type="hidden" name="tema[]" value="${value.id}" />
-                                                <span>${value.nama}</span>
-                                            </div>
-                                    </li>
-                                    `).join('')}
+                                                        <li>
+                                                              <div>
+                                                                  <input type="hidden" name="tema[]" value="${value.id}" />
+                                                                    <span>${value.nama}</span>
+                                                                </div>
+                                                        </li>
+                                                        `).join('')}
                                 </ul>
                             </td>
                         </tr>
                         <tr>
-                            <td>Harga</td>
-                            <td>:</td>
-                            <td><b>${data.harga}</b></td>
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">Harga</td>
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">:</td>
+                            <td class="harga-responsive d-block d-md-table-cell d-lg-table-cell">${currency(data.harga)}</td>
                         </tr>
                         <tr>
-                            <td>Diskon</td>
-                            <td>:</td>
-                            <td><b>${data.diskon}</b></td>
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">Diskon</td>
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">:</td>
+                            <td class="harga-responsive d-block d-md-table-cell d-lg-table-cell">${currency(data.diskon)}</td>
                         </tr>
                         <tr>
-                            <td>Total Pembayaran</td>
-                            <td>:</td>
-                            <td><b>${data.total_bayar}</b></td>
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">Total Pembayaran</td>
+                            <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">:</td>
+                            <td class="harga-responsive d-block d-md-table-cell d-lg-table-cell">${currency(data.total_bayar)}</td>
                         </tr>
                     </table>
                             `,
@@ -285,36 +286,36 @@
                 <table class="w-100 z-1" id="formContent">
                     <tbody>
                         <tr>
-                            <td>Nama Lengkap Anak</td>
-                            <td>
+                            <td class="d-lg-table-cell d-block">Nama Lengkap Anak</td>
+                            <td class="d-lg-table-cell d-block">
                                 <input class="form-control" type="text" name="nama-lengkap" id="nama-lengkap"
                                     required>
                             </td>
                         </tr>
                         <tr>
-                            <td>Nama Panggilan Anak</td>
-                            <td>
+                            <td class="d-lg-table-cell d-block">Nama Panggilan Anak</td>
+                            <td class="d-lg-table-cell d-block">
                                 <input class="form-control" type="text" name="nama-panggilan" id="nama-panggilan"
                                     required>
                             </td>
                         </tr>
                         <tr>
-                            <td>Usia Anak Saat Ini</td>
-                            <td>
+                            <td class="d-lg-table-cell d-block">Usia Anak Saat Ini</td>
+                            <td class="d-lg-table-cell d-block">
                                 <input class="form-control" type="number" name="usia-saat-ini" id="usia-saat-ini"
                                     required>
                             </td>
                         </tr>
                         <tr>
-                            <td>Tanggal Lahir anak</td>
-                            <td>
+                            <td class="d-lg-table-cell d-block">Tanggal Lahir anak</td>
+                            <td class="d-lg-table-cell d-block">
                                 <input class="form-control" type="date" name="tgl-lahir" id="tgl-lahir"
                                     onclick="this.showPicker()" required>
                             </td>
                         </tr>
                         <tr>
-                            <td>Pilih Kelas</td>
-                            <td>
+                            <td class="d-lg-table-cell d-block">Pilih Kelas</td>
+                            <td class="d-lg-table-cell d-block">
                                 <select class="form-control" name="kelas_id" id="kelas" required>
                                     <option value="" selected disabled>== Pilih Kelas ==</option>
                                     @foreach ($kids as $kelas)
@@ -324,8 +325,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Pilih Kategori</td>
-                            <td>
+                            <td class="d-lg-table-cell d-block">Pilih Kategori</td>
+                            <td class="d-lg-table-cell d-block">
                                 <select class="form-control" name="kategori_id" id="kategori" required>
                                     <option value="" selected disabled>Silahkan Pilih Kelas Terlebih Dahulu
                                     </option>
@@ -333,8 +334,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Pilih Jadwal</td>
-                            <td>
+                            <td class="d-lg-table-cell d-block">Pilih Jadwal</td>
+                            <td class="d-lg-table-cell d-block">
                                 <select class="form-control" name="jadwal_id" id="jadwal" required>
                                     <option value="" selected disabled>Silahkan Pilih Kelas Terlebih Dahulu
                                     </option>
@@ -342,8 +343,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="vertical-align: top;">Tema</td>
-                            <td>
+                            <td class="d-lg-table-cell d-block" style="vertical-align: top;">Tema</td>
+                            <td class="d-lg-table-cell d-block">
                                 <div class="tema-data">
                                     <p>Silahkan Pilih Kelas Terlebih Dahulu</p>
                                 </div>
