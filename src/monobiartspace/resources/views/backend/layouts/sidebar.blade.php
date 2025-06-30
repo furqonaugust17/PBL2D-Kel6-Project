@@ -64,7 +64,7 @@
             </li>
             <li><a class="ai-icon" href="{{ route('ruang.index') }}">
                     <i class="fas fa-warehouse"></i>
-                    <span class="nav-text">Manajemen Ruang</span>
+                    <span class="nav-text">Ruang</span>
                 </a>
             </li>
             <li><a class="ai-icon" href="{{ route('fasilitas.index') }}">

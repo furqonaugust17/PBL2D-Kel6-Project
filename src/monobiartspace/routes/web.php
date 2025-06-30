@@ -67,6 +67,8 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
 
         Route::resource('artspace', ArtSpaceController::class)->except(['index']);
         Route::resource('kids', KidController::class)->except(['index']);
+
+        Route::resource('ruang', RuangController::class)->except(['index']);
     });
 });
 
