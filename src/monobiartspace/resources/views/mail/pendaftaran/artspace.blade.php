@@ -16,7 +16,7 @@
                     <!-- HEADER -->
                     <tr>
                         <td align="center" style="background-color: #1976d2; padding: 20px;">
-                            <img src="{{ asset('images/header-image.png') }}" alt="Header Image" width="100%"
+                            <img src="{{ asset('images/monobi_logo.png') }}" alt="Header Image" width="100%"
                                 style="max-width: 600px;">
                         </td>
                     </tr>
