@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DiskonController;
 use App\Http\Controllers\Frontend\MainController;
 use App\Http\Controllers\JadwalKidController;
 use App\Http\Controllers\KategoriKidController;
@@ -14,5 +15,5 @@ Route::prefix('kids')->group(function () {
 });
 
 Route::get('class/{tipe}/{id}', [MainController::class, 'getDataClass'])->name('class');
-
+Route::post('diskon', [DiskonController::class, 'getDiskon'])->name('checkDiskon');
 Route::post('payment/notification', [PaymentController::class, 'callback']);
