@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pendaftaran;
 use App\Services\PembayaranService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class PendaftaranController extends Controller
@@ -22,9 +23,10 @@ class PendaftaranController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $pendaftaran = Pendaftaran::select('pendaftarans.*', 'customers.nama_lengkap as nama_customer', 'customers.notelp', 'users.email')
+            $pendaftaran = Pendaftaran::select('pendaftarans.*', 'customers.nama_lengkap as nama_customer', 'customers.notelp', 'users.email', DB::raw('CONCAT(jadwal_art_spaces.sesi, " ", jadwal_art_spaces.mulai, "-", jadwal_art_spaces.akhir) as jadwal'))
                 ->leftJoin('customers', 'customers.id', '=', 'pendaftarans.customer_id')
                 ->leftJoin('users', 'users.id', '=', 'customers.user_id')
+                ->leftJoin('jadwal_art_spaces', 'jadwal_art_spaces.id', '=', 'pendaftarans.sesi')
                 ->latest();
             return DataTables::of($pendaftaran)->addColumn('tanggal_reservasi', function ($row) {
                 return $row->tanggal_reservasi != null ? \Carbon\Carbon::parse($row->tanggal_reservasi)->translatedFormat('j F Y') : '-';

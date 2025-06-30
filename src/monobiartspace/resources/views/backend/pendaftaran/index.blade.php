@@ -48,6 +48,8 @@
                     {
                         data: 'id',
                         "render": function(data, type, row) {
+                            let rowData = JSON.stringify(row).replace(/"/g, '&quot;');
+
                             let uriDetail =
                                 "{{ route('pendaftaran.show', ['pendaftaran' => ':id']) }}"
                                 .replace(
@@ -56,6 +58,7 @@
 
                             return `<div class="d-flex">
                                         <a href="${uriDetail}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-eye"></i></a>
+                                        <button onclick="sendMessage(JSON.parse(this.dataset.row))" data-row="${rowData}"  class="btn btn-secondary shadow btn-xs sharp me-1"><i class="fas fa-paper-plane"></i></button>
                                     </div>`
                         }
                     }
@@ -65,66 +68,69 @@
                     render: function(data, type, row, meta) {
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
-                }]
+                }],
+                createdRow: function(row, data, dataIndex) {
+                    if (isInReminderRange(data.tanggal_reservasi, 0, 2)) {
+                        $(row).addClass('table-danger');
+                    }
+                    if (isInReminderRange(data.tanggal_reservasi, 3, 5)) {
+                        $(row).addClass('table-warning');
+                    }
+                }
             });
-
 
         });
 
+        function sendMessage(data) {
+            console.log(data);
 
-        function deleteData(id) {
+            const nomor = data.notelp.replace('+', '');
+            const pesan = `📣 Halo ${data.nama_customer},  
+Ini pengingat bahwa Anda terdaftar untuk kegiatan di {{ config('app.name') }}:
+
+📅 ${data.tanggal_reservasi}  
+🕒 ${data.jadwal}  
+🎨 Program: ${String(data.type).charAt(0).toUpperCase() + String(data.type).slice(1)}
+
+Sampai jumpa di lokasi! Jika berhalangan, hubungi kami ya.`;
+            const urlWhatsApp = `https://api.whatsapp.com/send?phone=${nomor}&text=${encodeURIComponent(pesan)}`;
             Swal.fire({
                 title: "Anda Yakin?",
-                text: "Data akan terhapus pada sistem!!",
+                text: "Notifikasi Akan Dikirimkan Ke Customer!!",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Hapus",
+                confirmButtonText: "Kirim",
                 cancelButtonText: "Batal",
             }).then((result) => {
                 if (result.value) {
-                    let uriDelete = "{{ route('pendaftaran.destroy', ['pendaftaran' => ':id']) }}".replace(':id',
-                        id);
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    $.ajax({
-                        url: uriDelete,
-                        type: 'DELETE',
-                        success: function(data) {
-                            toastr.success(data.message, {
-                                closeButton: false,
-                                debug: false,
-                                newestOnTop: false,
-                                progressBar: true,
-                                positionClass: "toast-top-right",
-                                preventDuplicates: false,
-                                onclick: null,
-                                showDuration: 300,
-                                hideDuration: 1000,
-                                timeOut: 500,
-                                extendedTimeOut: 1000,
-                                showEasing: "swing",
-                                hideEasing: "linear",
-                                showMethod: "fadeIn",
-                                hideMethod: "fadeOut"
-                            })
-                            $('#table-harga').DataTable().ajax.reload()
-                        },
-                        error: function(data) {
-                            Swal.fire({
-                                title: "Error",
-                                text: "Ada Kesalahan Pada Server",
-                                type: "warning",
-                                confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "Oke",
-                            })
-                        }
+                    window.open(urlWhatsApp, '_blank');
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ada Kesalahan Pada Server",
+                        type: "warning",
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Oke",
                     })
                 }
             });
+        }
+
+        function isInReminderRange(reservasiTanggalStr, dariHari, sampaiHari) {
+            const today = new Date();
+            const reservasiDate = new Date(reservasiTanggalStr);
+
+            if (isNaN(reservasiDate)) {
+                console.error('Tanggal reservasi tidak valid:', reservasiTanggalStr);
+                return false;
+            }
+
+            today.setHours(0, 0, 0, 0);
+            reservasiDate.setHours(0, 0, 0, 0);
+
+            const dayDiff = (reservasiDate - today) / (1000 * 60 * 60 * 24);
+            return dayDiff >= dariHari && dayDiff <= sampaiHari;
         }
     </script>
 @endsection
@@ -132,9 +138,6 @@
 <x-app-layout>
     <x-slot:title>Pendaftaran</x-slot:title>
     <div class="row">
-        {{-- <div class="col-4">
-            <a href="{{ route('pendaftaran.create') }}" class="btn btn-sm btn-primary">Tambah Data Harga</a>
-        </div> --}}
         <div class="col-12 m-t35">
             <div class="card">
                 <div class="card-body">
