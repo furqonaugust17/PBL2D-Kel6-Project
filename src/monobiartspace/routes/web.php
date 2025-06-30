@@ -53,8 +53,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
     Route::resource('galeri', GaleriController::class);
     Route::resource('ruang', RuangController::class)->only(['index']);
     Route::resource('fasilitas', FasilitasController::class)->only(['index']);
-    Route::resource('inventaris', InventarisController::class)->parameters(['inventaris' => 'inventaris']);
-
+    Route::resource('inventaris', InventarisController::class)->middleware('inventaris')->parameters(['inventaris' => 'inventaris']);
 
     Route::middleware(['ExceptSupervisor'])->group(function () {
         Route::resource('ruang', RuangController::class)->except(['index']);
