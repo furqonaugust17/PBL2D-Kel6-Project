@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -29,33 +30,9 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(RegisterRequest $request): RedirectResponse
     {
-        // dd($request->request);
-
-        $request->validate([
-            'nama_lengkap' => ['required', 'string', 'max:100'],
-            'jk' => ['required', Rule::in(['l', 'p'])],
-            'notelp' => [
-                'required',
-                'regex:/^(\+62|0)[0-9]{9,15}$/',
-                'max:15'
-            ],
-            'alamat' => ['required'],
-            'username' => ['required', 'string', 'max:255', 'unique:users,name'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class, 'email:rfc,dns'],
-            'password' => [
-                'required',
-                'confirmed',
-                Rules\Password::defaults(),
-                'min:8',
-                'max:64',
-                'regex:/[a-z]/',
-                'regex:/[A-Z]/',
-                'regex:/[0-9]/',
-                'regex:/[@$!%*?&]/',
-            ],
-        ]);
+        $request->validated();
 
         $user = User::create([
             'name' => $request->username,
