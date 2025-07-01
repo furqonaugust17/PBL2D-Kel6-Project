@@ -26,6 +26,7 @@ use App\Http\Controllers\RuangController;
 use App\Http\Controllers\InventarisController;
 
 Route::get('/', [MainController::class, 'index']);
+Route::post('send-message', [MainController::class, 'sendMail'])->name('send-message');
 
 Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdmin']], function () {
     Route::get('/', function () {

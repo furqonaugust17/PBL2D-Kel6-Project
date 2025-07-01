@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\QuestionRequest;
+use App\Mail\ContactMessage;
 use App\Models\Galeri;
 use App\Models\KegiatanArtSpace;
 use App\Models\Partner;
 use App\Models\TemaKid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class MainController extends Controller
 {
@@ -34,5 +37,13 @@ class MainController extends Controller
         }
 
         return response()->json(['success' => true, 'data' => $data]);
+    }
+
+    public function sendMail(QuestionRequest  $request)
+    {
+        $data = $request->validated();
+        Mail::to(env('MAIL_USERNAME'))->send(new ContactMessage($data));
+
+        return response()->json(['success' => true, 'message' => 'Pesan Anda Telah Dikirim. Terima Kasih!']);
     }
 }

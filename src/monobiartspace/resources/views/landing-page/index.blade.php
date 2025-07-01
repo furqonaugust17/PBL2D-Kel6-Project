@@ -99,15 +99,15 @@
                             dewasa.</p>
 
                         <div class="hero-buttons">
-                            <a href="#about" class="btn btn-primary me-0 me-sm-2 mx-1">Get Started</a>
+                            <a href="#about" class="btn btn-primary me-0 me-sm-2 mx-1">Mulai Sekarang</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-6">
                     <div class="hero-image" data-aos="zoom-out" data-aos-delay="300">
-                        <img src="{{ asset('landing-page/assets/img/illustration-1.webp') }}" alt="Hero Image"
-                            class="img-fluid" loading="lazy">
+                        <img src="{{ asset('landing-page/assets/image/hero.png') }}" alt="Hero Image" class="img-fluid"
+                            loading="lazy">
                     </div>
                 </div>
             </div>
@@ -143,10 +143,10 @@
                 <div class="col-xl-6" data-aos="fade-up" data-aos-delay="300">
                     <div class="image-wrapper">
                         <div class="images position-relative" data-aos="zoom-out" data-aos-delay="400">
-                            <img src="{{ asset('landing-page/assets/img/about-5.webp') }}" alt="Business Meeting"
-                                class="img-fluid main-image rounded-4" loading="lazy">
-                            <img src="{{ asset('landing-page/assets/img/about-2.webp') }}" alt="Team Discussion"
-                                class="img-fluid small-image rounded-4" loading="lazy">
+                            <img src="{{ asset('landing-page/assets/image/monobi_after_school.jpg') }}"
+                                alt="Business Meeting" class="img-fluid main-image rounded-4" loading="lazy">
+                            <img src="{{ asset('landing-page/assets/image/outingclass_sd26jatiutara2.jpg') }}"
+                                alt="Team Discussion" class="img-fluid small-image rounded-4" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -162,7 +162,7 @@
         <!-- Section Title -->
         <div class="container section-title" data-aos="fade-up">
             <h2>Monobi Class</h2>
-            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+            <p>Pilih kelas yang paling cocok buat kamu. Yuk, temukan keseruan belajar bareng Monobi!</p>
         </div><!-- End Section Title -->
 
         <div class="container">
@@ -269,7 +269,7 @@
     <section id="gallery" class="services section light-background">
         <div class="container section-title" data-aos="fade-up">
             <h2>Gallery</h2>
-            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+            <p>Intip momen seru yang udah kami abadikan di sini, siapa tahu ada kamu juga!</p>
         </div>
         <div class="container" data-aos="fade-up" data-aos-delay="100">
             <div class="row g-2">
@@ -339,7 +339,7 @@
 
         <div class="container section-title" data-aos="fade-up">
             <h2>Contact</h2>
-            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+            <p>Punya pertanyaan atau ide seru? Yuk, ngobrol bareng kami lewat form ini!</p>
         </div>
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -347,16 +347,16 @@
             <div class="row g-4 g-lg-5">
                 <div class="col-lg-5">
                     <div class="info-box" data-aos="fade-up" data-aos-delay="200">
-                        <h3>Contact Info</h3>
-                        <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ante
-                            ipsum primis.</p>
+                        <h3>Info Kontak</h3>
+                        <p>Mau mampir atau ngobrol lewat chat? Info lengkap kami ada di bawah. Jangan sungkan, kami
+                            ramah kok!</p>
 
                         <div class="info-item" data-aos="fade-up" data-aos-delay="300">
                             <div class="icon-box">
                                 <i class="bi bi-geo-alt"></i>
                             </div>
                             <div class="content">
-                                <h4>Our Location</h4>
+                                <h4>Alamat Kami</h4>
                                 <p>Jl Arwana no 6 Ulak Karang</p>
                                 <p>Padang, Indonesia 25134</p>
                             </div>
@@ -367,7 +367,7 @@
                                 <i class="bi bi-telephone"></i>
                             </div>
                             <div class="content">
-                                <h4>Phone Number</h4>
+                                <h4>Nomor Telepon</h4>
                                 <p>+62 822-4456-8338</p>
                             </div>
                         </div>
@@ -377,8 +377,8 @@
                                 <i class="bi bi-envelope"></i>
                             </div>
                             <div class="content">
-                                <h4>Email Address</h4>
-                                <p>monobi@gmail.com</p>
+                                <h4>Email</h4>
+                                <p>{{ env('MAIL_FROM_ADDRESS') }}</p>
                             </div>
                         </div>
                     </div>
@@ -386,11 +386,12 @@
 
                 <div class="col-lg-7">
                     <div class="contact-form" data-aos="fade-up" data-aos-delay="300">
-                        <h3>Get In Touch</h3>
-                        <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ante
-                            ipsum primis.</p>
-                        <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up"
-                            data-aos-delay="200">
+                        <h3>Ada Pertanyaan? Kirim Aja di Sini</h3>
+                        <p>Tulis pesanmu di bawah. Gak perlu formal, yang penting jelas. Kami baca semua pesan, serius!
+                        </p>
+                        <form action="{{ route('send-message') }}" method="post" class="php-email-form"
+                            data-aos="fade-up" data-aos-delay="200">
+                            @csrf
                             <div class="row gy-4">
                                 <div class="col-md-6">
                                     <input type="text" name="name" class="form-control"
@@ -410,9 +411,9 @@
                                 <div class="col-12 text-center">
                                     <div class="loading">Loading</div>
                                     <div class="error-message"></div>
-                                    <div class="sent-message">Pesan Anda Telah Dikirim. Terima Kasih!</div>
+                                    <div class="sent-message"></div>
 
-                                    <button type="submit" class="btn">Send Message</button>
+                                    <button type="submit" class="btn">Kirim Pesan</button>
                                 </div>
                             </div>
                         </form>

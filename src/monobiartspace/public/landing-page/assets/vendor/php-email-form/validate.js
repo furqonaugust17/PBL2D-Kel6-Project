@@ -53,33 +53,46 @@
     fetch(action, {
       method: 'POST',
       body: formData,
-      headers: { 'X-Requested-With': 'XMLHttpRequest' }
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      }
     })
       .then(response => {
-        if (response.ok) {
-          return response.text();
-        } else {
-          throw new Error(`${response.status} ${response.statusText} ${response.url}`);
-        }
-      })
-      .then(data => {
         thisForm.querySelector('.loading').classList.remove('d-block');
-        if (data.trim() == 'OK') {
-          thisForm.querySelector('.sent-message').classList.add('d-block');
-          thisForm.reset();
+
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          return response.json().then(data => {
+            if (response.ok && data.success) {
+              const successBox = thisForm.querySelector('.sent-message');
+              successBox.innerHTML = data.message || 'Pesan berhasil dikirim.';
+              successBox.classList.add('d-block');
+              thisForm.reset();
+            } else {
+              let errorMessage = "";
+              if (data.errors) {
+                for (const field in data.errors) {
+                  errorMessage += data.errors[field].join('<br>') + '<br>';
+                }
+              }
+              throw new Error(errorMessage);
+            }
+          });
         } else {
-          throw new Error(data ? data : 'Form submission failed and no error message returned from: ' + action);
+          return response.text().then(text => {
+            throw new Error(text || 'Terjadi kesalahan yang tidak diketahui.');
+          });
         }
       })
-      .catch((error) => {
-        displayError(thisForm, error);
+      .catch(error => {
+        displayError(thisForm, error.message || error);
       });
   }
 
   function displayError(thisForm, error) {
-    thisForm.querySelector('.loading').classList.remove('d-block');
-    thisForm.querySelector('.error-message').innerHTML = error;
-    thisForm.querySelector('.error-message').classList.add('d-block');
+    const errorBox = thisForm.querySelector('.error-message');
+    errorBox.innerHTML = error;
+    errorBox.classList.add('d-block');
   }
 
 })();
