@@ -67,11 +67,6 @@
                     <span class="nav-text">Ruang</span>
                 </a>
             </li>
-            <li><a class="ai-icon" href="{{ route('fasilitas.index') }}">
-                    <i class="fas fa-screwdriver"></i>
-                    <span class="nav-text">Manajemen Fasilitas</span>
-                </a>
-            </li>
             <li><a class="ai-icon" href="{{ route('diskon.index') }}">
                     <i class="fas fa-percentage"></i>
                     <span class="nav-text">Diskon</span>
