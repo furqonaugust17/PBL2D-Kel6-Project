@@ -6,103 +6,125 @@
     <title>Konfirmasi Pendaftaran</title>
 </head>
 
-<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
-
-    <table width="100%" cellpadding="0" cellspacing="0" style="padding: 20px;">
+<body style="font-family: Arial, sans-serif; background-color: #eeeeee; margin: 0; padding: 0;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="padding: 30px 0;">
         <tr>
             <td align="center">
                 <table width="600" cellpadding="0" cellspacing="0"
-                    style="background-color: #ffffff; border-radius: 8px; overflow: hidden;">
-                    <!-- HEADER -->
+                    style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+
+                    <!-- Logo -->
                     <tr>
-                        <td align="center" style="background-color: #1976d2; padding: 20px;">
-                            <img src="{{ asset('images/monobi_logo.png') }}" alt="Header Image" width="100%"
-                                style="max-width: 600px;">
+                        <td align="center" style="padding: 30px 20px 10px;">
+                            <img src="{{ asset('images/monobi_logo.png') }}" alt="Monobi Logo" width="160"
+                                style="margin-bottom: 10px;">
                         </td>
                     </tr>
 
-                    <!-- TITLE -->
+                    <!-- Title -->
                     <tr>
-                        <td align="center" style="padding: 20px 30px;">
+                        <td align="center" style="padding: 0 30px;">
                             @if ($data['status_pembayaran'] == 'pending')
-                                <strong>Konfirmasi Pendaftaran</strong>
-                            @elseif($data['status_pembayaran'] == 'settlement')
-                                <strong>Berhasil Terdaftar</strong>
+                                <h2 style="color: #333; margin: 0;">Konfirmasi Pendaftaran</h2>
+                            @elseif ($data['status_pembayaran'] == 'settlement')
+                                <h2 style="color: #333; margin: 0;">Yeay! Kamu Berhasil Terdaftar 🎉</h2>
                             @endif
+                            <p style="margin-top: 10px; font-size: 15px; color: #555;">Terima kasih telah mendaftar di
+                                <strong>Monobi ArtSpace</strong>. Berikut detail pendaftaranmu:
+                            </p>
                         </td>
                     </tr>
 
-                    <!-- DATA -->
+                    <!-- Informasi Peserta -->
                     <tr>
-                        <td style="padding: 0 30px 20px;">
-                            <p>Halo {{ $data['nama'] }},</p>
-                            <p>Berikut adalah informasi pendaftaran Monobi ArtSpace:</p>
-                            <table width="100%" cellpadding="5">
+                        <td style="padding: 20px 30px;">
+                            <table width="100%" style="font-size: 14px; color: #444;">
                                 <tr>
-                                    <td><strong>No Telepon</strong></td>
-                                    <td><strong>:</strong></td>
-                                    <td>{{ $data['no_telepon'] }}</td>
+                                    <td width="180"><strong>Nama</strong></td>
+                                    <td>:</td>
+                                    <td>: {{ $data['nama'] }}</td>
                                 </tr>
+                                <tr>
+                                    <td><strong>No. Telepon</strong></td>
+                                    <td>:</td>
+                                    <td>: {{ $data['no_telepon'] }}</td>
+                                </tr>
+                                @php
+                                    $status = strtolower($data['status_pembayaran']);
+                                    $statusColor = match ($status) {
+                                        'settlement' => '#4CAF50',
+                                        'pending' => '#FFA000',
+                                        'expire', 'failed' => '#F44336',
+                                        default => '#333',
+                                    };
+                                @endphp
                                 <tr>
                                     <td><strong>Status Pembayaran</strong></td>
-                                    <td><strong>:</strong></td>
-                                    <td>{{ $data['status_pembayaran'] }}</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">
-                                        <hr style="border: none; border-top: 1px solid #ccc; margin: 20px 0;">
-                                        <h4 style="margin: 0 0 10px 0;">Detail Pembayaran</h4>
+                                    <td>:</td>
+                                    <td><span
+                                            style="color: {{ $statusColor }}; font-weight: bold;">{{ ucfirst($status) }}</span>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="vertical-align: top;"><strong>Kegiatan</strong></td>
-                                    <td style="vertical-align: top;"><strong>:</strong></td>
+
+                            </table>
+
+                            <hr style="border: none; border-top: 1px solid #ddd; margin: 25px 0;">
+
+                            <h4 style="margin-bottom: 10px; font-size: 16px; color: #000;">Detail Kegiatan & Pembayaran
+                            </h4>
+
+                            <table width="100%" style="font-size: 14px; color: #444;">
+                                <tr style="vertical-align: top;">
+                                    <td width="180"><strong>Kegiatan</strong></td>
+                                    <td>:</td>
                                     <td>
-                                        <ul style="list-style-type: '- '; padding-left: 1.2em; margin:0;">
+                                        <ul style="padding-left: 20px;">
                                             @foreach ($data['kegiatans'] as $kegiatan)
-                                                <li>{{ $kegiatan['nama'] }}
-                                                    ({{ $kegiatan['kegiatan'] . ' Rp ' . number_format($kegiatan['harga'], 0, ',', '.') }})
-                                                </li>
+                                                <li>{{ $kegiatan['nama'] }} ({{ $kegiatan['kegiatan'] }} - Rp
+                                                    {{ number_format($kegiatan['harga'], 0, ',', '.') }})</li>
                                             @endforeach
                                         </ul>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><strong>Diskon</strong></td>
-                                    <td><strong>:</strong></td>
+                                    <td>:</td>
                                     <td>Rp {{ number_format($data['diskon'], 0, ',', '.') }}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Total Pembayaran</strong></td>
-                                    <td><strong>:</strong></td>
-                                    <td>Rp {{ number_format($data['total_pembayaran'], 0, ',', '.') }}</td>
+                                    <td>:</td>
+                                    <td><strong>Rp
+                                            {{ number_format($data['total_pembayaran'], 0, ',', '.') }}</strong></td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
 
-                    <!-- BUTTON -->
+                    <!-- Tombol Pembayaran -->
                     @if ($data['status_pembayaran'] == 'pending')
                         <tr>
-                            <td align="center" style="padding: 20px;">
+                            <td align="center" style="padding: 20px 30px;">
                                 <a href="{{ $data['snap_url'] }}"
-                                    style="background-color: #1976d2; color: white; padding: 12px 25px; border-radius: 6px; text-decoration: none;">Bayar
-                                    Sekarang</a>
+                                    style="display: inline-block; background-color: #1976d2; color: #fff; padding: 12px 30px; border-radius: 6px; text-decoration: none; font-weight: bold;">
+                                    Bayar Sekarang
+                                </a>
                             </td>
                         </tr>
                     @endif
 
-                    <!-- FOOTER -->
+                    <!-- Footer -->
                     <tr>
                         <td align="center" style="padding: 20px; font-size: 12px; color: #999;">
-                            &copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
+                            Jika Anda tidak merasa mendaftarkan anak ke Monobi Kids, abaikan email ini.<br>
+                            &copy; {{ date('Y') }} Monobi. All rights reserved.
                         </td>
                     </tr>
+
                 </table>
             </td>
         </tr>
     </table>
-
 </body>
 
 </html>
