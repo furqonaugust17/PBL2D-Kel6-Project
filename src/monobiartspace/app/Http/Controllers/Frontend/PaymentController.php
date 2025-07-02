@@ -30,7 +30,6 @@ class PaymentController extends Controller
         $order_id = $notif->order_id;
         $fraud = $notif->fraud_status;
 
-        $order_id = $request->order_id;
         $payment = PembayaranBooking::with('pendaftaran')->where('order_id', $order_id)->first();
         $pendaftaran = $payment->pendaftaran;
         $pendaftaran->status = 'menunggu kedatangan';
@@ -40,12 +39,14 @@ class PaymentController extends Controller
             'payment_method' => $type
         ]);
 
-        if (str_contains($order_id, 'kids')) {
-            $mailData = PembayaranService::getDataPembayaranKids($order_id);
-            Mail::to($mailData['email'])->send(new PendaftaranKids($mailData));
-        } else {
-            $mailData = PembayaranService::getDataPembayaranArtSpace($order_id);
-            Mail::to($mailData['email'])->send(new PendaftaranArtSpace($mailData));
+        if ($transaction === 'settlement') {
+            if (str_contains($order_id, 'kids')) {
+                $mailData = PembayaranService::getDataPembayaranKids($order_id);
+                Mail::to($mailData['email'])->send(new PendaftaranKids($mailData));
+            } else {
+                $mailData = PembayaranService::getDataPembayaranArtSpace($order_id);
+                Mail::to($mailData['email'])->send(new PendaftaranArtSpace($mailData));
+            }
         }
 
         return response()->json(['message' => 'ok'])->setStatusCode(200);
