@@ -106,38 +106,25 @@ class PendaftaranController extends Controller
                 return response()->json(['message' => 'Sesi sudah penuh!'], 422);
             }
 
-            $kegiatans = KegiatanArtSpace::all()->keyBy('id');
-            // $participants = collect($request->participants);
-            // $detailItem = $participants->groupBy('activity_id')->map(function ($group, $activity_id) use ($kegiatans) {
-            //     $kegiatan = $kegiatans[$activity_id] ?? null;
-            //     return [
-            //         'id' => 'activity_' . $activity_id,
-            //         'name' => $kegiatan->nama ?? 'Unknown',
-            //         'quantity' => intval($group->count()),
-            //         'price' => intval($kegiatan->harga ?? 0)
-            //     ];
-            // })->values()->toArray();
-
-            // $total_price = collect($detailItem)->sum(function ($item) {
-            //     return $item['price'] * $item['quantity'];
-            // });
             $calculate = $this->calculateArtSpaceTransaction($request)->getData(true);
             $detailItem = $calculate['data'];
             $total_price = $calculate['total_bayar'];
             if ($request->diskon) {
                 $diskonData = Diskon::where('code', $request->diskon)->first();
-                $diskon = $total_price * ($diskonData->diskon / 100);
-                array_push($detailItem, [
-                    'id' => 'D01',
-                    'name' => $diskonData->nama . ' ' . $diskonData->diskon . '%',
-                    'quantity' => 1,
-                    'price' => -$diskon
-                ]);
+                if (now()->diffInDays("$diskonData->expired_date 23:59:59") < 0) {
+                    $diskon = 0;
+                } else {
+                    $diskon = $total_price * ($diskonData->diskon / 100);
+                    array_push($detailItem, [
+                        'id' => 'D01',
+                        'name' => $diskonData->nama . ' ' . $diskonData->diskon . '%',
+                        'quantity' => 1,
+                        'price' => -$diskon
+                    ]);
+                }
             } else {
                 $diskon = 0;
             }
-
-
 
             $booking = Pendaftaran::create([
                 'type'  => 'artspace',
