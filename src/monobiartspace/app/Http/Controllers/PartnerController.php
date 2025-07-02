@@ -78,7 +78,7 @@ class PartnerController extends Controller
 
         $partner->update($data);
 
-        $message = 'Selamat! Anda telah berhasil terdaftar sebagai partner di ' . config('app.name') . '.';
+        $message = 'Informasi akun Anda pada sistem Monobi telah berhasil diperbarui.';
         $title = 'Perubahan Data Partner';
         $partner->notify(new PartnerNotification(message: $message, title: $title));
         return redirect()->route('partner.index')->with('success', 'Partner Berhasil Diupdate');
