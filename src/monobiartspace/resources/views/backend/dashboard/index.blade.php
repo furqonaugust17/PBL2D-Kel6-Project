@@ -319,7 +319,7 @@ Sampai jumpa di lokasi! Jika berhalangan, hubungi kami ya.`;
                         <p class="mb-0 fs-12 text-black"> Menampilkan jumlah pendaftaran untuk Artspace & Kids.</p>
                     </div>
 
-                    <div class=""style="z-index: 9999 !important; position: relative;">
+                    <div class=""style="z-index: 1 !important; position: relative;">
                         <input type="text" id="year-picker" class="form-control bg-secondary text-white w-auto"
                             value="{{ date('Y') }}">
                     </div>
