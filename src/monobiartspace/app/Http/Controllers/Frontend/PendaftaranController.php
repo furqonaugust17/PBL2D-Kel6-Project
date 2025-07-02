@@ -16,7 +16,6 @@ use App\Models\DetailTemaKid;
 use App\Models\Diskon;
 use App\Models\JadwalArtSpace;
 use App\Models\JadwalKid;
-use App\Models\KategoriKid;
 use App\Models\KegiatanArtSpace;
 use App\Models\Kid;
 use App\Models\PembayaranBooking;
