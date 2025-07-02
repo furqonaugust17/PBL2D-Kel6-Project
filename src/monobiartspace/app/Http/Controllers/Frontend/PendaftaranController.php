@@ -109,13 +109,17 @@ class PendaftaranController extends Controller
             $total_price = $calculate['total_bayar'];
             if ($request->diskon) {
                 $diskonData = Diskon::where('code', $request->diskon)->first();
-                $diskon = $total_price * ($diskonData->diskon / 100);
-                array_push($detailItem, [
-                    'id' => 'D01',
-                    'name' => $diskonData->nama . ' ' . $diskonData->diskon . '%',
-                    'quantity' => 1,
-                    'price' => -$diskon
-                ]);
+                if (now()->diffInDays("$diskonData->expired_date 23:59:59") < 0) {
+                    $diskon = 0;
+                } else {
+                    $diskon = $total_price * ($diskonData->diskon / 100);
+                    array_push($detailItem, [
+                        'id' => 'D01',
+                        'name' => $diskonData->nama . ' ' . $diskonData->diskon . '%',
+                        'quantity' => 1,
+                        'price' => -$diskon
+                    ]);
+                }
             } else {
                 $diskon = 0;
             }
