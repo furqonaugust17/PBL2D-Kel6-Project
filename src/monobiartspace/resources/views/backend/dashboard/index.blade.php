@@ -2,9 +2,11 @@
     <link href="{{ asset('plugins/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css">
+    <link href="{{ asset('plugins/vendor/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet">
 @endsection
 @section('script')
     <script src="{{ asset('plugins/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('plugins/vendor/sweetalert2/dist/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('plugins/js/plugins-init/datatables.init.js') }}"></script>
     <script src="{{ asset('plugins/vendor/peity/jquery.peity.min.js') }}"></script>
     <script src="{{ asset('plugins/vendor/apexchart/apexchart.js') }}"></script>
@@ -51,6 +53,8 @@
                     {
                         data: 'id',
                         "render": function(data, type, row) {
+                            let rowData = JSON.stringify(row).replace(/"/g, '&quot;');
+
                             let uriDetail =
                                 "{{ route('pendaftaran.show', ['pendaftaran' => ':id']) }}"
                                 .replace(
@@ -59,6 +63,7 @@
 
                             return `<div class="d-flex">
                                         <a href="${uriDetail}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-eye"></i></a>
+                                        <button onclick="sendMessage(JSON.parse(this.dataset.row))" data-row="${rowData}"  class="btn btn-secondary shadow btn-xs sharp me-1"><i class="fas fa-paper-plane"></i></button>
                                     </div>`
                         }
                     }
@@ -199,6 +204,42 @@
                 });
             });
         })
+
+        function sendMessage(data) {
+            console.log(data);
+
+            const nomor = data.notelp.replace('+', '');
+            const pesan = `📣 Halo ${data.nama_customer},  
+Ini pengingat bahwa Anda terdaftar untuk kegiatan di {{ config('app.name') }}:
+
+📅 ${data.tanggal_reservasi}  
+🕒 ${data.jadwal}  
+🎨 Program: ${String(data.type).charAt(0).toUpperCase() + String(data.type).slice(1)}
+
+Sampai jumpa di lokasi! Jika berhalangan, hubungi kami ya.`;
+            const urlWhatsApp = `https://api.whatsapp.com/send?phone=${nomor}&text=${encodeURIComponent(pesan)}`;
+            Swal.fire({
+                title: "Anda Yakin?",
+                text: "Notifikasi Akan Dikirimkan Ke Customer!!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Kirim",
+                cancelButtonText: "Batal",
+            }).then((result) => {
+                if (result.value) {
+                    window.open(urlWhatsApp, '_blank');
+                } else {
+                    Swal.fire({
+                        title: "Batal",
+                        text: "Pesan Batal Dikirimkan",
+                        type: "success",
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Oke",
+                    })
+                }
+            });
+        }
     </script>
 @endsection
 <x-app-layout>
