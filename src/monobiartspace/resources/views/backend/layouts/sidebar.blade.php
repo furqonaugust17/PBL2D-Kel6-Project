@@ -9,79 +9,34 @@
             <p class="email">{{ Auth::user()->email }}</p>
         </div>
         <ul class="metismenu" id="menu">
-            <li class="nav-label first">Main Menu</li>
-            <li><a class="ai-icon" href="{{ route('dashboard') }}">
-                    <i class="flaticon-144-layout"></i>
-                    <span class="nav-text">Dashboard</span>
-                </a>
-            </li>
-            <li><a class="ai-icon" href="{{ route('pendaftaran.index') }}">
-                    <i class="fas fa-file-alt"></i>
-                    <span class="nav-text">Pendaftaran</span>
-                </a>
-            </li>
-            <li><a class="ai-icon" href="{{ route('pembayaran.index') }}">
-                    <i class="fas fa-money-bill"></i>
-                    <span class="nav-text">Pembayaran</span>
-                </a>
-            </li>
-            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                    <i class="fas fa-chalkboard"></i>
-                    <span class="nav-text">Monobi Art Space</span>
-                </a>
-                <ul aria-expanded="false">
-                    <li><a href="{{ route('artspace.index') }}">Kelas</a></li>
-                    <li><a href="{{ route('kegiatan-artspace.index') }}">Kegiatan</a></li>
-                    <li><a href="{{ route('artspace-jadwal.index') }}">Jadwal</a></li>
-                </ul>
-            </li>
-            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                    <i class="fas fa-chalkboard"></i>
-                    <span class="nav-text">Monobi Kids</span>
-                </a>
-                <ul aria-expanded="false">
-                    <li><a href="{{ route('kids.index') }}">Kelas</a></li>
-                    <li><a href="{{ route('kids-kategori.index') }}">Kategori</a></li>
-                    <li><a href="{{ route('kids-jadwal.index') }}">Jadwal</a></li>
-                    <li><a href="{{ route('kids-tema.index') }}">Tema</a></li>
-                    <li><a href="{{ route('kids-price.index') }}">Harga</a></li>
-                </ul>
-            </li>
-            <li><a href="{{ route('karyawan.index') }}" class="ai-icon">
-                    <i class="fas fa-users"></i>
-                    <span class="nav-text">Karyawan</span>
-                </a>
-            </li>
-            <li><a class="ai-icon" href="{{ route('customer.index') }}">
-                    <i class="fas fa-user"></i>
-                    <span class="nav-text">Customer</span>
-                </a>
-            </li>
-            <li><a class="ai-icon" href="{{ route('partner.index') }}">
-                    <i class="fas fa-users"></i>
-                    <span class="nav-text">Partner</span>
-                </a>
-            </li>
-            <li><a class="ai-icon" href="{{ route('ruang.index') }}">
-                    <i class="fas fa-warehouse"></i>
-                    <span class="nav-text">Ruang</span>
-                </a>
-            </li>
-            <li><a class="ai-icon" href="{{ route('diskon.index') }}">
-                    <i class="fas fa-percentage"></i>
-                    <span class="nav-text">Diskon</span>
-                </a>
-            </li>
-            <li><a class="ai-icon" href="{{ route('galeri.index') }}">
-                    <i class="fas fa-images"></i>
-                    <span class="nav-text">Galeri</span>
-                </a>
-            </li>
-            <li><a class="ai-icon" href="{{ route('inventaris.index') }}">
-                    <i class="fas fa-box"></i>
-                    <span class="nav-text">Inventaris</span>
-                </a>
-            </li>
+            @foreach (config('menu') as $item)
+                @if (isset($item['is_label']) && $item['is_label'] && hasAnyRole($item['roles']))
+                    <li class="nav-label">{{ $item['label'] }}</li>
+                @elseif(hasAnyRole($item['roles']))
+                    @if (isset($item['children']))
+                        <li>
+                            <a class="has-arrow ai-icon" href="javascript:void(0)" aria-expanded="false">
+                                <i class="{{ $item['icon'] }}"></i>
+                                <span class="nav-text">{{ $item['name'] }}</span>
+                            </a>
+                            <ul aria-expanded="false">
+                                @foreach ($item['children'] as $child)
+                                    @if (hasAnyRole($child['roles']))
+                                        <li><a href="{{ route($child['route']) }}">{{ $child['name'] }}</a></li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </li>
+                    @else
+                        <li>
+                            <a class="ai-icon" href="{{ route($item['route']) }}">
+                                <i class="{{ $item['icon'] }}"></i>
+                                <span class="nav-text">{{ $item['name'] }}</span>
+                            </a>
+                        </li>
+                    @endif
+                @endif
+            @endforeach
         </ul>
     </div>
 </div>
