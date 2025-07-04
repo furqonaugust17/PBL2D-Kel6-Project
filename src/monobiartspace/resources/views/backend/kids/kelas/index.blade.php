@@ -29,22 +29,21 @@
                     {
                         data: 'nama',
                     },
-                    {
-                        data: 'id',
-                        "render": function(data, type, row) {
-                            let uriEdit = "{{ route('kids.edit', ['kid' => ':id']) }}"
-                                .replace(
-                                    ':id', data);
+                    @role('supervisor')
+                        {
+                            data: 'id',
+                            "render": function(data, type, row) {
+                                let uriEdit = "{{ route('kids.edit', ['kid' => ':id']) }}"
+                                    .replace(
+                                        ':id', data);
 
-
-                            return `<div class="d-flex">
-                                        @role('supervisor')
+                                return `<div class="d-flex">
                                             <a href="${uriEdit}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
                                             <button type="button" class="btn btn-danger shadow btn-xs sharp" onclick="deleteData(${data})"><i class="fa fa-trash"></i></button>
-                                        @endrole
-                                    </div>`
+                                            </div>`
+                            }
                         }
-                    }
+                    @endrole
                 ],
                 columnDefs: [{
                     targets: 0,
@@ -132,7 +131,9 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama</th>
-                                    <th>Action</th>
+                                    @role('supervisor')
+                                        <th>Action</th>
+                                    @endrole
                                 </tr>
                             </thead>
                             <tbody>
@@ -141,7 +142,9 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama</th>
-                                    <th>Action</th>
+                                    @role('supervisor')
+                                        <th>Action</th>
+                                    @endrole
                                 </tr>
                             </tfoot>
                         </table>

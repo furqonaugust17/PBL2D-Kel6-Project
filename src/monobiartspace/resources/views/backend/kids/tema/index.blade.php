@@ -51,25 +51,25 @@
                             </div>`;
                         }
                     },
-                    {
-                        data: 'id',
-                        searchable: false,
-                        orderable: false,
-                        "render": function(data, type, row) {
-                            let uriEdit =
-                                "{{ route('kids-tema.edit', ['kidsTema' => ':id']) }}"
-                                .replace(
-                                    ':id', data);
+                    @role('supervisor')
+                        {
+                            data: 'id',
+                            searchable: false,
+                            orderable: false,
+                            "render": function(data, type, row) {
+                                let uriEdit =
+                                    "{{ route('kids-tema.edit', ['kidsTema' => ':id']) }}"
+                                    .replace(
+                                        ':id', data);
 
 
-                            return `<div class="d-flex">
-                                        @role('supervisor')
+                                return `<div class="d-flex">
                                             <a href="${uriEdit}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
                                             <button type="button" class="btn btn-danger shadow btn-xs sharp" onclick="deleteData(${data})"><i class="fa fa-trash"></i></button>
-                                        @endrole
-                                    </div>`
+                                            </div>`
+                            }
                         }
-                    }
+                    @endrole
                 ],
                 columnDefs: [{
                     targets: 0,
@@ -162,7 +162,9 @@
                                     <th>Aktif</th>
                                     <th>Bulan</th>
                                     <th>Kegiatan</th>
-                                    <th>Action</th>
+                                    @role('supervisor')
+                                        <th>Action</th>
+                                    @endrole
                                 </tr>
                             </thead>
                             <tbody>
@@ -175,7 +177,9 @@
                                     <th>Aktif</th>
                                     <th>Bulan</th>
                                     <th>Kegiatan</th>
-                                    <th>Action</th>
+                                    @role('supervisor')
+                                        <th>Action</th>
+                                    @endrole
                                 </tr>
                             </tfoot>
                         </table>
