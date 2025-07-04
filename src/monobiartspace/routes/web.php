@@ -34,22 +34,22 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
     });
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::resource('artspace', ArtSpaceController::class)->only(['index']);
-    Route::resource('kegiatan-artspace', KegiatanArtSpaceController::class)->parameters(['kegiatan-artspace' => 'kegiatanArtSpace'])->only(['index']);;
-    Route::resource('artspace-jadwal', JadwalArtSpaceController::class)->parameters(['artspace-jadwal' => 'jadwalArtSpace'])->only(['index']);;
+    Route::resource('artspace', ArtSpaceController::class)->middleware(['role:supervisor|teacher'])->only(['index']);
+    Route::resource('kegiatan-artspace', KegiatanArtSpaceController::class)->middleware(['role:supervisor|teacher'])->parameters(['kegiatan-artspace' => 'kegiatanArtSpace'])->only(['index']);;
+    Route::resource('artspace-jadwal', JadwalArtSpaceController::class)->middleware(['role:supervisor|teacher|asisten-studio'])->parameters(['artspace-jadwal' => 'jadwalArtSpace'])->only(['index']);;
 
-    Route::resource('kids', KidController::class)->only(['index']);
-    Route::resource('kids-price', HargaClassKidController::class)->parameters(['kids-price' => 'kidsPrice']);
-    Route::resource('kids-jadwal', JadwalKidController::class)->parameters(['kids-jadwal' => 'jadwalKid'])->only(['index']);;
-    Route::resource('kids-kategori', KategoriKidController::class)->parameters(['kids-kategori' => 'kidsKategori'])->only(['index']);;
-    Route::resource('kids-tema', TemaKidController::class)->parameters(['kids-tema' => 'kidsTema'])->only(['index']);;
+    Route::resource('kids', KidController::class)->middleware(['role:supervisor|teacher'])->only(['index']);
+    Route::resource('kids-jadwal', JadwalKidController::class)->middleware(['role:supervisor|teacher|asisten-studio'])->parameters(['kids-jadwal' => 'jadwalKid'])->only(['index']);;
+    Route::resource('kids-kategori', KategoriKidController::class)->middleware(['role:supervisor|teacher'])->parameters(['kids-kategori' => 'kidsKategori'])->only(['index']);;
+    Route::resource('kids-tema', TemaKidController::class)->middleware(['role:supervisor|teacher'])->parameters(['kids-tema' => 'kidsTema'])->only(['index']);;
 
     Route::resource('diskon', DiskonController::class)->only(['index']);
-    Route::resource('pendaftaran', PendaftaranController::class);
-    Route::resource('pembayaran', PembayaranController::class)->except(['show']);
-    Route::resource('customer', CustomerController::class);
-    Route::resource('partner', PartnerController::class);
-    Route::resource('galeri', GaleriController::class);
+    Route::resource('pendaftaran', PendaftaranController::class)->middleware(['role:administrasi']);
+    Route::resource('pembayaran', PembayaranController::class)->middleware(['role:administrasi'])->except(['show']);
+    Route::get('pembayaran/{pembayaran}/{type}', [PembayaranController::class, 'show'])->middleware(['role:administrasi'])->name('pembayaran.show');
+    Route::resource('customer', CustomerController::class)->middleware(['role:administrasi']);
+    Route::resource('partner', PartnerController::class)->middleware(['role:administrasi|supervisor']);
+    Route::resource('galeri', GaleriController::class)->middleware(['role:supervisor|asisten-studio']);
     Route::resource('ruang', RuangController::class)->only(['index']);
     Route::resource('inventaris', InventarisController::class)->middleware('inventaris')->parameters(['inventaris' => 'inventaris']);
 
@@ -57,12 +57,14 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
         Route::resource('diskon', DiskonController::class)->except(['index']);
         Route::resource('karyawan', KaryawanController::class);
         Route::resource('ruang', RuangController::class)->except(['index']);
-        Route::resource('artspace-jadwal', JadwalArtSpaceController::class)->parameters(['artspace-jadwal' => 'jadwalArtSpace'])->except(['index']);
-        Route::resource('kids-jadwal', JadwalKidController::class)->parameters(['kids-jadwal' => 'jadwalKid'])->except(['index']);
 
+        Route::resource('artspace-jadwal', JadwalArtSpaceController::class)->parameters(['artspace-jadwal' => 'jadwalArtSpace'])->except(['index']);
         Route::resource('kegiatan-artspace', KegiatanArtSpaceController::class)->parameters(['kegiatan-artspace' => 'kegiatanArtSpace'])->except(['index']);
+
+        Route::resource('kids-jadwal', JadwalKidController::class)->parameters(['kids-jadwal' => 'jadwalKid'])->except(['index']);
         Route::resource('kids-kategori', KategoriKidController::class)->parameters(['kids-kategori' => 'kidsKategori'])->except(['index']);
         Route::resource('kids-tema', TemaKidController::class)->parameters(['kids-tema' => 'kidsTema'])->except(['index']);
+        Route::resource('kids-price', HargaClassKidController::class)->parameters(['kids-price' => 'kidsPrice']);
 
         Route::resource('artspace', ArtSpaceController::class)->except(['index']);
         Route::resource('kids', KidController::class)->except(['index']);
@@ -74,7 +76,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
 Route::get('class', [FrontKelas::class, 'index'])->name('class.index');
 Route::get('class/detail/{tipe}/{slug}', [FrontKelas::class, 'detail'])->name('class.detail');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:customer'])->group(function () {
     Route::get('booking/artspace', [FrontPendaftaran::class, 'artSpace'])->name('booking.artspace');
     Route::post('booking/artspace', [FrontPendaftaran::class, 'storeArtSpace'])->name('booking.artspace.store');
     Route::post('booking/artspace/calculate', [FrontPendaftaran::class, 'calculateArtSpaceTransaction'])->name('booking.artspace.calculate');
@@ -86,7 +88,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('booking', [FrontPendaftaran::class, 'index'])->name('booking');
     Route::get('booking/detail/{id}', [FrontPendaftaran::class, 'show'])->name('booking.show');
     Route::post('booking/cancel/{id}', [FrontPendaftaran::class, 'cancel'])->name('booking.cancel');
-    Route::get('pembayaran/{pembayaran}/{type}', [PembayaranController::class, 'show'])->name('pembayaran.show');
     Route::get('payment/status', [PaymentController::class, 'status']);
 });
 
@@ -94,6 +95,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::fallback(function () {
+    return view('errors.404');
 });
 
 require __DIR__ . '/auth.php';
