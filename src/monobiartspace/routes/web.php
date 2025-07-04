@@ -44,8 +44,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
     Route::resource('kids-kategori', KategoriKidController::class)->parameters(['kids-kategori' => 'kidsKategori'])->only(['index']);;
     Route::resource('kids-tema', TemaKidController::class)->parameters(['kids-tema' => 'kidsTema'])->only(['index']);;
 
-    Route::resource('karyawan', KaryawanController::class);
-    Route::resource('diskon', DiskonController::class);
+    Route::resource('diskon', DiskonController::class)->only(['index']);
     Route::resource('pendaftaran', PendaftaranController::class);
     Route::resource('pembayaran', PembayaranController::class)->except(['show']);
     Route::resource('customer', CustomerController::class);
@@ -55,6 +54,8 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
     Route::resource('inventaris', InventarisController::class)->middleware('inventaris')->parameters(['inventaris' => 'inventaris']);
 
     Route::middleware(['ExceptSupervisor'])->group(function () {
+        Route::resource('diskon', DiskonController::class)->except(['index']);
+        Route::resource('karyawan', KaryawanController::class);
         Route::resource('ruang', RuangController::class)->except(['index']);
         Route::resource('artspace-jadwal', JadwalArtSpaceController::class)->parameters(['artspace-jadwal' => 'jadwalArtSpace'])->except(['index']);
         Route::resource('kids-jadwal', JadwalKidController::class)->parameters(['kids-jadwal' => 'jadwalKid'])->except(['index']);

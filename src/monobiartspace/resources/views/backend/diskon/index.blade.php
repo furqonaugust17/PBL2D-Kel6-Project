@@ -35,20 +35,21 @@
                     {
                         data: 'expired_date',
                     },
-                    {
-                        data: 'id',
-                        "render": function(data, type, row) {
-                            let uriEdit = "{{ route('diskon.edit', ['diskon' => ':id']) }}"
-                                .replace(
-                                    ':id', data);
-
-
-                            return `<div class="d-flex">
-                                        <a href="${uriEdit}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                        <button type="button" class="btn btn-danger shadow btn-xs sharp" onclick="deleteData(${data})"><i class="fa fa-trash"></i></button>
-                                    </div>`
+                    @role('supervisor')
+                        {
+                            data: 'id',
+                            "render": function(data, type, row) {
+                                let uriEdit = "{{ route('diskon.edit', ['diskon' => ':id']) }}"
+                                    .replace(':id', data);
+                                return `
+                                <div class="d-flex">
+                                    <a href="${uriEdit}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                    <button type="button" class="btn btn-danger shadow btn-xs sharp" onclick="deleteData(${data})"><i class="fa fa-trash"></i></button>
+                                </div>
+                                `
+                            }
                         }
-                    }
+                    @endrole
                 ]
             });
 
@@ -107,9 +108,11 @@
 <x-app-layout>
     <x-slot:title>Diskon</x-slot:title>
     <div class="row">
-        <div class="col-4">
-            <a href="{{ route('diskon.create') }}" class="btn btn-sm btn-primary">Tambah Diskon</a>
-        </div>
+        @role('supervisor')
+            <div class="col-4">
+                <a href="{{ route('diskon.create') }}" class="btn btn-sm btn-primary">Tambah Diskon</a>
+            </div>
+        @endrole
         <div class="col-12 m-t35">
             <div class="card">
                 <div class="card-body">
@@ -121,7 +124,9 @@
                                     <th>Diskon</th>
                                     <th>Kode Diskon</th>
                                     <th>Waktu Expired</th>
-                                    <th>Action</th>
+                                    @role('supervisor')
+                                        <th>Action</th>
+                                    @endrole
                                 </tr>
                             </thead>
                             <tbody>
@@ -132,7 +137,9 @@
                                     <th>Diskon</th>
                                     <th>Kode Diskon</th>
                                     <th>Waktu Expired</th>
-                                    <th>Action</th>
+                                    @role('supervisor')
+                                        <th>Action</th>
+                                    @endrole
                                 </tr>
                             </tfoot>
                         </table>
