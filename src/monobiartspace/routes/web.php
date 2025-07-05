@@ -15,6 +15,8 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified']], func
     })->name('dashboard');
 
     Route::resource('pendaftaran', PendaftaranController::class);
+    Route::post('updateStatus/{pendaftaran}', [PendaftaranController::class, 'updateStatus'])->name('pendaftaran.status');
+    Route::get('getMessage/{pendaftaran}', [PendaftaranController::class, 'getMessage'])->name('pendaftaran.message');
 });
 
 Route::middleware('auth')->group(function () {
