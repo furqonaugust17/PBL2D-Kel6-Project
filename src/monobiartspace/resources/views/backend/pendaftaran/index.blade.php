@@ -146,7 +146,6 @@
             const reservasiDate = new Date(reservasiTanggalStr);
 
             if (isNaN(reservasiDate)) {
-                console.error('Tanggal reservasi tidak valid:', reservasiTanggalStr);
                 return false;
             }
 

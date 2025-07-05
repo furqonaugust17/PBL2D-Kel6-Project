@@ -48,8 +48,6 @@
                     });
                 },
                 success: function(result) {
-                    console.log(result);
-
                     $.each(result.data, function(key, val) {
                         let uriDetail =
                             `{{ route('class.detail', ['tipe' => ':kid', 'slug' => ':slug']) }}`
