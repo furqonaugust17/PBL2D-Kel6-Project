@@ -47,6 +47,7 @@ class PaymentController extends Controller
                 $mailData = PembayaranService::getDataPembayaranArtSpace($order_id);
                 Mail::to($mailData['email'])->send(new PendaftaranArtSpace($mailData));
             }
+            $payment->update(['payment_date' => now()]);
         }
 
         return response()->json(['message' => 'ok'])->setStatusCode(200);
