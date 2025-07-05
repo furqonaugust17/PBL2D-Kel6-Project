@@ -45,6 +45,8 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'ifAdm
 
     Route::resource('diskon', DiskonController::class)->only(['index']);
     Route::resource('pendaftaran', PendaftaranController::class)->middleware(['role:administrasi']);
+    Route::post('updateStatus/{pendaftaran}', [PendaftaranController::class, 'updateStatus'])->middleware(['role:administrasi'])->name('pendaftaran.status');
+    Route::get('getMessage/{pendaftaran}', [PendaftaranController::class, 'getMessage'])->middleware(['role:administrasi'])->name('pendaftaran.message');
     Route::resource('pembayaran', PembayaranController::class)->middleware(['role:administrasi'])->except(['show']);
     Route::get('pembayaran/{pembayaran}/{type}', [PembayaranController::class, 'show'])->middleware(['role:administrasi'])->name('pembayaran.show');
     Route::resource('customer', CustomerController::class)->middleware(['role:administrasi']);

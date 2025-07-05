@@ -33,6 +33,7 @@ class PembayaranService
             'nama_panggilan'      => optional($detailKid->children)->panggilan,
             'tgl_lahir'           => optional($detailKid->children)->tgl_lahir,
             'kelas'               => optional(optional($detailKid->jadwalKid)?->kategori?->kid)->nama,
+            'jadwal'              => optional($detailKid->jadwalKid),
             'kategori'            => optional($detailKid->jadwalKid?->kategori)->nama,
             'judul_tema'          => $detailKid->detailPendaftaranTema->first()->tema->tema->nama,
             'tema'                => $temaList,
