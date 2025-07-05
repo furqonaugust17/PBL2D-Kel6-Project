@@ -40,6 +40,8 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $user->assignRole('customer');
+
         $customer = Customer::create([
             'nama_lengkap'  => $request->nama_lengkap,
             'jk'    => $request->jk,
