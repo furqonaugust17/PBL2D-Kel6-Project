@@ -31,7 +31,6 @@
         })
 
         function getDataClass(type, id) {
-            console.log('masuk')
             let uri = `{{ route('class', ['tipe' => ':tipe', 'id' => ':id']) }}`.replace(':tipe', `${type}`).replace(':id',
                 `${id}`);
             let classContainer = $('#features-tab-1')

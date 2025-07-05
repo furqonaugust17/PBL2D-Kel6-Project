@@ -94,13 +94,13 @@
                             <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">:</td>
                             <td class="d-block d-md-table-cell d-lg-table-cell" id="tema">
                                 <ul class="m-0" style="list-style-type: '- '; padding-left: 1.2em;">${ data.tema.map(value => `
-                                                        <li>
-                                                              <div>
-                                                                  <input type="hidden" name="tema[]" value="${value.id}" />
-                                                                    <span>${value.nama}</span>
-                                                                </div>
-                                                        </li>
-                                                        `).join('')}
+                                                                <li>
+                                                                      <div>
+                                                                          <input type="hidden" name="tema[]" value="${value.id}" />
+                                                                            <span>${value.name}</span>
+                                                                        </div>
+                                                                </li>
+                                                                `).join('')}
                                 </ul>
                             </td>
                         </tr>
@@ -200,7 +200,6 @@
                     url: uriTema,
                     type: "GET",
                     success: function(result) {
-                        console.log(result);
                         $('.tema-data').empty();
                         if (result.data) {
                             $('.tema-data').append(`<span>${result.data.nama}</span>`);
