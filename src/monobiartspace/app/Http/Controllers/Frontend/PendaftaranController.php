@@ -222,7 +222,7 @@ class PendaftaranController extends Controller
                 return response()->json(['message' => 'Sesi sudah penuh!'], 400);
             }
 
-            $calculate = $this->calculateKidTransaction($request)->getData();
+            $calculate = $this->calculateKidTransaction($request)->getData(true);
             $children = Children::where('nama_lengkap', $request->nama_lengkap)->where('tgl_lahir', $request->tanggal_lahir)->where('parent_id', $customerData->id)->first();
             if (!$children) {
                 $children = Children::create([
@@ -233,9 +233,10 @@ class PendaftaranController extends Controller
                 ]);
             }
 
-            $total_price = $calculate->total_bayar;
-            $hargaAwal = $calculate->harga;
-            $diskon = $calculate->diskon;
+            $total_price = $calculate['total_bayar'];
+            $hargaAwal = $calculate['harga'];
+            $diskon = $calculate['diskon'];
+            $detailItem = $calculate['tema'];
 
             $booking = Pendaftaran::create([
                 'type'  => 'kids',
@@ -256,18 +257,6 @@ class PendaftaranController extends Controller
                     'tema_id'   => $tema,
                 ]);
             }
-
-            $temaModel = DetailTemaKid::all()->keyBy('id');
-            $temas = collect($request->tema);
-            $detailItem = $temas->map(function ($tema_id) use ($temaModel) {
-                $tema = $temaModel[$tema_id] ?? null;
-                return [
-                    'id' => 'tema_' . $tema_id,
-                    'name' => $tema->nama ?? 'Unknown',
-                    'quantity' => 1,
-                    'price' => 80000
-                ];
-            })->values()->toArray();
 
             array_push($detailItem, [
                 'id' => 'D01',
@@ -334,11 +323,13 @@ class PendaftaranController extends Controller
 
         $temaModel = DetailTemaKid::all()->keyBy('id');
         $temas = collect($request->tema);
-        $detailTema = $temas->map(function ($tema_id) use ($temaModel) {
+        $detailTema = $temas->map(function ($tema_id) use ($temaModel, $hargaSatuan) {
             $tema = $temaModel[$tema_id] ?? null;
             return [
                 'id'    => $tema_id,
-                'nama' => $tema->nama ?? 'Unknown',
+                'name' => $tema->nama ?? 'Unknown',
+                'quantity' => 1,
+                'price' => $hargaSatuan
             ];
         })->values()->toArray();
         return response()->json(['harga' => ($jumlahTema * $hargaSatuan), 'diskon' => $diskon, 'total_bayar' => $hargaJumlah, 'tema' => $detailTema]);

@@ -37,8 +37,6 @@
                         participants,
                     },
                     success: function(data) {
-                        console.log(data);
-
                         Swal.fire({
                             title: "Konfirmasi Pendaftaran",
                             width: 750,
