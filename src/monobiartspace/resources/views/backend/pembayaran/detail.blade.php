@@ -78,9 +78,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="d-flex justify-content-end">
-                                <button class="btn btn-sm btn-primary">Refund</button>
-                            </div>
                         </div>
                     </div>
                 </div>
