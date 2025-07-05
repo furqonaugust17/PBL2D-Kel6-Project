@@ -53,17 +53,14 @@
                     {
                         data: 'id',
                         "render": function(data, type, row) {
-                            let rowData = JSON.stringify(row).replace(/"/g, '&quot;');
-
                             let uriDetail =
                                 "{{ route('pendaftaran.show', ['pendaftaran' => ':id']) }}"
                                 .replace(
                                     ':id', data);
 
-
                             return `<div class="d-flex">
                                         <a href="${uriDetail}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-eye"></i></a>
-                                        <button onclick="sendMessage(JSON.parse(this.dataset.row))" data-row="${rowData}"  class="btn btn-secondary shadow btn-xs sharp me-1"><i class="fas fa-paper-plane"></i></button>
+                                        <button onclick="sendMessage('${data}')" class="btn btn-secondary shadow btn-xs sharp me-1"><i class="fas fa-paper-plane"></i></button>
                                     </div>`
                         }
                     }
@@ -206,39 +203,57 @@
         })
 
         function sendMessage(data) {
-            console.log(data);
-
-            const nomor = data.notelp.replace('+', '');
-            const pesan = `📣 Halo ${data.nama_customer},  
-Ini pengingat bahwa Anda terdaftar untuk kegiatan di {{ config('app.name') }}:
-
-📅 ${data.tanggal_reservasi}  
-🕒 ${data.jadwal}  
-🎨 Program: ${String(data.type).charAt(0).toUpperCase() + String(data.type).slice(1)}
-
-Sampai jumpa di lokasi! Jika berhalangan, hubungi kami ya.`;
-            const urlWhatsApp = `https://api.whatsapp.com/send?phone=${nomor}&text=${encodeURIComponent(pesan)}`;
-            Swal.fire({
-                title: "Anda Yakin?",
-                text: "Notifikasi Akan Dikirimkan Ke Customer!!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Kirim",
-                cancelButtonText: "Batal",
-            }).then((result) => {
-                if (result.value) {
-                    window.open(urlWhatsApp, '_blank');
-                } else {
+            $.ajax({
+                url: `{{ route('pendaftaran.message', ['pendaftaran' => ':id']) }}`.replace(':id', data),
+                type: 'GET',
+                beforeSend: function() {
                     Swal.fire({
-                        title: "Batal",
-                        text: "Pesan Batal Dikirimkan",
-                        type: "success",
+                        title: 'Memproses...',
+                        text: 'Mohon tunggu sebentar',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal
+                                .showLoading();
+                        }
+                    });
+                },
+                success: function(result) {
+                    const message = result.data.message;
+                    const phone = result.data.phone;
+                    const urlWhatsApp =
+                        `https://api.whatsapp.com/send?phone=${phone}&text=${message}`;
+                    Swal.fire({
+                        title: "Anda Yakin?",
+                        text: "Notifikasi Akan Dikirimkan Ke Customer!!",
+                        type: "warning",
+                        showCancelButton: true,
                         confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "Oke",
-                    })
+                        confirmButtonText: "Kirim",
+                        cancelButtonText: "Batal",
+                    }).then((result) => {
+                        if (result.value) {
+                            window.open(urlWhatsApp, '_blank');
+                        } else {
+                            Swal.fire({
+                                title: "Batal",
+                                text: "Pesan Batal Dikirimkan",
+                                type: "success",
+                                confirmButtonColor: "#DD6B55",
+                                confirmButtonText: "Oke",
+                            })
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    Swal.close();
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: xhr.responseJSON
+                            .message,
+                    });
                 }
-            });
+            })
         }
     </script>
 @endsection
