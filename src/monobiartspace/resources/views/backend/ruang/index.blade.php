@@ -58,7 +58,7 @@
                         }
                     },
                     {
-                        targets: 2,
+                        targets: 3,
                         render: $.fn.dataTable.render.ellipsis(40)
                     }
                 ],
