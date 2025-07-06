@@ -21,6 +21,11 @@
                 serverSide: true,
                 ajax: "{{ url()->current() }}",
                 columns: [{
+                        data: null,
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    }, {
                         data: 'nama'
                     },
                     {
@@ -43,6 +48,11 @@
                     }
                 ],
                 columnDefs: [{
+                    targets: 0,
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                }, {
                     targets: 2,
                     render: $.fn.dataTable.render.ellipsis(40)
                 }, ]
@@ -109,6 +119,7 @@
                         <table id="table-ruang" class="display nowrap" style="width: 100%;">
                             <thead>
                                 <tr>
+                                    <th>No</th>
                                     <th>Nama Ruang</th>
                                     <th>Kapasitas</th>
                                     <th>Deskripsi</th>
@@ -117,6 +128,7 @@
                             </thead>
                             <tfoot>
                                 <tr>
+                                    <th>No</th>
                                     <th>Nama Ruang</th>
                                     <th>Kapasitas</th>
                                     <th>Deskripsi</th>
