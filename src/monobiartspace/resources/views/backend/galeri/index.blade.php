@@ -7,6 +7,7 @@
     <script src="{{ asset('plugins/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('plugins/js/plugins-init/datatables.init.js') }}"></script>
     <script src="{{ asset('plugins/vendor/sweetalert2/dist/sweetalert2.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/plug-ins/2.3.2/dataRender/ellipsis.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#table-galeri').DataTable({
@@ -30,11 +31,14 @@
                         "render": function(data, type, row) {
                             let image = `{{ asset('storage/' . ':image') }}`.replace(
                                 ':image', data)
-                            return `<img src="${image}" alt="" class="img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;">`;
+                            return `<img src="${image}" alt="" class="img-thumbnail" style="object-fit: cover;">`;
                         }
                     },
                     {
                         data: 'deskripsi',
+                        "render": function(data, type, row) {
+                            return `<span class="text-wrap">${data}</span>`;
+                        }
                     },
                     {
                         data: 'id',
@@ -51,11 +55,20 @@
                     }
                 ],
                 columnDefs: [{
-                    targets: 0,
-                    render: function(data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
-                    }
-                }]
+                        targets: 0,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        targets: 1,
+                        width: '200px',
+                    },
+                    {
+                        targets: 2,
+                        width: '300px',
+                    },
+                ]
             });
 
         });
