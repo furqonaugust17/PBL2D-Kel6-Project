@@ -311,12 +311,13 @@
                         <div class="col-12">
                             <div class="row justify-content-between">
                                 <div class="col-6 text-center">
-                                    <p class="fs-5 font-w500 m-0">{{ $pendaftaran['artspace']->name }}</p>
-                                    <span class="text-black font-w600">{{ $pendaftaran['artspace']->count }}</span>
+                                    <p class="fs-5 font-w500 m-0">{{ __('Artspace') }}</p>
+                                    <span
+                                        class="text-black font-w600">{{ $pendaftaran['artspace']->count ?? 0 }}</span>
                                 </div>
                                 <div class="col-6 text-center">
-                                    <p class="fs-5 font-w500 m-0">{{ $pendaftaran['kids']->name }}</p>
-                                    <span class="text-black font-w600">{{ $pendaftaran['kids']->count }}</span>
+                                    <p class="fs-5 font-w500 m-0">{{ __('Kids') }}</p>
+                                    <span class="text-black font-w600">{{ $pendaftaran['kids']->count ?? 0 }}</span>
                                 </div>
                             </div>
                         </div>
