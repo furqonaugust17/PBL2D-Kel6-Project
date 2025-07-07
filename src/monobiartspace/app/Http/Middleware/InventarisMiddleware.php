@@ -15,7 +15,7 @@ class InventarisMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()->hasAnyRole(['administrasi', 'asisten-studio'])) {
+        if ($request->user()->hasAnyRole(['administrasi', 'asisten-studio', 'supervisor'])) {
             return $next($request);
         }
 
