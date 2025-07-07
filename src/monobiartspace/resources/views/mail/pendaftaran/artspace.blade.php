@@ -78,7 +78,7 @@
                                     <td width="180"><strong>Kegiatan</strong></td>
                                     <td>:</td>
                                     <td>
-                                        <ul style="padding-left: 20px;">
+                                        <ul style="padding-left: 20px; margin:0;">
                                             @foreach ($data['kegiatans'] as $kegiatan)
                                                 <li>{{ $kegiatan['nama'] }} ({{ $kegiatan['kegiatan'] }} - Rp
                                                     {{ number_format($kegiatan['harga'], 0, ',', '.') }})</li>
