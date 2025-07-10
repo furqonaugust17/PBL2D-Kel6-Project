@@ -6,6 +6,7 @@
     <script src="{{ asset('plugins/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('plugins/js/plugins-init/datatables.init.js') }}"></script>
     <script src="{{ asset('plugins/vendor/sweetalert2/dist/sweetalert2.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/plug-ins/2.3.2/dataRender/ellipsis.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#table-partner').DataTable({
@@ -38,7 +39,7 @@
                             let uriImage = "{{ asset('storage/:gambar') }}"
                                 .replace(
                                     ':gambar', data);
-                            return `<img src="${uriImage}" alt="" class="img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;">`;
+                            return `<img src="${uriImage}" alt="" class="img-thumbnail" style="width:200px; object-fit: cover;">`;
                         }
                     },
                     {
@@ -58,11 +59,16 @@
                     }
                 ],
                 columnDefs: [{
-                    targets: 0,
-                    render: function(data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
-                    }
-                }]
+                        targets: 0,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        },
+                    },
+                    {
+                        targets: 5,
+                        render: $.fn.dataTable.render.ellipsis(40)
+                    },
+                ],
             });
         });
 
