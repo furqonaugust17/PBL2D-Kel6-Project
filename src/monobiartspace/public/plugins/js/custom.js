@@ -58,16 +58,18 @@ var Zenix = function () {
 	}
 
 	var handleCurrentActive = function () {
-		var currentPath = window.location.pathname;
+		let currentPath = window.location.pathname;
+		let currentSegments = currentPath.split('/').filter(Boolean);
 
 		$("ul#menu a").each(function () {
-			var linkPath = new URL(this.href, window.location.origin).pathname;
+			let hrefPath = new URL(this.href, window.location.origin).pathname;
+			let hrefSegments = hrefPath.split('/').filter(Boolean);
 
-			if (currentPath.startsWith(linkPath)) {
+			if (currentSegments[1] === hrefSegments[1]) {
 				$(this).addClass("mm-active")
 					.parent().addClass("mm-active");
 
-				var parent = $(this).parent();
+				let parent = $(this).parent();
 				while (!parent.is("li.nav-label") && parent.length > 0) {
 					parent = parent.parent().addClass("mm-show").parent().addClass("mm-active");
 				}
