@@ -15,7 +15,7 @@ Route::prefix('kids')->group(function () {
     Route::get('/jadwal/{id}', [JadwalKidController::class, 'getData'])->name('jadwal.getdata');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'chart'])->middleware(['auth', 'verified', 'ifAdmin'])->name('dashboard.chart');
+Route::get('/dashboard', [DashboardController::class, 'chart'])->middleware(['web', 'auth', 'verified', 'ifAdmin'])->name('dashboard.chart');
 
 Route::get('class/{tipe}/{id}', [MainController::class, 'getDataClass'])->name('class');
 Route::post('diskon', [DiskonController::class, 'getDiskon'])->name('checkDiskon');
