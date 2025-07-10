@@ -19,7 +19,9 @@ class KaryawanController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $karyawan = Karyawan::with('user.role');
+            $karyawan = Karyawan::withwhereHas('user.roles', function ($q) {
+                $q->where('name', '!=', 'supervisor');
+            })->with('user.roles');
             return DataTables::of($karyawan)->addColumn('role', function ($karyawan) {
                 return $karyawan->user->getRoleNames()->first() ?? '-';
             })->make();
