@@ -76,7 +76,7 @@
     </script>
 @endsection
 <x-app>
-    <!-- Hero Section -->
+    <x-slot:title>Monobi</x-slot:title>
     <section id="hero" class="hero section">
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -104,8 +104,8 @@
 
                 <div class="col-lg-6">
                     <div class="hero-image" data-aos="zoom-out" data-aos-delay="300">
-                        <img src="{{ asset('landing-page/assets/image/hero.png') }}" alt="Hero Image" class="img-fluid"
-                            loading="lazy">
+                        <img src="{{ asset('landing-page/assets/image/hero.webp') }}" alt="Hero Image"
+                            class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -141,10 +141,10 @@
                 <div class="col-xl-6" data-aos="fade-up" data-aos-delay="300">
                     <div class="image-wrapper">
                         <div class="images position-relative" data-aos="zoom-out" data-aos-delay="400">
-                            <img src="{{ asset('landing-page/assets/image/monobi_after_school.jpg') }}"
-                                alt="Business Meeting" class="img-fluid main-image rounded-4" loading="lazy">
-                            <img src="{{ asset('landing-page/assets/image/outingclass_sd26jatiutara2.jpg') }}"
-                                alt="Team Discussion" class="img-fluid small-image rounded-4" loading="lazy">
+                            <img src="{{ asset('landing-page/assets/image/monobi_after_school.webp') }}"
+                                alt="Business Meeting" class="img-fluid main-image rounded-4">
+                            <img src="{{ asset('landing-page/assets/image/outingclass_sd26jatiutara2.webp') }}"
+                                alt="Team Discussion" class="img-fluid small-image rounded-4">
                         </div>
                     </div>
                 </div>

@@ -4,14 +4,15 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Index - iLanding Bootstrap Template</title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
+    <title>{{ $title }}</title>
+    <meta name="description"
+        content="Monobi adalah platform reservasi kelas seni dan kegiatan edukatif untuk anak-anak dan keluarga. Nikmati berbagai program menarik di Monobi Artspace dan Monobi Kids.">
+    <meta name="keywords"
+        content="Monobi, kelas seni anak, Monobi Artspace, Monobi Kids, reservasi kelas seni, edukasi anak, kegiatan kreatif anak, kelas lukis, art class, seni anak-anak">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicons -->
-    <link href="{{ asset('landing-page/assets/img/favicon.png') }}" rel="icon">
-    <link href="{{ asset('landing-page/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+    <link href="{{ asset('images/monobi_icon.png') }}" rel="icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">

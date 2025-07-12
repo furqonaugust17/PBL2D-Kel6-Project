@@ -53,6 +53,7 @@
 @endsection
 
 <x-app>
+    <x-slot:title>Detail Pendaftaran</x-slot:title>
     <div class="page-title light-background">
         <div class="container">
             <h1>Detail Pendaftaran</h1>

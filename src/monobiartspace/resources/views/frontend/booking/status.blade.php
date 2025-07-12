@@ -1,4 +1,5 @@
 <x-app>
+    <x-slot:title>Pembayaran {{ $data['status_pembayaran'] }}</x-slot:title>
     <div class="page-title light-background">
         <div class="container">
             <h1>Status Pembayaran</h1>

@@ -20,7 +20,7 @@
         <div class="form-group">
             <x-input-label for="nama" class="mb-1" :value="__('Nama')" />
             <input id="nama" name="nama" type="text" class="form-control @error('nama') is-invalid @enderror"
-                value="{{ old('nama', $user->karyawan->nama) }}" required autofocus autocomplete="nama" />
+                value="{{ old('nama', $user->customer->nama_lengkap) }}" required autofocus autocomplete="nama" />
             @error('nama')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -31,8 +31,8 @@
         <div class="form-group">
             <x-input-label for="notelp" class="mb-1" :value="__('Jenis Kelamin')" />
             <select class="default-select form-control wide" name="jk">
-                <option value="l" {{ $user->karyawan->jk == 'l' ? 'selected' : '' }}>Laki-Laki</option>
-                <option value="p" {{ $user->karyawan->jk == 'p' ? 'selected' : '' }}>Perempuan</option>
+                <option value="l" {{ $user->customer->jk == 'l' ? 'selected' : '' }}>Laki-Laki</option>
+                <option value="p" {{ $user->customer->jk == 'p' ? 'selected' : '' }}>Perempuan</option>
             </select>
         </div>
 
@@ -40,7 +40,7 @@
             <x-input-label for="notelp" class="mb-1" :value="__('Nomor Telepon')" />
             <input id="notelp" name="notelp" type="text"
                 class="form-control @error('notelp') is-invalid @enderror"
-                value="{{ old('notelp', $user->karyawan->notelp) }}" required autofocus autocomplete="notelp" />
+                value="{{ old('notelp', $user->customer->notelp) }}" required autofocus autocomplete="notelp" />
             @error('notelp')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -51,7 +51,7 @@
         <div class="form-group">
             <x-input-label for="alamat" class="mb-1" :value="__('Alamat')" />
             <textarea name="alamat" id="alamat" cols="30" rows="10"
-                class="form-control h-auto @error('alamat') is-invalid @enderror" required autofocus autocomplete="alamat">{{ old('alamat', $user->karyawan->alamat) }}</textarea>
+                class="form-control h-auto @error('alamat') is-invalid @enderror" required autofocus autocomplete="alamat">{{ old('alamat', $user->customer->alamat) }}</textarea>
             @error('alamat')
                 <div class="invalid-feedback">
                     {{ $message }}

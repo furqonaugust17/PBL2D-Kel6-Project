@@ -214,6 +214,7 @@
     </script>
 @endsection
 <x-app>
+    <x-slot:title>Booking ArtSpace</x-slot:title>
     <div class="page-title light-background">
         <div class="container">
             <h1>Booking ArtSpace</h1>

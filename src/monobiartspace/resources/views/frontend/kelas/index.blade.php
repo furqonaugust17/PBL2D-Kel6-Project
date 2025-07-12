@@ -37,6 +37,7 @@
     </script>
 @endsection
 <x-app>
+    <x-slot:title>All Monobi Class</x-slot:title>
     <div class="page-title light-background">
         <div class="container">
             <h1>All Monobi Class</h1>

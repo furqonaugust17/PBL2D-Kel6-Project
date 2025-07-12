@@ -28,6 +28,9 @@
                 </li>
                 @if (Auth::user())
                     <li class="d-lg-none d-block">
+                        <a href="{{ route('profile.edit') }}">Profile</a>
+                    </li>
+                    <li class="d-lg-none d-block py-2 px-3">
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button class="btn btn-getstarted">Logout</button>
@@ -42,11 +45,12 @@
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
-        <div class="d-flex order-3 d-lg-block d-none">
+        <div class="d-lg-flex order-3 d-none">
             @if (Auth::user())
+                <a class="btn" href="{{ route('profile.edit') }}">Profile</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button class="btn btn-getstarted">Logout</button>
+                    <button class="btn btn-getstarted m-0">Logout</button>
                 </form>
             @else
                 <a class="btn" href="{{ route('login') }}">Login</a>

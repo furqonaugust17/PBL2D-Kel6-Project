@@ -87,6 +87,7 @@
     </script>
 @endsection
 <x-app>
+    <x-slot:title>Monobi ArtSpace</x-slot:title>
     <div class="page-title light-background">
     </div>
     <section class="section">

@@ -94,13 +94,13 @@
                             <td class="responsive-text d-inline d-md-table-cell d-lg-table-cell">:</td>
                             <td class="d-block d-md-table-cell d-lg-table-cell" id="tema">
                                 <ul class="m-0" style="list-style-type: '- '; padding-left: 1.2em;">${ data.tema.map(value => `
-                                                                    <li>
-                                                                          <div>
-                                                                              <input type="hidden" name="tema[]" value="${value.id}" />
-                                                                                <span>${value.name}</span>
-                                                                            </div>
-                                                                    </li>
-                                                                    `).join('')}
+                                    <li>
+                                          <div>
+                                              <input type="hidden" name="tema[]" value="${value.id}" />
+                                                <span>${value.name}</span>
+                                            </div>
+                                    </li>
+                                    `).join('')}
                                 </ul>
                             </td>
                         </tr>
@@ -267,6 +267,7 @@
     </script>
 @endsection
 <x-app>
+    <x-slot:title>Booking Monobi Kids</x-slot:title>
     <div class="page-title light-background">
         <div class="container">
             <h1>Booking Monobi Kids</h1>

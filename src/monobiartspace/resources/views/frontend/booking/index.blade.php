@@ -61,6 +61,7 @@
 @endsection
 
 <x-app>
+    <x-slot:title>List Booking</x-slot:title>
     <div class="page-title light-background">
         <div class="container">
             <h1>List Booking</h1>
