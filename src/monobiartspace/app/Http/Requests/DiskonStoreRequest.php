@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class DiskonStoreRequest extends FormRequest
 {
@@ -24,7 +25,7 @@ class DiskonStoreRequest extends FormRequest
         return [
             'nama' => 'required|string|max:50',
             'diskon' => 'required|numeric|min:1|max:100',
-            'code' => 'required|string|unique:diskons,code|max:30',
+            'code' => ['required', 'string', Rule::unique('diskons', 'code')->whereNull('deleted_at'), 'max:30'],
             'expired_date' => 'required|date|after:today',
         ];
     }

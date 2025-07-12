@@ -53,7 +53,8 @@
                                             <strong>Konfirmasi Password</strong>
                                         </x-input-label>
 
-                                        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                                        <x-text-input id="password" class="form-control" type="password"
+                                            name="password_confirmation" required autocomplete="new-password" />
                                         @error('password_confirmation')
                                             <div class="invalid-feedback">
                                                 {{ $message }}

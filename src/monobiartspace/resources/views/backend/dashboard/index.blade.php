@@ -263,37 +263,39 @@
         <h2 class="font-w600 title mb-2 me-auto ">Dashboard</h2>
     </div>
     <div class="row">
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12 d-flex justify-content-between align-items-center">
-                            <div class="">
-                                <p class="fs-4 font-w500 m-0">Pemasukan</p>
-                                <span class="text-black font-w600">Rp
-                                    {{ number_format($pembayaran->pemasukan, 0, ',', '.') }}</span>
-                            </div>
-                            <div class="border border-1 p-3 rounded bg-primary">
-                                <i class="text-white fas fa-money-bill-wave fs-3"></i>
-                            </div>
-                        </div>
-                        <hr class="my-3">
-                        <div class="col-12">
-                            <div class="row justify-content-between">
-                                <div class="col-6 text-center">
-                                    <p class="fs-5 font-w500 m-0">Success</p>
-                                    <span class="text-black font-w600">{{ $pembayaran->success }}</span>
+        @role(['supervisor', 'administrasi'])
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-between align-items-center">
+                                <div class="">
+                                    <p class="fs-4 font-w500 m-0">Pemasukan</p>
+                                    <span class="text-black font-w600">Rp
+                                        {{ number_format($pembayaran->pemasukan, 0, ',', '.') }}</span>
                                 </div>
-                                <div class="col-6 text-center">
-                                    <p class="fs-5 font-w500 m-0">Pending</p>
-                                    <span class="text-black font-w600">{{ $pembayaran->pending }}</span>
+                                <div class="border border-1 p-3 rounded bg-primary">
+                                    <i class="text-white fas fa-money-bill-wave fs-3"></i>
+                                </div>
+                            </div>
+                            <hr class="my-3">
+                            <div class="col-12">
+                                <div class="row justify-content-between">
+                                    <div class="col-6 text-center">
+                                        <p class="fs-5 font-w500 m-0">Success</p>
+                                        <span class="text-black font-w600">{{ $pembayaran->success }}</span>
+                                    </div>
+                                    <div class="col-6 text-center">
+                                        <p class="fs-5 font-w500 m-0">Pending</p>
+                                        <span class="text-black font-w600">{{ $pembayaran->pending }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endrole
         <div class="col-sm-6">
             <div class="card">
                 <div class="card-body">

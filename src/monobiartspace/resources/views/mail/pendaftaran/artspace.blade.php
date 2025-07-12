@@ -42,12 +42,12 @@
                                 <tr>
                                     <td width="180"><strong>Nama</strong></td>
                                     <td>:</td>
-                                    <td>: {{ $data['nama'] }}</td>
+                                    <td>{{ $data['nama'] }}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>No. Telepon</strong></td>
                                     <td>:</td>
-                                    <td>: {{ $data['no_telepon'] }}</td>
+                                    <td>{{ $data['no_telepon'] }}</td>
                                 </tr>
                                 @php
                                     $status = strtolower($data['status_pembayaran']);

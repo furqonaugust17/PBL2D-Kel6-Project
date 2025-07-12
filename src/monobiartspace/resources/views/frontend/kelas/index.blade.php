@@ -55,7 +55,7 @@
                                         <a class="link-underline link-underline-opacity-0"
                                             href="{{ route('class.detail', ['tipe' => 'artspace', 'slug' => $kegiatan->slug]) }}">
                                             <div class="card h-100">
-                                                <img src="https://www.davidhechler.com/wp-content/uploads/2016/07/500x500-dummy-image.jpg"
+                                                <img src="{{ empty($kegiatan->images[0]->file) ? 'https://www.davidhechler.com/wp-content/uploads/2016/07/500x500-dummy-image.jpg' : asset('storage/' . $kegiatan->images[0]->file) }}"
                                                     class="card-img-top" alt="...">
                                                 <div class="card-body">
                                                     <h5 class="card-title text-truncate">{{ $kegiatan->nama }}</h5>
@@ -100,7 +100,7 @@
                                         <a class="link-underline link-underline-opacity-0"
                                             href="{{ route('class.detail', ['tipe' => 'kid', 'slug' => $tema->slug]) }}">
                                             <div class="card h-100">
-                                                <img src="https://www.davidhechler.com/wp-content/uploads/2016/07/500x500-dummy-image.jpg"
+                                                <img src="{{ empty($tema->images[0]->file) ? 'https://www.davidhechler.com/wp-content/uploads/2016/07/500x500-dummy-image.jpg' : asset('storage/' . $tema->images[0]->file) }}"
                                                     class="card-img-top" alt="...">
                                                 <div class="card-body">
                                                     <h5 class="card-title text-truncate">{{ $tema->nama }}</h5>

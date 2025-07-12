@@ -129,9 +129,9 @@
 <x-app-layout>
     <x-slot:title>Customer</x-slot:title>
     <div class="row">
-        <div class="col-4">
+        {{-- <div class="col-4">
             <a href="{{ route('customer.create') }}" class="btn btn-sm btn-primary">Tambah Data Customer</a>
-        </div>
+        </div> --}}
         <div class="col-12 m-t35">
             <div class="card">
                 <div class="card-body">

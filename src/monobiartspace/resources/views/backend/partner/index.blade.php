@@ -76,7 +76,7 @@
             Swal.fire({
                 title: "Anda Yakin?",
                 text: "Data akan terhapus pada sistem!!",
-                icon: "warning",
+                type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "Hapus",

@@ -105,23 +105,25 @@
                             </div>
 
                         </div>
-                        <div class="d-flex align-items-center justify-content-center gap-2">
-                            <div class="btn-prev">
-                                <i class="bi bi-chevron-left  text-black fs-4"></i>
-                            </div>
-                            <div thumbsSlider="" class="swiper mySwiper">
-                                <div class="swiper-wrapper">
-                                    @foreach ($data->images as $image)
-                                        <div class="swiper-slide">
-                                            <img src="{{ asset('storage/' . $image->file) }}" />
-                                        </div>
-                                    @endforeach
+                        @if (count($data->images) > 1)
+                            <div class="d-flex align-items-center justify-content-center gap-2">
+                                <div class="btn-prev">
+                                    <i class="bi bi-chevron-left  text-black fs-4"></i>
+                                </div>
+                                <div thumbsSlider="" class="swiper mySwiper">
+                                    <div class="swiper-wrapper">
+                                        @foreach ($data->images as $image)
+                                            <div class="swiper-slide">
+                                                <img src="{{ asset('storage/' . $image->file) }}" />
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="btn-next">
+                                    <i class="bi bi-chevron-right text-black fs-4"></i>
                                 </div>
                             </div>
-                            <div class="btn-next">
-                                <i class="bi bi-chevron-right text-black fs-4"></i>
-                            </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
                 <div class="col-lg-8 col-12">

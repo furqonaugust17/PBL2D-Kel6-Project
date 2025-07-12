@@ -63,13 +63,12 @@
     </style>
 @endsection
 @section('script')
-    {{-- <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script> --}}
     <script type="text/javascript">
         $(document).ready(function() {
             const swiper = new Swiper(".mySwiper", {
                 loop: true,
                 spaceBetween: 10,
-                slidesPerView: 5,
+                slidesPerView: {{ count($data->images) }},
                 freeMode: true,
                 watchSlidesProgress: true,
             });
@@ -100,7 +99,7 @@
                             <div class="swiper-wrapper">
                                 @foreach ($data->images as $image)
                                     <div class="swiper-slide">
-                                        <img src="storage/{{ $image->file }}" />
+                                        <img src="{{ asset('storage/' . $image->file) }}" />
                                     </div>
                                 @endforeach
                             </div>
@@ -114,7 +113,7 @@
                                 <div class="swiper-wrapper">
                                     @foreach ($data->images as $image)
                                         <div class="swiper-slide">
-                                            <img src="storage/{{ $image->file }}" />
+                                            <img src="{{ asset('storage/' . $image->file) }}" />
                                         </div>
                                     @endforeach
                                 </div>
