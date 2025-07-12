@@ -38,7 +38,7 @@ composer dump-autoload
 cp .env.example .env
 ```
 
-4. Tambahkan Midtrans API Pada .ENV
+5. Tambahkan Midtrans API Pada .ENV
 ```
 MIDTRANS_CLIENT_KEY=
 MIDTRANS_SERVER_KEY=
@@ -47,17 +47,17 @@ MIDTRANS_IS_SANITIZED=
 MIDTRANS_IS_3DS=
 ```
 
-5. Generate Application Key
+6. Generate Application Key
 ```
 php artisan key:generate
 ```
 
-6. Run Migrations
+7. Run Migrations
 ```
 php artisan migrate --seed
 ```
 
-7. Run Application
+8. Run Application
 ```
 php artisan serve
 ```
