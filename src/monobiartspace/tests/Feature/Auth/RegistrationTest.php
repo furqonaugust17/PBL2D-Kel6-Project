@@ -26,7 +26,7 @@ class RegistrationTest extends TestCase
             'password_confirmation' => '!!!Test_123',
             'nama_lengkap'  => $faker->name(),
             'jk'    => 'p',
-            'notelp'    => '0821231278442',
+            'notelp'    => '+628312321312',
             'alamat'    => $faker->address()
         ];
 

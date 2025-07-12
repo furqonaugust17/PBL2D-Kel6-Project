@@ -12,7 +12,15 @@ class ProfileTest extends TestCase
 
     public function test_profile_page_is_displayed(): void
     {
+        $faker = \Faker\Factory::create('id_ID');
         $user = User::factory()->create();
+        $user->assignRole('customer');
+        $user->customer()->create([
+            'nama_lengkap'  => $faker->name(),
+            'notelp'        => '+62887232132',
+            'alamat'        => $faker->address(),
+            'jk'            => 'p'
+        ]);
 
         $response = $this
             ->actingAs($user)
@@ -23,13 +31,26 @@ class ProfileTest extends TestCase
 
     public function test_profile_information_can_be_updated(): void
     {
+        $faker = \Faker\Factory::create('id_ID');
         $user = User::factory()->create();
-
+        $user->assignRole('customer');
+        $user->customer()->create([
+            'nama_lengkap'  => $faker->name(),
+            'notelp'        => '+62887232132',
+            'alamat'        => $faker->address(),
+            'jk'            => 'p'
+        ]);
+        $user->email_verified_at = null;
+        $user->save();
         $response = $this
             ->actingAs($user)
             ->patch('/profile', [
-                'name' => 'Test User',
-                'email' => 'test@example.com',
+                'nama' => 'Test User',
+                'jk' => 'p',
+                'alamat' => $faker->address(),
+                'notelp'    => '+62887232132',
+                'username' => 'TestUser',
+                'email'     => 'test@gmail.com',
             ]);
 
         $response
@@ -38,20 +59,32 @@ class ProfileTest extends TestCase
 
         $user->refresh();
 
-        $this->assertSame('Test User', $user->name);
-        $this->assertSame('test@example.com', $user->email);
+        $this->assertSame('TestUser', $user->name);
+        $this->assertSame('test@gmail.com', $user->email);
         $this->assertNull($user->email_verified_at);
     }
 
     public function test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged(): void
     {
+        $faker = \Faker\Factory::create('id_ID');
         $user = User::factory()->create();
+        $user->assignRole('customer');
+        $user->customer()->create([
+            'nama_lengkap'  => $faker->name(),
+            'notelp'        => '+62887232132',
+            'alamat'        => $faker->address(),
+            'jk'            => 'p'
+        ]);
 
         $response = $this
             ->actingAs($user)
             ->patch('/profile', [
-                'name' => 'Test User',
-                'email' => $user->email,
+                'nama' => 'Test User',
+                'jk' => 'p',
+                'alamat' => $faker->address(),
+                'notelp'    => '+62887232132',
+                'username' => 'TestUser',
+                'email'     => 'test@gmail.com',
             ]);
 
         $response
@@ -64,6 +97,14 @@ class ProfileTest extends TestCase
     public function test_user_can_delete_their_account(): void
     {
         $user = User::factory()->create();
+        $user->assignRole('customer');
+        $faker = \Faker\Factory::create('id_ID');
+        $user->customer()->create([
+            'nama_lengkap'  => $faker->name(),
+            'notelp'        => '+62887232132',
+            'alamat'        => $faker->address(),
+            'jk'            => 'p'
+        ]);
 
         $response = $this
             ->actingAs($user)
@@ -82,6 +123,14 @@ class ProfileTest extends TestCase
     public function test_correct_password_must_be_provided_to_delete_account(): void
     {
         $user = User::factory()->create();
+        $user->assignRole('customer');
+        $faker = \Faker\Factory::create('id_ID');
+        $user->customer()->create([
+            'nama_lengkap'  => $faker->name(),
+            'notelp'        => '+62887232132',
+            'alamat'        => $faker->address(),
+            'jk'            => 'p'
+        ]);
 
         $response = $this
             ->actingAs($user)
