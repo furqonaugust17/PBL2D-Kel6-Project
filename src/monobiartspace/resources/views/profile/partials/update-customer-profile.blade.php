@@ -62,7 +62,7 @@
         <div class="form-group">
             <x-input-label for="username" class="mb-1" :value="__('Userame')" />
             <input id="username" name="username" type="text"
-                class="form-control @error('username') is-invalid @enderror" value="{{ old('name', $user->name) }}"
+                class="form-control @error('username') is-invalid @enderror" value="{{ old('username', $user->name) }}"
                 required autofocus autocomplete="username" />
             @error('username')
                 <div class="invalid-feedback">
