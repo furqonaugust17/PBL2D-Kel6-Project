@@ -22,6 +22,7 @@ jobs:
             git pull origin ${{ github.ref_name }} --force
             cd src/monobiartspace
             COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist --optimize-autoloader
+            composer dump-autoload
             php artisan key:generate
             php artisan migrate:fresh --seed
             php artisan config:clear
