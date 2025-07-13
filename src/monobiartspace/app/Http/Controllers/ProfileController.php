@@ -16,8 +16,9 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
+        return view($request->user()->getRoleNames()->first() != 'customer' ? 'profile.edit' : 'profile.customer', [
             'user' => $request->user(),
+            'title' => 'Profile',
         ]);
     }
 
@@ -26,15 +27,32 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
-
+        $data = $request->validated();
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
 
+        $request->user()->name = $data['username'];
+        $request->user()->email = $data['email'];
+
+        if ($request->user()->getRoleNames()->first() != 'customer') {
+            $request->user()->karyawan->update([
+                'nama' => $data['nama'],
+                'jk' => $data['jk'],
+                'alamat' => $data['alamat'],
+                'notelp' => $data['notelp'],
+            ]);
+        } else {
+            $request->user()->customer->update([
+                'nama_lengkap' => $data['nama'],
+                'notelp' => $data['notelp'],
+                'alamat' => $data['alamat'],
+                'jk' => $data['jk'],
+            ]);
+        }
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')->with('status', 'profile berhasil diperbarui');
     }
 
     /**
@@ -48,6 +66,11 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
+        if ($request->user()->getRoleNames()->first() != 'customer') {
+            $request->user()->karyawan->delete();
+        } else {
+            $request->user()->customer->delete();
+        }
         Auth::logout();
 
         $user->delete();

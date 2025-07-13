@@ -25,25 +25,39 @@ git clone https://github.com/furqonaugust17/PBL2D-Kel6-Project.git
 
 2. Install Dependency
 ```
-Composer Install
+composer install
 ```
 
-3. Create .ENV
+3. Jalanlan AutoLoad
+```
+composer dump-autoload
+```
+
+4. Create .ENV
 ```
 cp .env.example .env
 ```
 
-4. Generate Application Key
+5. Tambahkan Midtrans API Pada .ENV
+```
+MIDTRANS_CLIENT_KEY=
+MIDTRANS_SERVER_KEY=
+MIDTRANS_IS_PRODUCTION=
+MIDTRANS_IS_SANITIZED=
+MIDTRANS_IS_3DS=
+```
+
+6. Generate Application Key
 ```
 php artisan key:generate
 ```
 
-5. Run Migrations
+7. Run Migrations
 ```
 php artisan migrate --seed
 ```
 
-6. Run Application
+8. Run Application
 ```
 php artisan serve
 ```
