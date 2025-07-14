@@ -1,0 +1,29 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - iterasi-*
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd /var/www/monobiartspace
+            git reset --hard origin/main
+            git pull origin ${{ github.ref_name }} --force
+            cd src/monobiartspace
+            COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist --optimize-autoloader
+            composer dump-autoload
+            php artisan key:generate
+            php artisan migrate:fresh --seed
+            php artisan config:clear
+            php artisan config:cache

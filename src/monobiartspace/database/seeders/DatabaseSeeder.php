@@ -14,13 +14,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call([
+            RolesAndPermissionsSeeder::class,
+            ArtSpaceSeeder::class,
+            DiskonSeeder::class,
+            GaleriSeeder::class,
+            InventarisSeeder::class,
+            JadwalArtSpaceSeeder::class,
+            KaryawanSeeder::class,
+            KidSeeder::class,
+            PartnerSeeder::class,
+            RuangSeeder::class
+        ]);
 
-        User::factory()->create([
+        $superadmin = User::create([
             'name' => 'superadmin',
             'email' => 'superadmin@gmail.com',
             'password' => Hash::make('password'),
             'email_verified_at' => now()
         ]);
+
+        $superadmin->assignRole('supervisor');
     }
 }
