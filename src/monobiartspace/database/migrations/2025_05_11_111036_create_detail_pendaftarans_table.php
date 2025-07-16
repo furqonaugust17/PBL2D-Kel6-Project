@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('detail_pendaftarans', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('pendaftaran_id');
+            $table->string('nama_peserta');
+            $table->unsignedBigInteger('kegiatan');
+            $table->timestamps();
+            $table->softDeletes();
+            $table->foreign('pendaftaran_id')->references('id')->on('pendaftarans')->onDelete('CASCADE');
+            $table->foreign('kegiatan')->references('id')->on('kegiatan_art_spaces')->onDelete('CASCADE');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('detail_pendaftarans');
+    }
+};

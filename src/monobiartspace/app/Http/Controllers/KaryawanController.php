@@ -8,6 +8,7 @@ use App\Models\Karyawan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
 class KaryawanController extends Controller
@@ -18,8 +19,12 @@ class KaryawanController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $karyawan = Karyawan::query();
-            return DataTables::of($karyawan)->make();
+            $karyawan = Karyawan::withwhereHas('user.roles', function ($q) {
+                $q->where('name', '!=', 'supervisor');
+            })->with('user.roles');
+            return DataTables::of($karyawan)->addColumn('role', function ($karyawan) {
+                return $karyawan->user->getRoleNames()->first() ?? '-';
+            })->make();
         }
 
         return view('backend.karyawan.index');
@@ -30,7 +35,8 @@ class KaryawanController extends Controller
      */
     public function create()
     {
-        return view('backend.karyawan.create');
+        $roles = Role::where('name', '!=', 'customer')->get();
+        return view('backend.karyawan.create', compact('roles'));
     }
 
     /**
@@ -46,6 +52,8 @@ class KaryawanController extends Controller
             'password'  => Hash::make($request->password),
             'email_verified_at' => now()
         ]);
+
+        $user->assignRole($request->role);
 
         $karyawan = Karyawan::create([
             'nama'  => $request->nama,
@@ -72,7 +80,8 @@ class KaryawanController extends Controller
     public function edit(string $id)
     {
         $karyawan = Karyawan::find($id);
-        return view('backend.karyawan.edit', compact('karyawan'));
+        $roles = Role::where('name', '!=', 'customer')->get();
+        return view('backend.karyawan.edit', compact('karyawan', 'roles'));
     }
 
     /**
@@ -87,6 +96,7 @@ class KaryawanController extends Controller
         $karyawan->alamat = $request->alamat;
         $karyawan->notelp = $request->notelp;
         $karyawan->user->name = $request->username;
+        $karyawan->user->syncRoles($request->role);
 
         if ($karyawan->user->email != $request->email) {
             $karyawan->user->update(['email' => $request->email]);

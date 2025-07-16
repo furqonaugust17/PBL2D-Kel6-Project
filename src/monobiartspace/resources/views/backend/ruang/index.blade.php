@@ -7,8 +7,9 @@
     <script src="{{ asset('plugins/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('plugins/js/plugins-init/datatables.init.js') }}"></script>
     <script src="{{ asset('plugins/vendor/sweetalert2/dist/sweetalert2.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/plug-ins/2.3.2/dataRender/ellipsis.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#table-ruang').DataTable({
                 language: {
                     paginate: {
@@ -19,21 +20,48 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ url()->current() }}",
-                columns: [
-                    { data: 'nama' },
-                    { data: 'kapasitas' },
+                columns: [{
+                        data: null,
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
                     {
-                        data: 'id',
-                        render: function (data, type, row) {
-                            let uriEdit = "{{ route('ruang.edit', ['ruang' => ':id']) }}".replace(':id', data);
+                        data: 'nama'
+                    },
+                    {
+                        data: 'kapasitas'
+                    },
+                    {
+                        data: 'deskripsi'
+                    },
+                    @role('supervisor')
+                        {
+                            data: 'id',
+                            render: function(data, type, row) {
+                                let uriEdit = "{{ route('ruang.edit', ['ruang' => ':id']) }}"
+                                    .replace(
+                                        ':id', data);
 
-                            return `<div class="d-flex">
-                                        <a href="${uriEdit}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                        <button type="button" class="btn btn-danger shadow btn-xs sharp" onclick="deleteData(${data})"><i class="fa fa-trash"></i></button>
-                                    </div>`;
+                                return `<div class="d-flex">
+                                            <a href="${uriEdit}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                            <button type="button" class="btn btn-danger shadow btn-xs sharp" onclick="deleteData(${data})"><i class="fa fa-trash"></i></button>
+                                            </div>`;
+                            }
                         }
+                    @endrole
+                ],
+                columnDefs: [{
+                        targets: 0,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        targets: 3,
+                        render: $.fn.dataTable.render.ellipsis(40)
                     }
-                ]
+                ],
             });
         });
 
@@ -57,7 +85,24 @@
                     $.ajax({
                         url: uriDelete,
                         type: 'DELETE',
-                        success: function (data) {
+                        success: function(data) {
+                            toastr.success(data.message, {
+                                closeButton: false,
+                                debug: false,
+                                newestOnTop: false,
+                                progressBar: true,
+                                positionClass: "toast-top-right",
+                                preventDuplicates: false,
+                                onclick: null,
+                                showDuration: 300,
+                                hideDuration: 1000,
+                                timeOut: 500,
+                                extendedTimeOut: 1000,
+                                showEasing: "swing",
+                                hideEasing: "linear",
+                                showMethod: "fadeIn",
+                                hideMethod: "fadeOut"
+                            })
                             $('#table-ruang').DataTable().ajax.reload();
                         }
                     });
@@ -70,9 +115,11 @@
 <x-app-layout>
     <x-slot:title>Data Ruang</x-slot:title>
     <div class="row">
-        <div class="col-4">
-            <a href="{{ route('ruang.create') }}" class="btn btn-sm btn-primary">Tambah Ruang</a>
-        </div>
+        @role('supervisor')
+            <div class="col-4">
+                <a href="{{ route('ruang.create') }}" class="btn btn-sm btn-primary">Tambah Ruang</a>
+            </div>
+        @endrole
         <div class="col-12 m-t35">
             <div class="card">
                 <div class="card-body">
@@ -80,20 +127,27 @@
                         <table id="table-ruang" class="display nowrap" style="width: 100%;">
                             <thead>
                                 <tr>
+                                    <th>No</th>
                                     <th>Nama Ruang</th>
                                     <th>Kapasitas</th>
-                                    <th>Action</th>
+                                    <th>Deskripsi</th>
+                                    @role('supervisor')
+                                        <th>Action</th>
+                                    @endrole
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
+                                    <th>No</th>
                                     <th>Nama Ruang</th>
                                     <th>Kapasitas</th>
-                                    <th>Action</th>
+                                    <th>Deskripsi</th>
+                                    @role('supervisor')
+                                        <th>Action</th>
+                                    @endrole
                                 </tr>
                             </tfoot>
                             <tbody>
-                                {{-- diisi otomatis oleh DataTables --}}
                             </tbody>
                         </table>
                     </div>

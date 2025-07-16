@@ -13,6 +13,31 @@ class RuangSeeder extends Seeder
      */
     public function run(): void
     {
-        Ruang::factory()->count(20)->create();
+        $ruangs = [
+            [
+                'nama' => 'Ruang Kreatif A',
+                'kapasitas' => 20,
+                'deskripsi' => 'Ruang multifungsi untuk kelas dan workshop seni lukis.',
+            ],
+            [
+                'nama' => 'Ruang Imajinasi',
+                'kapasitas' => 15,
+                'deskripsi' => 'Ruang interaktif untuk anak-anak belajar sambil bermain.',
+            ],
+            [
+                'nama' => 'Studio Keramik',
+                'kapasitas' => 10,
+                'deskripsi' => 'Studio khusus untuk pelatihan dan kegiatan seni keramik.',
+            ],
+            [
+                'nama' => 'Ruang Ekspresi B',
+                'kapasitas' => 25,
+                'deskripsi' => 'Ruang besar untuk pameran hasil karya dan kegiatan kolaboratif.',
+            ],
+        ];
+
+        foreach ($ruangs as $ruang) {
+            Ruang::create($ruang);
+        }
     }
 }

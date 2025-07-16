@@ -23,6 +23,18 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
+                                <label class="col-sm-3 col-form-label" style="direction: ltr;">Jabatan</label>
+                                <div class="col-sm-9">
+                                    <select class="default-select form-control wide" name="role">
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->name }}"
+                                                {{ $karyawan->user->roles->pluck('name')->first() == $role->name ? 'selected' : '' }}>
+                                                {{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label" style="direction: ltr;">Jenis Kelamin</label>
                                 <div class="col-sm-9">
                                     <select class="default-select form-control wide" name="jk">

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RuangStoreRequest;
+use App\Http\Requests\RuangUpdateRequest;
 use App\Models\Ruang;
-use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 
@@ -34,17 +35,11 @@ class RuangController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RuangStoreRequest $request)
     {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'kapasitas' => 'required|integer|min:1',
-        ]);
+        $data = $request->validated();
 
-        Ruang::create([
-            'nama' => $request->nama,
-            'kapasitas' => $request->kapasitas,
-        ]);
+        Ruang::create($data);
 
         return redirect()->route('ruang.index')->with('success', 'Data Ruang Berhasil Disimpan');
     }
@@ -52,27 +47,19 @@ class RuangController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Ruang $ruang)
     {
-        $ruang = Ruang::findOrFail($id);
         return view('backend.ruang.edit', compact('ruang'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(RuangUpdateRequest $request, Ruang $ruang)
     {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'kapasitas' => 'required|integer|min:1',
-        ]);
+        $data = $request->validated();
 
-        $ruang = Ruang::findOrFail($id);
-        $ruang->update([
-            'nama' => $request->nama,
-            'kapasitas' => $request->kapasitas,
-        ]);
+        $ruang->update($data);
 
         return redirect()->route('ruang.index')->with('success', 'Data Ruang Berhasil Diperbarui');
     }
@@ -80,9 +67,8 @@ class RuangController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Ruang $ruang)
     {
-        $ruang = Ruang::findOrFail($id);
         $ruang->delete();
 
         return response()->json(['success' => true, 'message' => 'Data Ruang Berhasil Dihapus']);

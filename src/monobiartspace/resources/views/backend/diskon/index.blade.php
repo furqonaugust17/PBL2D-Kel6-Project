@@ -25,6 +25,9 @@
                     },
                     {
                         data: 'diskon',
+                        "render": function(data, type, row) {
+                            return `${data}%`;
+                        }
                     },
                     {
                         data: 'code',
@@ -32,20 +35,21 @@
                     {
                         data: 'expired_date',
                     },
-                    {
-                        data: 'id',
-                        "render": function(data, type, row) {
-                            let uriEdit = "{{ route('diskon.edit', ['diskon' => ':id']) }}"
-                                .replace(
-                                    ':id', data);
-
-
-                            return `<div class="d-flex">
-                                        <a href="${uriEdit}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                        <button type="button" class="btn btn-danger shadow btn-xs sharp" onclick="deleteData(${data})"><i class="fa fa-trash"></i></button>
-                                    </div>`
+                    @role('supervisor')
+                        {
+                            data: 'id',
+                            "render": function(data, type, row) {
+                                let uriEdit = "{{ route('diskon.edit', ['diskon' => ':id']) }}"
+                                    .replace(':id', data);
+                                return `
+                                <div class="d-flex">
+                                    <a href="${uriEdit}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                    <button type="button" class="btn btn-danger shadow btn-xs sharp" onclick="deleteData(${data})"><i class="fa fa-trash"></i></button>
+                                </div>
+                                `
+                            }
                         }
-                    }
+                    @endrole
                 ]
             });
 
@@ -54,7 +58,6 @@
 
 
         function deleteData(id) {
-            // let token = $("meta[name='csrf-token']").attr("content");
             Swal.fire({
                 title: "Anda Yakin?",
                 text: "Data akan terhapus pada sistem!!",
@@ -75,8 +78,6 @@
                         url: uriDelete,
                         type: 'DELETE',
                         success: function(data) {
-
-
                             toastr.success(data.message, {
                                 closeButton: false,
                                 debug: false,
@@ -94,7 +95,7 @@
                                 showMethod: "fadeIn",
                                 hideMethod: "fadeOut"
                             })
-                            $('#table-karyawan').DataTable().ajax.reload()
+                            $('#table-diskon').DataTable().ajax.reload()
                         }
                     })
                 }
@@ -105,11 +106,13 @@
 
 
 <x-app-layout>
-    <x-slot:title>diskon</x-slot:title>
+    <x-slot:title>Diskon</x-slot:title>
     <div class="row">
-        <div class="col-4">
-            <a href="{{ route('diskon.create') }}" class="btn btn-sm btn-primary">Tambah Data diskon</a>
-        </div>
+        @role('supervisor')
+            <div class="col-4">
+                <a href="{{ route('diskon.create') }}" class="btn btn-sm btn-primary">Tambah Diskon</a>
+            </div>
+        @endrole
         <div class="col-12 m-t35">
             <div class="card">
                 <div class="card-body">
@@ -118,10 +121,12 @@
                             <thead>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>diskon</th>
-                                    <th>code</th>
-                                    <th>expired_date</th>
-                                    <th>Action</th>
+                                    <th>Diskon</th>
+                                    <th>Kode Diskon</th>
+                                    <th>Waktu Expired</th>
+                                    @role('supervisor')
+                                        <th>Action</th>
+                                    @endrole
                                 </tr>
                             </thead>
                             <tbody>
@@ -129,10 +134,12 @@
                             <tfoot>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>diskon</th>
-                                    <th>code</th>
-                                    <th>expired_date</th>
-                                    <th>Action</th>
+                                    <th>Diskon</th>
+                                    <th>Kode Diskon</th>
+                                    <th>Waktu Expired</th>
+                                    @role('supervisor')
+                                        <th>Action</th>
+                                    @endrole
                                 </tr>
                             </tfoot>
                         </table>

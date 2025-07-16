@@ -1,27 +1,46 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
+    <x-slot:title>Konfirmasi Password</x-slot:title>
+    <div class="authincation h-100">
+        <div class="container h-100">
+            <div class="row justify-content-center h-100 align-items-center">
+                <div class="col-md-6">
+                    <div class="authincation-content">
+                        <div class="row no-gutters">
+                            <div class="auth-form">
+                                <div class="text-center mb-3">
+                                    <img src="{{ asset('images/monobi_logo.png') }}" width="50%" alt="">
+                                </div>
+                                <p class="text-center text-body-secondary mb-4">
+                                    {{ __('Buat keamanan, konfirmasi dulu password kamu ya sebelum lanjut.') }}
+                                </p>
+                                <form method="POST" action="{{ route('password.confirm') }}">
+                                    @csrf
+
+                                    <!-- Password -->
+                                    <div class="form-group">
+                                        <x-input-label for="password" class="mb-1">
+                                            <strong>Password</strong>
+                                        </x-input-label>
+
+                                        <x-text-input id="password" class="form-control" type="password"
+                                            name="password" required autocomplete="current-password" />
+
+                                        @error('password')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary btn-block">Konfirmasi</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <form method="POST" action="{{ route('password.confirm') }}">
-        @csrf
-
-        <!-- Password -->
-        <div>
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <div class="flex justify-end mt-4">
-            <x-primary-button>
-                {{ __('Confirm') }}
-            </x-primary-button>
-        </div>
-    </form>
 </x-guest-layout>

@@ -2,62 +2,10 @@
     <link href="{{ asset('plugins/vendor/jquery-smartwizard/dist/css/smart_wizard.min.css') }}" rel="stylesheet">
 @endsection
 @section('script')
-    {{-- <script src="{{ asset('plugins/vendor/jquery-steps/build/jquery.steps.min.js') }}"></script> --}}
-    {{-- <script src="{{ asset('plugins/vendor/jquery-validation/jquery.validate.min.js') }}"></script> --}}
     <script src="{{ asset('plugins/vendor/jquery-smartwizard/dist/js/jquery.smartWizard.js') }}"></script>
 @endsection
 <x-guest-layout>
     <x-slot:title>Register</x-slot:title>
-    {{-- <form method="POST" action="{{ route('register') }}">
-        @csrf
-
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
-
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form> --}}
     <div class="authincation h-100">
         <div class="container h-100">
             <div class="row justify-content-center h-100 align-items-center">
@@ -67,45 +15,27 @@
                             <div class="col-xl-12">
                                 <div class="auth-form">
                                     <div class="text-center mb-3">
-                                        <img src="images/logo-full-black.png" alt="">
+                                        <img src="{{ asset('images/monobi_logo.png') }}" width="50%" alt="">
                                     </div>
-                                    <h4 class="text-center mb-4">Sign up your account</h4>
+                                    <h4 class="text-center mb-1">Ayo sobat, daftar sekarang!</h4>
+                                    <div class="alert alert-info m-0">
+                                        <strong>📋 Perhatikan sebelum mendaftar:</strong>
+                                        <ul class="mb-0 mt-2 ps-4">
+                                            <li style="list-style: disc;">Nomor telepon harus dimulai dengan
+                                                <code>+62</code> dan berisi 9-15
+                                                digit angka.
+                                            </li>
+                                            <li style="list-style: disc;">Email yang digunakan harus valid dan belum
+                                                pernah terdaftar.</li>
+                                            <li style="list-style: disc;">Password minimal 8 karakter dan wajib
+                                                mengandung huruf besar, huruf
+                                                kecil, angka, dan simbol (misalnya: <code>@</code>, <code>$</code>,
+                                                <code>!</code>).
+                                            </li>
+                                        </ul>
+                                    </div>
                                     <form method="POST" action="{{ route('register') }}">
                                         @csrf
-                                        {{-- <div class="form-group">
-                                            <x-input-label class="mb-1" for="username">
-                                                <strong>Username</strong>
-                                            </x-input-label>
-                                            <x-text-input id="name" class="form-control" type="text"
-                                                name="username" :value="old('username')" required autofocus
-                                                autocomplete="username" />
-                                        </div>
-                                        <div class="form-group">
-                                            <x-input-label class="mb-1" for="email">
-                                                <strong>Email</strong>
-                                            </x-input-label>
-                                            <x-text-input id="email" class="form-control" type="email"
-                                                name="email" :value="old('email')" required autocomplete="email" />
-                                        </div>
-                                        <div class="form-group">
-                                            <x-input-label for="password" class="mb-1">
-                                                <strong>Password</strong>
-                                            </x-input-label>
-
-                                            <x-text-input id="password" class="form-control" type="password"
-                                                name="password" required autocomplete="new-password" />
-                                        </div>
-                                        <div class="form-group">
-                                            <x-input-label for="konfirmasi-password" class="mb-1">
-                                                <strong>Konfirmasi Password</strong>
-                                            </x-input-label>
-
-                                            <x-text-input id="konfirmasi-password" class="form-control" type="password"
-                                                name="password_confirmation" required autocomplete="new-password" />
-                                        </div>
-                                        <div class="text-center mt-4">
-                                            <button type="submit" class="btn btn-primary btn-block">Sign me up</button>
-                                        </div> --}}
                                         <div id="smartwizard" class="form-wizard order-create">
                                             <ul class="nav nav-wizard">
                                                 <li><a class="nav-link" href="#data_diri">
@@ -251,9 +181,8 @@
                                         </div>
                                     </form>
                                     <div class="new-account mt-3">
-                                        <p>Already have an account? <a class="text-primary"
-                                                href="{{ route('login') }}">Sign
-                                                in</a></p>
+                                        <p>sudah punya akun? <a class="text-primary"
+                                                href="{{ route('login') }}">Login</a></p>
                                     </div>
                                 </div>
                             </div>
